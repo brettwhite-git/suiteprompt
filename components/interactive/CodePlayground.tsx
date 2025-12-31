@@ -14,7 +14,7 @@ interface CodePlaygroundProps {
   initialCode?: string;
   language?: string;
   templates?: { name: string; code: string }[];
-  onRun?: (code: string) => void;
+  onRun?: (code: string) => string | void;
   readOnly?: boolean;
 }
 

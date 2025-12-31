@@ -13,8 +13,6 @@ const withMDX = createMDX({
   options: {
     remarkPlugins: [],
     rehypePlugins: [],
-    // Ensure MDX files are compiled as React components
-    development: process.env.NODE_ENV === 'development',
   },
 });
 

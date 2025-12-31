@@ -111,3 +111,62 @@ export function getSkillById(id: string): Skill | undefined {
   return marketplace.skills.find((s) => s.id === id)
 }
 
+export function getRelatedPrompts(promptId: string, limit: number = 6): Prompt[] {
+  const prompt = getPromptById(promptId)
+  if (!prompt) return []
+
+  const related = marketplace.prompts
+    .filter((p) => {
+      // Exclude the current prompt
+      if (p.id === promptId) return false
+      
+      // Match by category or shared tags
+      const hasSharedTags = p.tags.some((tag) => prompt.tags.includes(tag))
+      const sameCategory = p.category === prompt.category
+      const sameAuthor = p.author.id === prompt.author.id
+      
+      return hasSharedTags || sameCategory || sameAuthor
+    })
+    .sort((a, b) => {
+      // Prioritize prompts with more shared tags
+      const aSharedTags = a.tags.filter((tag) => prompt.tags.includes(tag)).length
+      const bSharedTags = b.tags.filter((tag) => prompt.tags.includes(tag)).length
+      if (aSharedTags !== bSharedTags) return bSharedTags - aSharedTags
+      
+      // Then by downloads
+      return b.downloads - a.downloads
+    })
+    .slice(0, limit)
+
+  return related
+}
+
+export function getRelatedSkills(skillId: string, limit: number = 6): Skill[] {
+  const skill = getSkillById(skillId)
+  if (!skill) return []
+
+  const related = marketplace.skills
+    .filter((s) => {
+      // Exclude the current skill
+      if (s.id === skillId) return false
+      
+      // Match by category or shared tags
+      const hasSharedTags = s.tags.some((tag) => skill.tags.includes(tag))
+      const sameCategory = s.category === skill.category
+      const sameAuthor = s.author.id === skill.author.id
+      
+      return hasSharedTags || sameCategory || sameAuthor
+    })
+    .sort((a, b) => {
+      // Prioritize skills with more shared tags
+      const aSharedTags = a.tags.filter((tag) => skill.tags.includes(tag)).length
+      const bSharedTags = b.tags.filter((tag) => skill.tags.includes(tag)).length
+      if (aSharedTags !== bSharedTags) return bSharedTags - aSharedTags
+      
+      // Then by downloads
+      return b.downloads - a.downloads
+    })
+    .slice(0, limit)
+
+  return related
+}

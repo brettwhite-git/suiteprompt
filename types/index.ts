@@ -51,6 +51,6 @@ export interface UserProgress {
   moduleId: string;
   completed: boolean;
   progress: number;
-  lastAccessed: Date;
+  lastAccessed: string;
 }
 

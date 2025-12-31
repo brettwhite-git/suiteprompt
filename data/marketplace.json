@@ -296,7 +296,21 @@
       "downloads": 342,
       "tags": ["records", "management", "claude", "skill"],
       "createdAt": "2024-01-05T10:00:00Z",
-      "updatedAt": "2024-01-22T14:00:00Z"
+      "updatedAt": "2024-01-22T14:00:00Z",
+      "metadata": {
+        "name": "netsuite-record-manager",
+        "description": "Manage NetSuite records efficiently with advanced search and filtering capabilities",
+        "version": "1.0.0",
+        "author": "jane-smith",
+        "repository": "netsuite-skills/record-manager",
+        "license": "MIT",
+        "marketplace": true,
+        "stars": 342,
+        "forks": 45,
+        "tags": ["records", "management", "claude", "netsuite"],
+        "dependencies": []
+      },
+      "skillContent": "---\nname: netsuite-record-manager\ndescription: Manage NetSuite records efficiently with advanced search and filtering capabilities\n---\n\n# NetSuite Record Manager\n\nEfficiently manage NetSuite records with advanced search and filtering capabilities.\n\n## When to Use\n\nUse this skill when you need to:\n\n* Search for NetSuite records across different record types\n* Create new records with proper field mapping\n* Update existing records with validation\n* Delete records with proper cleanup\n* Filter records based on complex criteria\n\n## Guidelines\n\n### Record Search\n\nWhen searching for records:\n\n* Always specify the record type explicitly (e.g., customer, item, transaction)\n* Use proper NetSuite search filters and operators\n* Consider performance implications for large datasets\n* Return only necessary fields to optimize response time\n* Use saved searches when available for better performance\n\n### Record Creation\n\nWhen creating records:\n\n* Validate all required fields before creation\n* Map external data to NetSuite field IDs correctly\n* Handle custom fields appropriately\n* Set proper default values where applicable\n* Return the created record ID for reference\n* Handle duplicate detection when applicable\n\n### Record Updates\n\nWhen updating records:\n\n* Always fetch the current record state first\n* Use proper field-level updates to avoid overwriting\n* Validate data types and constraints\n* Handle version conflicts gracefully\n* Log changes for audit purposes\n* Respect field-level permissions and restrictions\n\n### Record Deletion\n\nWhen deleting records:\n\n* Verify record dependencies before deletion\n* Handle cascading deletions appropriately\n* Provide clear confirmation messages\n* Log deletion actions for audit\n* Respect deletion restrictions and permissions\n\n## Best Practices\n\n* Always use proper error handling for API calls\n* Implement retry logic for transient failures\n* Cache frequently accessed record types\n* Use batch operations when possible\n* Respect NetSuite governance limits\n* Validate all inputs before processing\n* Use transaction-safe operations when modifying multiple records"
     },
     {
       "id": "skill-2",
@@ -317,7 +331,21 @@
       "downloads": 267,
       "tags": ["reports", "analytics", "claude", "skill"],
       "createdAt": "2024-01-07T08:00:00Z",
-      "updatedAt": "2024-01-20T16:00:00Z"
+      "updatedAt": "2024-01-20T16:00:00Z",
+      "metadata": {
+        "name": "netsuite-report-generator",
+        "description": "Generate custom NetSuite reports using natural language queries",
+        "version": "1.2.0",
+        "author": "mike-johnson",
+        "repository": "netsuite-skills/report-generator",
+        "license": "MIT",
+        "marketplace": true,
+        "stars": 267,
+        "forks": 32,
+        "tags": ["reports", "analytics", "claude", "netsuite"],
+        "dependencies": []
+      },
+      "skillContent": "---\nname: netsuite-report-generator\ndescription: Generate custom NetSuite reports using natural language queries\n---\n\n# NetSuite Report Generator\n\nGenerate custom NetSuite reports from natural language queries with intelligent interpretation and formatting.\n\n## When to Use\n\nUse this skill when you need to:\n\n* Create financial reports (P&L, Balance Sheet, Cash Flow)\n* Generate sales analytics and performance reports\n* Build custom transaction reports\n* Create inventory and warehouse reports\n* Generate employee and HR reports\n* Analyze data trends and patterns\n* Export data in various formats\n\n## Guidelines\n\n### Natural Language Processing\n\nWhen interpreting user queries:\n\n* Extract key entities (record types, date ranges, metrics)\n* Identify aggregation requirements (sum, average, count)\n* Recognize filter conditions and criteria\n* Understand sorting and grouping preferences\n* Handle ambiguous terms with context\n* Clarify requirements when queries are unclear\n\n### Report Design\n\nWhen designing reports:\n\n* Understand the user's intent from natural language queries\n* Map query requirements to NetSuite report types\n* Select appropriate columns and filters\n* Configure proper date ranges and groupings\n* Format output for readability\n* Consider user's role and permissions\n\n### Report Execution\n\nWhen executing reports:\n\n* Use saved searches when possible for performance\n* Apply proper date range filters\n* Handle large datasets with pagination\n* Format numbers and dates consistently\n* Include proper headers and footers\n* Respect NetSuite governance limits\n* Provide progress indicators for long-running reports\n\n### Output Formatting\n\nWhen formatting results:\n\n* Use appropriate number formats (currency, percentages)\n* Apply consistent date formatting\n* Include totals and subtotals where relevant\n* Add visual separators for readability\n* Export to common formats (CSV, Excel, PDF) when requested\n* Maintain data accuracy during formatting\n\n## Best Practices\n\n* Cache frequently accessed report configurations\n* Validate user permissions before report generation\n* Handle errors gracefully with clear messages\n* Optimize queries for performance\n* Document report parameters and filters\n* Test reports with sample data before production use"
     },
     {
       "id": "skill-3",
@@ -339,7 +367,21 @@
       "downloads": 198,
       "tags": ["automation", "workflow", "claude", "skill"],
       "createdAt": "2024-01-09T12:00:00Z",
-      "updatedAt": "2024-01-19T10:00:00Z"
+      "updatedAt": "2024-01-19T10:00:00Z",
+      "metadata": {
+        "name": "netsuite-workflow-automation",
+        "description": "Automate NetSuite workflows with intelligent decision-making",
+        "version": "2.0.0",
+        "author": "sarah-williams",
+        "repository": "netsuite-skills/workflow-automation",
+        "license": "MIT",
+        "marketplace": true,
+        "stars": 198,
+        "forks": 28,
+        "tags": ["automation", "workflow", "claude", "netsuite"],
+        "dependencies": ["netsuite-record-manager"]
+      },
+      "skillContent": "---\nname: netsuite-workflow-automation\ndescription: Automate NetSuite workflows with intelligent decision-making\n---\n\n# NetSuite Workflow Automation\n\nAutomate NetSuite workflows with intelligent decision-making and conditional logic.\n\n## When to Use\n\nUse this skill when you need to:\n\n* Automate repetitive business processes\n* Implement conditional workflow logic\n* Trigger workflows based on record changes\n* Execute multi-step automation sequences\n* Handle workflow errors and retries\n* Streamline approval processes\n* Automate data transformations\n\n## Guidelines\n\n### Workflow Triggering\n\nWhen triggering workflows:\n\n* Identify the appropriate trigger event (create, update, delete)\n* Evaluate trigger conditions before execution\n* Handle concurrent workflow executions\n* Respect workflow execution limits\n* Log all workflow triggers for audit\n* Prevent infinite loops and circular dependencies\n\n### Condition Evaluation\n\nWhen evaluating conditions:\n\n* Parse complex conditional logic correctly\n* Handle multiple condition types (field, formula, script)\n* Evaluate conditions in proper order\n* Handle null and empty values appropriately\n* Provide clear error messages for failed conditions\n* Support nested and compound conditions\n\n### Workflow Execution\n\nWhen executing workflows:\n\n* Execute workflow actions in sequence\n* Handle action failures gracefully\n* Support parallel action execution where possible\n* Track workflow execution status\n* Implement proper timeout handling\n* Respect action dependencies and prerequisites\n\n### Error Handling\n\nWhen handling errors:\n\n* Catch and log all workflow errors\n* Implement retry logic for transient failures\n* Provide meaningful error messages\n* Rollback changes when appropriate\n* Notify administrators of critical failures\n* Maintain workflow state during error recovery\n\n## Best Practices\n\n* Use workflow states to track progress\n* Implement idempotent workflow actions\n* Test workflows in sandbox first\n* Monitor workflow performance\n* Document workflow logic clearly\n* Version control workflow definitions\n* Review and optimize workflow performance regularly\n* Use workflow templates for common patterns"
     },
     {
       "id": "skill-4",
@@ -360,7 +402,21 @@
       "downloads": 145,
       "tags": ["validation", "data-quality", "claude", "skill"],
       "createdAt": "2024-01-13T14:00:00Z",
-      "updatedAt": "2024-01-18T11:00:00Z"
+      "updatedAt": "2024-01-18T11:00:00Z",
+      "metadata": {
+        "name": "netsuite-data-validator",
+        "description": "Validate and clean NetSuite data with comprehensive checks",
+        "version": "1.1.0",
+        "author": "david-brown",
+        "repository": "netsuite-skills/data-validator",
+        "license": "MIT",
+        "marketplace": true,
+        "stars": 145,
+        "forks": 19,
+        "tags": ["validation", "data-quality", "claude", "netsuite"],
+        "dependencies": []
+      },
+      "skillContent": "---\nname: netsuite-data-validator\ndescription: Validate and clean NetSuite data with comprehensive checks\n---\n\n# NetSuite Data Validator\n\nValidate and clean NetSuite data with comprehensive integrity checks and quality assurance.\n\n## When to Use\n\nUse this skill when you need to:\n\n* Validate data before import\n* Check data quality in existing records\n* Clean duplicate or invalid records\n* Verify data consistency across records\n* Prepare data for migration\n* Ensure data compliance with business rules\n* Maintain data integrity over time\n\n## Guidelines\n\n### Validation Rules\n\nWhen defining validation rules:\n\n* Specify field-level validation requirements\n* Define record-level validation constraints\n* Set up cross-record validation rules\n* Configure custom validation logic\n* Handle validation exceptions appropriately\n* Support rule inheritance and overrides\n* Document all validation rules clearly\n\n### Data Type Validation\n\nWhen validating data types:\n\n* Verify field data types match expected formats\n* Validate date formats and ranges\n* Check numeric ranges and constraints\n* Validate text length and patterns\n* Handle null and empty values correctly\n* Support custom field types\n* Validate formula fields appropriately\n\n### Data Quality Checks\n\nWhen performing quality checks:\n\n* Identify duplicate records\n* Detect missing required fields\n* Find inconsistent data across related records\n* Validate reference integrity\n* Check for orphaned records\n* Verify data relationships\n* Identify data anomalies and outliers\n\n### Data Cleaning\n\nWhen cleaning data:\n\n* Remove or merge duplicate records\n* Standardize field formats\n* Fill missing required fields with defaults\n* Correct invalid data values\n* Update inconsistent references\n* Preserve data history when possible\n* Create audit trail for all changes\n\n### Reporting\n\nWhen generating validation reports:\n\n* List all validation errors with context\n* Group errors by type and severity\n* Provide actionable recommendations\n* Include record IDs for easy reference\n* Export reports in multiple formats\n* Include summary statistics\n* Track validation trends over time\n\n## Best Practices\n\n* Run validations in batches for performance\n* Use transaction-safe operations\n* Create validation checkpoints\n* Implement rollback for failed validations\n* Document all validation rules clearly\n* Schedule regular data quality audits\n* Maintain validation rule versioning\n* Provide clear error messages and remediation steps"
     }
   ]
 }

@@ -12,9 +12,10 @@ import { cn } from "@/lib/utils"
 interface PromptCardProps {
   prompt: Prompt
   className?: string
+  onClick?: () => void
 }
 
-export function PromptCard({ prompt, className }: PromptCardProps) {
+export function PromptCard({ prompt, className, onClick }: PromptCardProps) {
   const formatDate = (dateString: string) => {
     return new Date(dateString).toLocaleDateString("en-US", {
       year: "numeric",
@@ -23,8 +24,19 @@ export function PromptCard({ prompt, className }: PromptCardProps) {
     })
   }
 
+  const handleCardClick = (e: React.MouseEvent) => {
+    // Don't trigger if clicking on buttons
+    if ((e.target as HTMLElement).closest("button")) {
+      return
+    }
+    onClick?.()
+  }
+
   return (
-    <Card className={cn("flex flex-col", className)}>
+    <Card 
+      className={cn("flex flex-col", onClick && "cursor-pointer hover:shadow-md transition-shadow", className)}
+      onClick={handleCardClick}
+    >
       <CardHeader>
         <div className="flex items-start justify-between">
           <div className="flex-1">

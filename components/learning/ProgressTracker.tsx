@@ -32,7 +32,7 @@ export default function ProgressTracker({
           moduleId: module.id,
           completed: false,
           progress: 0,
-          lastAccessed: new Date(),
+          lastAccessed: new Date().toISOString(),
         })) || [];
       setProgress(initialProgress);
       localStorage.setItem(
@@ -53,7 +53,7 @@ export default function ProgressTracker({
             ...p,
             completed,
             progress: progressValue,
-            lastAccessed: new Date(),
+            lastAccessed: new Date().toISOString(),
           }
         : p
     );
@@ -187,7 +187,7 @@ export default function ProgressTracker({
               moduleId: module.id,
               completed: false,
               progress: 0,
-              lastAccessed: new Date(),
+              lastAccessed: new Date().toISOString(),
             }));
             setProgress(reset);
             localStorage.setItem(`progress-${pathId}`, JSON.stringify(reset));
@@ -204,7 +204,7 @@ export default function ProgressTracker({
               moduleId: module.id,
               completed: true,
               progress: 100,
-              lastAccessed: new Date(),
+              lastAccessed: new Date().toISOString(),
             }));
             setProgress(allCompleted);
             localStorage.setItem(

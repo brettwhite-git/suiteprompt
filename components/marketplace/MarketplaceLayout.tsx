@@ -16,6 +16,7 @@ import {
   SidebarProvider,
   SidebarTrigger,
 } from "@/components/ui/sidebar"
+import { ThemeToggle } from "@/components/theme/ThemeToggle"
 
 interface MarketplaceLayoutProps {
   children: React.ReactNode
@@ -26,7 +27,7 @@ export function MarketplaceLayout({ children }: MarketplaceLayoutProps) {
     <SidebarProvider>
       <AppSidebar />
       <SidebarInset>
-        <header className="sticky top-0 z-50 flex h-16 shrink-0 items-center gap-2 bg-background border-b">
+        <header className="sticky top-0 z-50 flex h-16 shrink-0 items-center justify-between gap-2 bg-background border-b">
           <div className="flex items-center gap-2 px-4">
             <SidebarTrigger className="-ml-1" />
             <Separator
@@ -47,9 +48,16 @@ export function MarketplaceLayout({ children }: MarketplaceLayoutProps) {
               </BreadcrumbList>
             </Breadcrumb>
           </div>
+          <div className="flex items-center px-4">
+            <ThemeToggle />
+          </div>
         </header>
         <div className="flex flex-1 flex-col gap-4 p-4 pt-0">
-          {children}
+          <div className="min-h-[100vh] flex-1 rounded-xl bg-muted/50 md:min-h-min">
+            <div className="p-6 space-y-8">
+              {children}
+            </div>
+          </div>
         </div>
       </SidebarInset>
     </SidebarProvider>

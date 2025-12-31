@@ -3,6 +3,7 @@
 import { useState, useMemo } from "react"
 import { getSkills } from "@/lib/marketplace"
 import { SkillCard } from "@/components/marketplace/SkillCard"
+import { SkillDetailModal } from "@/components/marketplace/SkillDetailModal"
 import { FilterBar } from "@/components/marketplace/FilterBar"
 import { FilterOptions } from "@/types/marketplace"
 
@@ -10,8 +11,23 @@ export default function SkillsPage() {
   const [filters, setFilters] = useState<FilterOptions>({
     sortBy: "popularity",
   })
+  const [selectedSkillId, setSelectedSkillId] = useState<string | null>(null)
+  const [isModalOpen, setIsModalOpen] = useState(false)
 
   const skills = useMemo(() => getSkills(filters), [filters])
+
+  const handleSkillClick = (skillId: string) => {
+    setSelectedSkillId(skillId)
+    setIsModalOpen(true)
+  }
+
+  const handleModalOpenChange = (open: boolean) => {
+    setIsModalOpen(open)
+    if (!open) {
+      // Clear selected skill after modal closes
+      setTimeout(() => setSelectedSkillId(null), 150)
+    }
+  }
 
   return (
     <div className="space-y-6">
@@ -26,7 +42,11 @@ export default function SkillsPage() {
 
       <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
         {skills.map((skill) => (
-          <SkillCard key={skill.id} skill={skill} />
+          <SkillCard 
+            key={skill.id} 
+            skill={skill} 
+            onClick={() => handleSkillClick(skill.id)}
+          />
         ))}
       </div>
 
@@ -35,6 +55,13 @@ export default function SkillsPage() {
           <p className="text-muted-foreground">No skills found matching your filters.</p>
         </div>
       )}
+
+      <SkillDetailModal
+        skillId={selectedSkillId}
+        open={isModalOpen}
+        onOpenChange={handleModalOpenChange}
+        onSkillClick={handleSkillClick}
+      />
     </div>
   )
 }

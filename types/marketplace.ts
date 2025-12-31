@@ -30,12 +30,33 @@ export interface Prompt extends MarketplaceItem {
   type: PromptType
   category: PromptCategory
   chatbot?: "claude" | "chatgpt" | "both"
+  // Enhanced fields for detail view
+  usageExamples?: string[]         // Example use cases
+  inputVariables?: string[]        // Extracted placeholders like [CRITERIA]
+  compatibility?: string[]         // e.g., ["cursor", "claude-desktop", "chatgpt"]
+  longDescription?: string         // Extended description for detail page
+}
+
+export interface SkillMetadata {
+  name: string
+  description: string
+  version: string
+  author: string
+  repository?: string
+  license?: string
+  marketplace?: boolean
+  stars?: number
+  forks?: number
+  tags: string[]
+  dependencies?: string[]
 }
 
 export interface Skill extends MarketplaceItem {
   category: string
   version?: string
   dependencies?: string[]
+  metadata?: SkillMetadata
+  skillContent?: string  // Full SKILL.md markdown content
 }
 
 export interface MarketplaceData {
