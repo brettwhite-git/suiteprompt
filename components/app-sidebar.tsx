@@ -16,11 +16,9 @@ import {
 } from "lucide-react"
 
 import { NavMain } from "@/components/nav-main"
-import { NavUser } from "@/components/nav-user"
 import {
   Sidebar,
   SidebarContent,
-  SidebarFooter,
   SidebarHeader,
   SidebarMenu,
   SidebarMenuButton,
@@ -28,11 +26,6 @@ import {
 } from "@/components/ui/sidebar"
 
 const data = {
-  user: {
-    name: "NetSuite User",
-    email: "user@netsuite.com",
-    avatar: "/avatars/netsuite.jpg",
-  },
   navPlatform: [
     {
       title: "Native Features",
@@ -152,9 +145,6 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
         <NavMain items={data.navMCPPrompts} label="MCP Prompts" />
         <NavMain items={data.navSkills} label="Skills" />
       </SidebarContent>
-      <SidebarFooter>
-        <NavUser user={data.user} />
-      </SidebarFooter>
     </Sidebar>
   )
 }
