@@ -127,7 +127,7 @@ export function PromptUsageTab({ prompt }: PromptUsageTabProps) {
               <p className="text-sm text-muted-foreground mb-2">
                 {step.description}
               </p>
-              {step.link && (
+              {"link" in step && step.link && (
                 <Button
                   variant="outline"
                   size="sm"

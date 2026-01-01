@@ -8,7 +8,7 @@ import { FilterOptions } from "@/types/marketplace"
 
 export default function AdvisorPage() {
   const [filters, setFilters] = useState<FilterOptions>({
-    category: "advisor",
+    targetPlatform: "advisor",
     sortBy: "popularity",
   })
 

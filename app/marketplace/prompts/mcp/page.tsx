@@ -8,7 +8,7 @@ import { FilterOptions } from "@/types/marketplace"
 
 export default function MCPPage() {
   const [filters, setFilters] = useState<FilterOptions>({
-    category: "mcp",
+    targetPlatform: "mcp",
     sortBy: "popularity",
   })
 

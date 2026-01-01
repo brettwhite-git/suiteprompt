@@ -8,7 +8,7 @@ import { FilterOptions } from "@/types/marketplace"
 
 export default function PromptStudioPage() {
   const [filters, setFilters] = useState<FilterOptions>({
-    category: "prompt-studio",
+    targetPlatform: "prompt-studio",
     sortBy: "popularity",
   })
 
