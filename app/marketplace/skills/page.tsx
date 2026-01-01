@@ -7,10 +7,17 @@ import { SkillDetailModal } from "@/components/marketplace/SkillDetailModal"
 import { FilterBar } from "@/components/marketplace/FilterBar"
 import { FilterOptions } from "@/types/marketplace"
 
+const SKILL_CATEGORIES = [
+  { value: "mcp-custom-tools", label: "MCP Custom Tools" },
+  { value: "suitescript", label: "SuiteScript" },
+  { value: "system-audit", label: "System Audit" },
+  { value: "admin", label: "Admin" },
+  { value: "devops", label: "DevOps" },
+  { value: "llm", label: "LLM" },
+]
+
 export default function SkillsPage() {
-  const [filters, setFilters] = useState<FilterOptions>({
-    sortBy: "popularity",
-  })
+  const [filters, setFilters] = useState<FilterOptions>({})
   const [selectedSkillId, setSelectedSkillId] = useState<string | null>(null)
   const [isModalOpen, setIsModalOpen] = useState(false)
 
@@ -38,7 +45,7 @@ export default function SkillsPage() {
         </p>
       </div>
 
-      <FilterBar filters={filters} onFiltersChange={setFilters} />
+      <FilterBar filters={filters} onFiltersChange={setFilters} allowedCategories={SKILL_CATEGORIES} />
 
       <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
         {skills.map((skill) => (

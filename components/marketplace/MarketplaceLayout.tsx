@@ -17,6 +17,8 @@ import {
   SidebarTrigger,
 } from "@/components/ui/sidebar"
 import { ThemeToggle } from "@/components/theme/ThemeToggle"
+import { Badge } from "@/components/ui/badge"
+import { GraduationCap } from "lucide-react"
 
 interface MarketplaceLayoutProps {
   children: React.ReactNode
@@ -48,7 +50,13 @@ export function MarketplaceLayout({ children }: MarketplaceLayoutProps) {
               </BreadcrumbList>
             </Breadcrumb>
           </div>
-          <div className="flex items-center px-4">
+          <div className="flex items-center gap-2 px-4">
+            <a href="/marketplace/learning" className="inline-block">
+              <Badge variant="outline" className="cursor-pointer inline-flex items-center gap-1">
+                <GraduationCap className="h-3 w-3" />
+                Learning Center
+              </Badge>
+            </a>
             <ThemeToggle />
           </div>
         </header>

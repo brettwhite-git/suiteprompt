@@ -7,15 +7,15 @@ import { PromptDetailModal } from "@/components/marketplace/PromptDetailModal"
 import { FilterBar } from "@/components/marketplace/FilterBar"
 import { FilterOptions } from "@/types/marketplace"
 
-export default function PromptStudioPage() {
+export default function TextEnhancePage() {
   const [filters, setFilters] = useState<FilterOptions>({
-    targetPlatform: "prompt-studio"
+    targetPlatform: "text-enhance"
   })
   const [selectedPromptId, setSelectedPromptId] = useState<string | null>(null)
   const [isModalOpen, setIsModalOpen] = useState(false)
 
   const prompts = useMemo(() => {
-    return getPrompts({ ...filters, targetPlatform: "prompt-studio" })
+    return getPrompts({ ...filters, targetPlatform: "text-enhance" })
   }, [filters])
 
   const handlePromptClick = (promptId: string) => {
@@ -33,9 +33,9 @@ export default function PromptStudioPage() {
   return (
     <div className="space-y-6">
       <div>
-        <h1 className="text-3xl font-bold tracking-tight">Prompt Studio</h1>
+        <h1 className="text-3xl font-bold tracking-tight">Text Enhance</h1>
         <p className="text-muted-foreground mt-2">
-          Full-featured prompt templates for NetSuite Prompt Studio. Includes variables, model settings, and preview functionality.
+          AI-powered text enhancement prompts for NetSuite fields. Use these prompts with Text Enhance to improve content directly in NetSuite records.
         </p>
       </div>
 

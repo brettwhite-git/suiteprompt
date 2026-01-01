@@ -1,6 +1,6 @@
-export type PromptCategory = "prompt-studio" | "advisor" | "mcp"
-
-export type PromptType = "prompt-studio" | "advisor" | "mcp"
+export type PromptFormat = "mcp" | "skill" | "general"
+export type BusinessArea = "accounting" | "sales" | "inventory" | "crm" | "suitecloud" | "admin"
+export type TargetPlatform = "text-enhance" | "prompt-studio" | "advisor" | "mcp" | "claude" | "chatgpt"
 
 export interface Author {
   id: string
@@ -26,15 +26,25 @@ export interface MarketplaceItem {
   updatedAt: string
 }
 
+export interface ModelSettings {
+  temperature?: number
+  topP?: number
+  topK?: number
+  maxTokens?: number
+  presencePenalty?: number
+  frequencyPenalty?: number
+}
+
 export interface Prompt extends MarketplaceItem {
-  type: PromptType
-  category: PromptCategory
-  chatbot?: "claude" | "chatgpt" | "both"
-  // Enhanced fields for detail view
+  format: PromptFormat
+  businessArea: BusinessArea
+  targetPlatform?: TargetPlatform  // Which platform/feature this prompt is for
+  mcpTools?: string[]              // For MCP prompts - which tools are used
   usageExamples?: string[]         // Example use cases
   inputVariables?: string[]        // Extracted placeholders like [CRITERIA]
-  compatibility?: string[]         // e.g., ["cursor", "claude-desktop", "chatgpt"]
+  compatibility?: string[]         // e.g., ["claude", "chatgpt"]
   longDescription?: string         // Extended description for detail page
+  modelSettings?: ModelSettings    // LLM configuration (for Prompt Studio style)
 }
 
 export interface SkillMetadata {
@@ -52,7 +62,8 @@ export interface SkillMetadata {
 }
 
 export interface Skill extends MarketplaceItem {
-  category: string
+  format: "skill"
+  businessArea: BusinessArea
   version?: string
   dependencies?: string[]
   metadata?: SkillMetadata
@@ -65,7 +76,9 @@ export interface MarketplaceData {
 }
 
 export interface FilterOptions {
-  category?: string
+  format?: PromptFormat
+  businessArea?: BusinessArea
+  targetPlatform?: TargetPlatform
   minRating?: number
   sortBy?: "popularity" | "rating" | "newest" | "downloads"
   search?: string

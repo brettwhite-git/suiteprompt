@@ -22,6 +22,7 @@ import {
 
 export function NavMain({
   items,
+  label = "Platform",
 }: {
   items: {
     title: string
@@ -33,6 +34,7 @@ export function NavMain({
       url: string
     }[]
   }[]
+  label?: string
 }) {
   const [isMounted, setIsMounted] = useState(false)
 
@@ -43,7 +45,7 @@ export function NavMain({
   if (!isMounted) {
     return (
       <SidebarGroup>
-        <SidebarGroupLabel>Platform</SidebarGroupLabel>
+        <SidebarGroupLabel>{label}</SidebarGroupLabel>
         <SidebarMenu>
           {items.map((item) => (
             <SidebarMenuItem key={item.title}>
@@ -62,7 +64,7 @@ export function NavMain({
 
   return (
     <SidebarGroup>
-      <SidebarGroupLabel>Platform</SidebarGroupLabel>
+      <SidebarGroupLabel>{label}</SidebarGroupLabel>
       <SidebarMenu>
         {items.map((item) => {
           if (item.items?.length) {

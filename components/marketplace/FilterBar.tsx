@@ -23,21 +23,25 @@ export function FilterBar({ filters, onFiltersChange, className }: FilterBarProp
     onFiltersChange({ ...filters, search: value || undefined })
   }
 
-  const handleCategoryChange = (value: string) => {
-    onFiltersChange({ ...filters, category: value === "all" ? undefined : value })
+  const handleFormatChange = (value: string) => {
+    onFiltersChange({ ...filters, format: value === "all" ? undefined : value as FilterOptions["format"] })
+  }
+
+  const handleBusinessAreaChange = (value: string) => {
+    onFiltersChange({ ...filters, businessArea: value === "all" ? undefined : value as FilterOptions["businessArea"] })
   }
 
   const handleSortChange = (value: string) => {
     onFiltersChange({
       ...filters,
-      sortBy: value as FilterOptions["sortBy"],
+      sortBy: value ? (value as FilterOptions["sortBy"]) : undefined,
     })
   }
 
   const handleMinRatingChange = (value: string) => {
     onFiltersChange({
       ...filters,
-      minRating: value === "all" ? undefined : parseFloat(value),
+      minRating: value ? parseFloat(value) : undefined,
     })
   }
 
@@ -47,7 +51,7 @@ export function FilterBar({ filters, onFiltersChange, className }: FilterBarProp
   }
 
   const hasActiveFilters = Boolean(
-    filters.category || filters.minRating || filters.sortBy || filters.search
+    filters.format || filters.businessArea || filters.minRating || filters.sortBy || filters.search
   )
 
   return (
@@ -63,38 +67,50 @@ export function FilterBar({ filters, onFiltersChange, className }: FilterBarProp
           />
         </div>
         <div className="flex gap-2">
-          <Select value={filters.category || "all"} onValueChange={handleCategoryChange}>
+          <Select value={filters.format || "all"} onValueChange={handleFormatChange}>
             <SelectTrigger className="w-[140px]">
               <Filter className="h-4 w-4 mr-2" />
-              <SelectValue placeholder="Category" />
+              <SelectValue placeholder="Format" />
             </SelectTrigger>
             <SelectContent>
-              <SelectItem value="all">All Categories</SelectItem>
-              <SelectItem value="prompt-studio">Prompt Studio</SelectItem>
-              <SelectItem value="advisor">Advisor</SelectItem>
-              <SelectItem value="mcp">MCP</SelectItem>
+              <SelectItem value="all">All Formats</SelectItem>
+              <SelectItem value="mcp">MCP Prompts</SelectItem>
+              <SelectItem value="skill">Claude Skills</SelectItem>
+              <SelectItem value="general">General Prompts</SelectItem>
+            </SelectContent>
+          </Select>
+          <Select value={filters.businessArea || "all"} onValueChange={handleBusinessAreaChange}>
+            <SelectTrigger className="w-[160px]">
+              <SelectValue placeholder="Business Area" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="all">All Areas</SelectItem>
+              <SelectItem value="accounting">Accounting</SelectItem>
+              <SelectItem value="sales">Sales & Orders</SelectItem>
+              <SelectItem value="inventory">Inventory</SelectItem>
+              <SelectItem value="crm">CRM</SelectItem>
+              <SelectItem value="suitecloud">SuiteCloud Dev</SelectItem>
+              <SelectItem value="admin">Administration</SelectItem>
             </SelectContent>
           </Select>
           <Select
-            value={filters.minRating?.toString() || "all"}
+            value={filters.minRating?.toString() || ""}
             onValueChange={handleMinRatingChange}
           >
             <SelectTrigger className="w-[140px]">
               <SelectValue placeholder="Rating" />
             </SelectTrigger>
             <SelectContent>
-              <SelectItem value="all">All Ratings</SelectItem>
               <SelectItem value="4.5">4.5+ Stars</SelectItem>
               <SelectItem value="4.0">4.0+ Stars</SelectItem>
               <SelectItem value="3.5">3.5+ Stars</SelectItem>
             </SelectContent>
           </Select>
-          <Select value={filters.sortBy || "popularity"} onValueChange={handleSortChange}>
+          <Select value={filters.sortBy || ""} onValueChange={handleSortChange}>
             <SelectTrigger className="w-[160px]">
               <SelectValue placeholder="Sort by" />
             </SelectTrigger>
             <SelectContent>
-              <SelectItem value="popularity">Popularity</SelectItem>
               <SelectItem value="rating">Rating</SelectItem>
               <SelectItem value="newest">Newest</SelectItem>
               <SelectItem value="downloads">Downloads</SelectItem>
@@ -109,12 +125,21 @@ export function FilterBar({ filters, onFiltersChange, className }: FilterBarProp
       </div>
       {hasActiveFilters && (
         <div className="flex flex-wrap gap-2">
-          {filters.category && (
+          {filters.format && (
             <Badge variant="secondary" className="gap-1">
-              Category: {filters.category}
+              Format: {filters.format}
               <X
                 className="h-3 w-3 cursor-pointer"
-                onClick={() => handleCategoryChange("all")}
+                onClick={() => handleFormatChange("all")}
+              />
+            </Badge>
+          )}
+          {filters.businessArea && (
+            <Badge variant="secondary" className="gap-1">
+              Area: {filters.businessArea}
+              <X
+                className="h-3 w-3 cursor-pointer"
+                onClick={() => handleBusinessAreaChange("all")}
               />
             </Badge>
           )}
@@ -123,7 +148,7 @@ export function FilterBar({ filters, onFiltersChange, className }: FilterBarProp
               Rating: {filters.minRating}+
               <X
                 className="h-3 w-3 cursor-pointer"
-                onClick={() => handleMinRatingChange("all")}
+                onClick={() => handleMinRatingChange("")}
               />
             </Badge>
           )}
@@ -132,7 +157,7 @@ export function FilterBar({ filters, onFiltersChange, className }: FilterBarProp
               Sort: {filters.sortBy}
               <X
                 className="h-3 w-3 cursor-pointer"
-                onClick={() => handleSortChange("popularity")}
+                onClick={() => handleSortChange("")}
               />
             </Badge>
           )}

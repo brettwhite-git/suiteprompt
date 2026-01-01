@@ -3,16 +3,33 @@
 import { useState, useMemo } from "react"
 import { getPrompts } from "@/lib/marketplace"
 import { PromptCard } from "@/components/marketplace/PromptCard"
+import { PromptDetailModal } from "@/components/marketplace/PromptDetailModal"
 import { FilterBar } from "@/components/marketplace/FilterBar"
 import { FilterOptions } from "@/types/marketplace"
 
 export default function MCPPromptsPage() {
   const [filters, setFilters] = useState<FilterOptions>({
-    category: "mcp",
-    sortBy: "popularity",
+    format: "mcp"
   })
+  const [selectedPromptId, setSelectedPromptId] = useState<string | null>(null)
+  const [isModalOpen, setIsModalOpen] = useState(false)
 
-  const prompts = useMemo(() => getPrompts(filters), [filters])
+  const prompts = useMemo(() => {
+    return getPrompts({ ...filters, format: "mcp" })
+  }, [filters])
+
+  const handlePromptClick = (promptId: string) => {
+    setSelectedPromptId(promptId)
+    setIsModalOpen(true)
+  }
+
+  const handleModalOpenChange = (open: boolean) => {
+    setIsModalOpen(open)
+    if (!open) {
+      // Clear selected prompt after modal closes
+      setTimeout(() => setSelectedPromptId(null), 150)
+    }
+  }
 
   return (
     <div className="space-y-6">
@@ -27,7 +44,11 @@ export default function MCPPromptsPage() {
 
       <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
         {prompts.map((prompt) => (
-          <PromptCard key={prompt.id} prompt={prompt} />
+          <PromptCard 
+            key={prompt.id} 
+            prompt={prompt}
+            onClick={() => handlePromptClick(prompt.id)}
+          />
         ))}
       </div>
 
@@ -36,7 +57,13 @@ export default function MCPPromptsPage() {
           <p className="text-muted-foreground">No prompts found matching your filters.</p>
         </div>
       )}
+
+      <PromptDetailModal
+        promptId={selectedPromptId}
+        open={isModalOpen}
+        onOpenChange={handleModalOpenChange}
+        onPromptClick={handlePromptClick}
+      />
     </div>
   )
 }
-

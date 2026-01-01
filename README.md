@@ -28,7 +28,6 @@ SuitePrompt serves two purposes:
 - **Rapid 101**: Get started in 15 minutes
 - **Feynman Technique**: Simple explanations that build to technical details
 - **Visual Learning**: Interactive diagrams, animations, and workflows
-- **Code Playground**: Live code editor with NetSuite API support
 - **Progress Tracking**: Track your learning progress
 
 ### Learning Paths

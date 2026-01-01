@@ -1,11 +1,10 @@
 "use client"
 
 import * as React from "react"
-import { Star, User, Calendar, Download as DownloadIcon, ExternalLink, GitBranch } from "lucide-react"
+import { Star, User, Calendar, Download as DownloadIcon } from "lucide-react"
 import { Badge } from "@/components/ui/badge"
 import { CopyButton } from "./CopyButton"
 import { DownloadButton } from "./DownloadButton"
-import { Button } from "@/components/ui/button"
 import { Skill } from "@/types/marketplace"
 import { cn } from "@/lib/utils"
 import { Prism as SyntaxHighlighter } from "react-syntax-highlighter"
@@ -49,33 +48,16 @@ export function SkillContentTab({ skill }: SkillContentTabProps) {
         </div>
 
         <div className="flex flex-wrap items-center gap-2">
-          <Badge variant="outline">{skill.category}</Badge>
+          <Badge variant="outline" className="capitalize">{skill.format}</Badge>
+          <Badge variant="secondary" className="capitalize">{skill.businessArea}</Badge>
           {skill.metadata?.version && (
-            <Badge variant="secondary">v{skill.metadata.version}</Badge>
-          )}
-          {skill.metadata?.repository && (
-            <Badge variant="outline" className="gap-1">
-              <GitBranch className="h-3 w-3" />
-              {skill.metadata.repository.split("/").pop()}
-            </Badge>
+            <Badge variant="outline">v{skill.metadata.version}</Badge>
           )}
           <div className="flex items-center gap-1 text-sm">
             <Star className="h-4 w-4 fill-yellow-400 text-yellow-400" />
             <span className="font-medium">{skill.rating.average.toFixed(1)}</span>
             <span className="text-muted-foreground">({skill.rating.count})</span>
           </div>
-          {skill.metadata?.stars && (
-            <div className="flex items-center gap-1 text-sm text-muted-foreground">
-              <Star className="h-4 w-4" />
-              <span>{skill.metadata.stars} stars</span>
-            </div>
-          )}
-          {skill.metadata?.forks && (
-            <div className="flex items-center gap-1 text-sm text-muted-foreground">
-              <GitBranch className="h-4 w-4" />
-              <span>{skill.metadata.forks} forks</span>
-            </div>
-          )}
           <div className="flex items-center gap-1 text-sm text-muted-foreground">
             <DownloadIcon className="h-4 w-4" />
             <span>{skill.downloads} downloads</span>
@@ -164,22 +146,6 @@ export function SkillContentTab({ skill }: SkillContentTabProps) {
           variant="outline"
           size="default"
         />
-        {skill.metadata?.repository && (
-          <Button
-            variant="outline"
-            size="default"
-            onClick={() => {
-              if (!skill.metadata?.repository) return
-              const repoUrl = skill.metadata.repository.startsWith("http")
-                ? skill.metadata.repository
-                : `https://github.com/${skill.metadata.repository}`
-              window.open(repoUrl, "_blank")
-            }}
-          >
-            <ExternalLink className="h-4 w-4 mr-2" />
-            View Repository
-          </Button>
-        )}
       </div>
     </div>
   )

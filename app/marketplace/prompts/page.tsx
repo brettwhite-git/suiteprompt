@@ -8,9 +8,7 @@ import { FilterBar } from "@/components/marketplace/FilterBar"
 import { FilterOptions } from "@/types/marketplace"
 
 export default function PromptsPage() {
-  const [filters, setFilters] = useState<FilterOptions>({
-    sortBy: "popularity",
-  })
+  const [filters, setFilters] = useState<FilterOptions>({})
   const [selectedPromptId, setSelectedPromptId] = useState<string | null>(null)
   const [isModalOpen, setIsModalOpen] = useState(false)
 

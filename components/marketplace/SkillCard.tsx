@@ -1,11 +1,9 @@
 "use client"
 
 import * as React from "react"
-import { Star, User, Calendar, Download as DownloadIcon, Package, GitBranch } from "lucide-react"
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
+import { Star, User, Calendar, Download as DownloadIcon, Package } from "lucide-react"
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
-import { CopyButton } from "./CopyButton"
-import { DownloadButton } from "./DownloadButton"
 import { Skill } from "@/types/marketplace"
 import { cn } from "@/lib/utils"
 
@@ -50,14 +48,10 @@ export function SkillCard({ skill, className, onClick }: SkillCardProps) {
           </div>
         </div>
         <div className="flex items-center gap-2 mt-2">
-          <Badge variant="outline">{skill.category}</Badge>
+          <Badge variant="outline" className="capitalize">{skill.format}</Badge>
+          <Badge variant="secondary" className="capitalize">{skill.businessArea}</Badge>
           {metadata?.version && (
-            <Badge variant="secondary">v{metadata.version}</Badge>
-          )}
-          {metadata?.repository && (
-            <Badge variant="outline" className="gap-1">
-              <GitBranch className="h-3 w-3" />
-            </Badge>
+            <Badge variant="outline">v{metadata.version}</Badge>
           )}
         </div>
       </CardHeader>
@@ -69,18 +63,6 @@ export function SkillCard({ skill, className, onClick }: SkillCardProps) {
               <span>{skill.rating.average.toFixed(1)}</span>
               <span className="text-xs">({skill.rating.count})</span>
             </div>
-            {metadata?.stars !== undefined && (
-              <div className="flex items-center gap-1">
-                <Star className="h-4 w-4" />
-                <span>{metadata.stars}</span>
-              </div>
-            )}
-            {metadata?.forks !== undefined && (
-              <div className="flex items-center gap-1">
-                <GitBranch className="h-4 w-4" />
-                <span>{metadata.forks}</span>
-              </div>
-            )}
             <div className="flex items-center gap-1">
               <DownloadIcon className="h-4 w-4" />
               <span>{skill.downloads}</span>
@@ -113,21 +95,6 @@ export function SkillCard({ skill, className, onClick }: SkillCardProps) {
           </div>
         </div>
       </CardContent>
-      <CardFooter className="flex gap-2">
-        <CopyButton
-          content={skillContent}
-          variant="outline"
-          size="sm"
-          className="flex-1"
-        />
-        <DownloadButton
-          content={skillContent}
-          filename={`${metadata?.name || skill.title.replace(/\s+/g, "-").toLowerCase()}.md`}
-          variant="outline"
-          size="sm"
-          className="flex-1"
-        />
-      </CardFooter>
     </Card>
   )
 }

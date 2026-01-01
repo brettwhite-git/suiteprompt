@@ -6,8 +6,16 @@ export const marketplace: MarketplaceData = marketplaceData as MarketplaceData
 export function getPrompts(filters?: FilterOptions): Prompt[] {
   let prompts = [...marketplace.prompts]
 
-  if (filters?.category) {
-    prompts = prompts.filter((p) => p.category === filters.category)
+  if (filters?.format) {
+    prompts = prompts.filter((p) => p.format === filters.format)
+  }
+
+  if (filters?.businessArea) {
+    prompts = prompts.filter((p) => p.businessArea === filters.businessArea)
+  }
+
+  if (filters?.targetPlatform) {
+    prompts = prompts.filter((p) => p.targetPlatform === filters.targetPlatform)
   }
 
   if (filters?.search) {
@@ -32,9 +40,6 @@ export function getPrompts(filters?: FilterOptions): Prompt[] {
 
   if (filters?.sortBy) {
     switch (filters.sortBy) {
-      case "popularity":
-        prompts.sort((a, b) => b.downloads - a.downloads)
-        break
       case "rating":
         prompts.sort((a, b) => b.rating.average - a.rating.average)
         break
@@ -56,8 +61,8 @@ export function getPrompts(filters?: FilterOptions): Prompt[] {
 export function getSkills(filters?: FilterOptions): Skill[] {
   let skills = [...marketplace.skills]
 
-  if (filters?.category) {
-    skills = skills.filter((s) => s.category === filters.category)
+  if (filters?.businessArea) {
+    skills = skills.filter((s) => s.businessArea === filters.businessArea)
   }
 
   if (filters?.search) {
@@ -82,9 +87,6 @@ export function getSkills(filters?: FilterOptions): Skill[] {
 
   if (filters?.sortBy) {
     switch (filters.sortBy) {
-      case "popularity":
-        skills.sort((a, b) => b.downloads - a.downloads)
-        break
       case "rating":
         skills.sort((a, b) => b.rating.average - a.rating.average)
         break
@@ -120,12 +122,13 @@ export function getRelatedPrompts(promptId: string, limit: number = 6): Prompt[]
       // Exclude the current prompt
       if (p.id === promptId) return false
       
-      // Match by category or shared tags
+      // Match by business area, format, or shared tags
       const hasSharedTags = p.tags.some((tag) => prompt.tags.includes(tag))
-      const sameCategory = p.category === prompt.category
+      const sameBusinessArea = p.businessArea === prompt.businessArea
+      const sameFormat = p.format === prompt.format
       const sameAuthor = p.author.id === prompt.author.id
       
-      return hasSharedTags || sameCategory || sameAuthor
+      return hasSharedTags || sameBusinessArea || sameFormat || sameAuthor
     })
     .sort((a, b) => {
       // Prioritize prompts with more shared tags
@@ -150,12 +153,12 @@ export function getRelatedSkills(skillId: string, limit: number = 6): Skill[] {
       // Exclude the current skill
       if (s.id === skillId) return false
       
-      // Match by category or shared tags
+      // Match by business area or shared tags
       const hasSharedTags = s.tags.some((tag) => skill.tags.includes(tag))
-      const sameCategory = s.category === skill.category
+      const sameBusinessArea = s.businessArea === skill.businessArea
       const sameAuthor = s.author.id === skill.author.id
       
-      return hasSharedTags || sameCategory || sameAuthor
+      return hasSharedTags || sameBusinessArea || sameAuthor
     })
     .sort((a, b) => {
       // Prioritize skills with more shared tags

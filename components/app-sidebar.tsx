@@ -4,17 +4,18 @@ import * as React from "react"
 import {
   Code,
   Command,
+  Folder,
   GraduationCap,
-  LifeBuoy,
+  Home,
+  Atom,
   MessageSquare,
   Package,
-  Send,
   Sparkles,
-  Zap,
+  Type,
+  Waves,
 } from "lucide-react"
 
 import { NavMain } from "@/components/nav-main"
-import { NavSecondary } from "@/components/nav-secondary"
 import { NavUser } from "@/components/nav-user"
 import {
   Sidebar,
@@ -32,99 +33,94 @@ const data = {
     email: "user@netsuite.com",
     avatar: "/avatars/netsuite.jpg",
   },
-  navMain: [
+  navPlatform: [
     {
-      title: "MCP Prompts",
-      url: "/marketplace/prompts",
-      icon: MessageSquare,
+      title: "Native Features",
+      url: "#",
+      icon: Home,
       isActive: false,
       items: [
         {
-          title: "All Prompts",
-          url: "/marketplace/prompts",
+          title: "Text Enhance",
+          url: "/marketplace/text-enhance",
         },
         {
-          title: "Sales",
-          url: "/marketplace/prompts/sales",
+          title: "Prompt Studio",
+          url: "/marketplace/prompt-studio",
         },
         {
-          title: "Forecasting",
-          url: "/marketplace/prompts/forecasting",
-        },
-        {
-          title: "Inventory",
-          url: "/marketplace/prompts/inventory",
-        },
-        {
-          title: "Manufacturing",
-          url: "/marketplace/prompts/manufacturing",
-        },
-        {
-          title: "Accounting",
-          url: "/marketplace/prompts/accounting",
-        },
-        {
-          title: "Field Service",
-          url: "/marketplace/prompts/field-service",
-        },
-        {
-          title: "Support",
-          url: "/marketplace/prompts/support",
+          title: "NetSuite Adviser",
+          url: "/marketplace/advisor",
         },
       ],
     },
+  ],
+  navMCPPrompts: [
     {
-      title: "Prompt Studio",
-      url: "/marketplace/prompt-studio",
-      icon: Sparkles,
+      title: "Categories",
+      url: "/marketplace/mcp-prompts",
+      icon: Atom,
       isActive: false,
-      items: [],
+      items: [
+        {
+          title: "Accounting",
+          url: "/marketplace/mcp-prompts?category=accounting",
+        },
+        {
+          title: "Field Service",
+          url: "/marketplace/mcp-prompts?category=field-service",
+        },
+        {
+          title: "Forecasting",
+          url: "/marketplace/mcp-prompts?category=forecasting",
+        },
+        {
+          title: "Inventory",
+          url: "/marketplace/mcp-prompts?category=inventory",
+        },
+        {
+          title: "Manufacturing",
+          url: "/marketplace/mcp-prompts?category=manufacturing",
+        },
+        {
+          title: "Sales",
+          url: "/marketplace/mcp-prompts?category=sales",
+        },
+      ],
     },
-    {
-      title: "Advisor",
-      url: "/marketplace/advisor",
-      icon: Command,
-      isActive: false,
-      items: [],
-    },
+  ],
+  navSkills: [
     {
       title: "Skills",
       url: "/marketplace/skills",
       icon: Package,
       isActive: false,
-      items: [],
-    },
-    {
-      title: "SuiteCloud",
-      url: "/marketplace/learning",
-      icon: GraduationCap,
-      isActive: false,
       items: [
         {
-          title: "Architecture Overview",
-          url: "/marketplace/learn/functional-users",
+          title: "MCP Custom Tools",
+          url: "/marketplace/skills?category=mcp-custom-tools",
         },
         {
-          title: "SuiteCloud Basics",
-          url: "/marketplace/learn/developers",
+          title: "SuiteScript",
+          url: "/marketplace/skills?category=suitescript",
         },
         {
-          title: "Advanced Strategies",
-          url: "/marketplace/learn/advanced",
+          title: "System Audit",
+          url: "/marketplace/skills?category=system-audit",
+        },
+        {
+          title: "Admin",
+          url: "/marketplace/skills?category=admin",
+        },
+        {
+          title: "DevOps",
+          url: "/marketplace/skills?category=devops",
+        },
+        {
+          title: "LLM",
+          url: "/marketplace/skills?category=llm",
         },
       ],
-    },
-  ],
-  navSecondary: [
-    {
-      title: "Support",
-      url: "#",
-      icon: LifeBuoy,
-    },
-    {
-      title: "Feedback",
-      url: "#",
-      icon: Send,
     },
   ],
 }
@@ -135,16 +131,16 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
       <SidebarHeader>
         <SidebarMenu>
           <SidebarMenuItem>
-            <SidebarMenuButton size="lg" asChild>
+            <SidebarMenuButton size="lg" asChild className="[&_svg]:!size-6">
               <a href="/marketplace">
-                <div className="bg-sidebar-primary text-sidebar-primary-foreground flex aspect-square size-8 items-center justify-center rounded-lg">
-                  <Zap className="size-4" />
+                <div className="bg-sidebar-primary text-sidebar-primary-foreground flex aspect-square size-10 items-center justify-center rounded-lg [&>svg]:size-6">
+                  <Waves className="text-sidebar-primary-foreground" style={{ width: '1.5rem', height: '1.5rem' }} />
                 </div>
-                <div className="grid flex-1 text-left text-sm leading-tight">
-                  <span className="truncate font-medium">
-                    NetSuite Marketplace
+                <div className="grid flex-1 text-left text-base leading-tight">
+                  <span className="truncate font-normal">
+                    SuitePrompt
                   </span>
-                  <span className="truncate text-xs">Prompts & Skills</span>
+                  <span className="truncate text-xs">NetSuite Prompts</span>
                 </div>
               </a>
             </SidebarMenuButton>
@@ -152,8 +148,9 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
         </SidebarMenu>
       </SidebarHeader>
       <SidebarContent>
-        <NavMain items={data.navMain} />
-        <NavSecondary items={data.navSecondary} className="mt-auto" />
+        <NavMain items={data.navPlatform} label="Platform" />
+        <NavMain items={data.navMCPPrompts} label="MCP Prompts" />
+        <NavMain items={data.navSkills} label="Skills" />
       </SidebarContent>
       <SidebarFooter>
         <NavUser user={data.user} />

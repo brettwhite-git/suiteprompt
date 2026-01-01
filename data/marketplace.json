@@ -1,423 +1,685 @@
 {
   "prompts": [
     {
-      "id": "prompt-1",
-      "title": "NetSuite Record Search Assistant",
-      "description": "A comprehensive prompt for searching and filtering NetSuite records efficiently",
-      "content": "You are a NetSuite expert assistant. Help me search for records in NetSuite. I need to find records based on the following criteria: [CRITERIA]. Please provide the search syntax and explain the filters.",
-      "type": "prompt-studio",
-      "category": "prompt-studio",
+      "id": "mcp-accounting-1",
+      "title": "Customer Balance Lookup",
+      "description": "Find a customer and show their current balance and recent transactions",
+      "content": "Find customer \"Acme Corp\" and show me their current balance and recent transactions",
+      "format": "mcp",
+      "businessArea": "accounting",
+      "mcpTools": ["getCustomerDetails", "getCustomerBalance", "getCustomerTransactions"],
       "author": {
         "id": "author-1",
-        "name": "John Doe",
+        "name": "NetSuite Marketplace",
         "avatar": ""
       },
       "rating": {
         "average": 4.5,
-        "count": 23
+        "count": 0
       },
-      "downloads": 156,
-      "tags": ["search", "records", "filtering", "basics"],
+      "downloads": 0,
+      "tags": ["mcp", "accounting", "customers", "balance", "transactions"],
       "createdAt": "2024-01-15T10:00:00Z",
-      "updatedAt": "2024-01-20T14:30:00Z"
+      "updatedAt": "2024-01-15T10:00:00Z",
+      "usageExamples": [
+        "Find customer 'ABC Company' and show balance",
+        "Get balance and transactions for customer ID 12345"
+      ],
+      "longDescription": "Use this MCP prompt to quickly retrieve customer financial information including current balance and transaction history. Works with Claude or ChatGPT when connected to NetSuite via MCP Standard Tools SuiteApp."
     },
     {
-      "id": "prompt-2",
-      "title": "Advanced SuiteScript Debugging",
-      "description": "Expert-level prompt for debugging complex SuiteScript issues",
-      "content": "You are a NetSuite SuiteScript debugging expert. I'm experiencing the following issue: [ISSUE]. Help me identify the root cause, suggest fixes, and provide best practices to prevent similar issues.",
-      "type": "prompt-studio",
-      "category": "prompt-studio",
-      "author": {
-        "id": "author-2",
-        "name": "Jane Smith",
-        "avatar": ""
-      },
-      "rating": {
-        "average": 4.8,
-        "count": 45
-      },
-      "downloads": 289,
-      "tags": ["suitescript", "debugging", "advanced", "troubleshooting"],
-      "createdAt": "2024-01-10T08:00:00Z",
-      "updatedAt": "2024-01-18T16:00:00Z"
-    },
-    {
-      "id": "prompt-3",
-      "title": "NetSuite Workflow Optimization",
-      "description": "Get expert advice on optimizing NetSuite workflows for better performance",
-      "content": "You are a NetSuite workflow optimization specialist. Review my workflow configuration: [WORKFLOW_DETAILS]. Provide recommendations for improving performance, reducing errors, and enhancing user experience.",
-      "type": "advisor",
-      "category": "advisor",
-      "author": {
-        "id": "author-3",
-        "name": "Mike Johnson",
-        "avatar": ""
-      },
-      "rating": {
-        "average": 4.3,
-        "count": 18
-      },
-      "downloads": 98,
-      "tags": ["workflow", "optimization", "performance", "best-practices"],
-      "createdAt": "2024-01-12T12:00:00Z",
-      "updatedAt": "2024-01-19T10:00:00Z"
-    },
-    {
-      "id": "prompt-4",
-      "title": "Claude MCP NetSuite Integration",
-      "description": "MCP prompt for Claude to interact with NetSuite APIs",
-      "content": "You are a NetSuite integration assistant using MCP. When I ask about NetSuite data or operations, use the available MCP tools to fetch real-time information. Always verify data accuracy and provide context.",
-      "type": "mcp",
-      "category": "mcp",
-      "chatbot": "claude",
-      "author": {
-        "id": "author-4",
-        "name": "Sarah Williams",
-        "avatar": ""
-      },
-      "rating": {
-        "average": 4.7,
-        "count": 32
-      },
-      "downloads": 201,
-      "tags": ["mcp", "claude", "integration", "api"],
-      "createdAt": "2024-01-08T09:00:00Z",
-      "updatedAt": "2024-01-17T11:00:00Z"
-    },
-    {
-      "id": "prompt-5",
-      "title": "ChatGPT NetSuite Data Analysis",
-      "description": "MCP prompt for ChatGPT to analyze NetSuite data patterns",
-      "content": "You are a NetSuite data analyst using MCP. Analyze the provided NetSuite data and identify trends, anomalies, and insights. Use MCP tools to access additional data when needed.",
-      "type": "mcp",
-      "category": "mcp",
-      "chatbot": "chatgpt",
-      "author": {
-        "id": "author-5",
-        "name": "David Brown",
-        "avatar": ""
-      },
-      "rating": {
-        "average": 4.6,
-        "count": 28
-      },
-      "downloads": 174,
-      "tags": ["mcp", "chatgpt", "analysis", "data"],
-      "createdAt": "2024-01-11T15:00:00Z",
-      "updatedAt": "2024-01-16T13:00:00Z"
-    },
-    {
-      "id": "prompt-6",
-      "title": "NetSuite Customization Guide",
-      "description": "Step-by-step guidance for customizing NetSuite to meet business needs",
-      "content": "You are a NetSuite customization expert. I want to customize NetSuite for: [BUSINESS_NEED]. Guide me through the process, recommend the best approach (custom fields, workflows, scripts), and provide implementation steps.",
-      "type": "advisor",
-      "category": "advisor",
+      "id": "mcp-sales-1",
+      "title": "Sales Report by Customer",
+      "description": "Generate a sales report for a specific time period grouped by customer",
+      "content": "Generate a sales report for Q4 2024 grouped by customer",
+      "format": "mcp",
+      "businessArea": "sales",
+      "mcpTools": ["generateSalesReport"],
       "author": {
         "id": "author-1",
-        "name": "John Doe",
-        "avatar": ""
-      },
-      "rating": {
-        "average": 4.4,
-        "count": 19
-      },
-      "downloads": 112,
-      "tags": ["customization", "configuration", "guide", "tutorial"],
-      "createdAt": "2024-01-14T11:00:00Z",
-      "updatedAt": "2024-01-21T09:00:00Z"
-    },
-    {
-      "id": "prompt-7",
-      "title": "Sales Opportunity Management",
-      "description": "Optimize your sales pipeline and opportunity tracking in NetSuite",
-      "content": "You are a NetSuite sales expert. Help me manage sales opportunities: [OPPORTUNITY_DETAILS]. Provide guidance on pipeline management, forecasting, and closing strategies.",
-      "type": "prompt-studio",
-      "category": "prompt-studio",
-      "author": {
-        "id": "author-6",
-        "name": "Emily Chen",
+        "name": "NetSuite Marketplace",
         "avatar": ""
       },
       "rating": {
         "average": 4.6,
-        "count": 38
+        "count": 0
       },
-      "downloads": 223,
-      "tags": ["sales", "opportunities", "pipeline", "crm"],
-      "createdAt": "2024-01-16T09:00:00Z",
-      "updatedAt": "2024-01-22T10:00:00Z"
+      "downloads": 0,
+      "tags": ["mcp", "sales", "reporting", "revenue"],
+      "createdAt": "2024-01-15T10:00:00Z",
+      "updatedAt": "2024-01-15T10:00:00Z",
+      "usageExamples": [
+        "Generate sales report for last month grouped by customer",
+        "Show me sales by customer for January 2024"
+      ],
+      "longDescription": "Create comprehensive sales reports grouped by customer. Modify the date range and grouping options as needed for your analysis."
     },
     {
-      "id": "prompt-8",
-      "title": "Revenue Forecasting Assistant",
-      "description": "Create accurate revenue forecasts using NetSuite data",
-      "content": "You are a NetSuite forecasting specialist. Analyze my sales data: [SALES_DATA]. Help me create revenue forecasts, identify trends, and plan for future growth.",
-      "type": "prompt-studio",
-      "category": "prompt-studio",
+      "id": "mcp-inventory-1",
+      "title": "Low Stock Inventory Check",
+      "description": "Check inventory levels for items below reorder point grouped by location",
+      "content": "Check inventory levels for all items below reorder point and group by location",
+      "format": "mcp",
+      "businessArea": "inventory",
+      "mcpTools": ["checkInventoryLevels", "runCustomSuiteQL"],
       "author": {
-        "id": "author-7",
-        "name": "Robert Martinez",
+        "id": "author-1",
+        "name": "NetSuite Marketplace",
         "avatar": ""
       },
       "rating": {
         "average": 4.7,
-        "count": 42
+        "count": 0
       },
-      "downloads": 267,
-      "tags": ["forecasting", "revenue", "analytics", "planning"],
-      "createdAt": "2024-01-13T14:00:00Z",
-      "updatedAt": "2024-01-20T15:00:00Z"
+      "downloads": 0,
+      "tags": ["mcp", "inventory", "stock", "reorder", "warehouse"],
+      "createdAt": "2024-01-15T10:00:00Z",
+      "updatedAt": "2024-01-15T10:00:00Z",
+      "usageExamples": [
+        "Show me all items that need reordering",
+        "Check inventory levels below reorder point for Main Warehouse"
+      ],
+      "longDescription": "Identify items that need reordering by checking current inventory levels against reorder points. Results are grouped by location for easy warehouse management."
     },
     {
-      "id": "prompt-9",
-      "title": "Inventory Optimization Guide",
-      "description": "Manage inventory levels and reduce carrying costs in NetSuite",
-      "content": "You are a NetSuite inventory management expert. Review my inventory: [INVENTORY_DATA]. Help me optimize stock levels, reduce waste, and improve turnover rates.",
-      "type": "prompt-studio",
-      "category": "prompt-studio",
+      "id": "mcp-crm-1",
+      "title": "Customer Search and Details",
+      "description": "Search for customers and retrieve detailed information",
+      "content": "Search for customers matching 'Acme' and show me their details including contact information and recent activity",
+      "format": "mcp",
+      "businessArea": "crm",
+      "mcpTools": ["searchCustomer", "getCustomerDetails"],
       "author": {
-        "id": "author-8",
-        "name": "Lisa Anderson",
+        "id": "author-1",
+        "name": "NetSuite Marketplace",
         "avatar": ""
       },
       "rating": {
         "average": 4.5,
-        "count": 29
+        "count": 0
       },
-      "downloads": 189,
-      "tags": ["inventory", "warehouse", "stock", "optimization"],
-      "createdAt": "2024-01-17T11:00:00Z",
-      "updatedAt": "2024-01-23T09:00:00Z"
+      "downloads": 0,
+      "tags": ["mcp", "crm", "customers", "search"],
+      "createdAt": "2024-01-15T10:00:00Z",
+      "updatedAt": "2024-01-15T10:00:00Z",
+      "usageExamples": [
+        "Find customers with 'Tech' in the name",
+        "Search for all customers and show details"
+      ],
+      "longDescription": "Search for customers using partial name matching and retrieve comprehensive customer information including contact details and activity history."
     },
     {
-      "id": "prompt-10",
-      "title": "Manufacturing Production Planning",
-      "description": "Plan and optimize manufacturing operations in NetSuite",
-      "content": "You are a NetSuite manufacturing specialist. Help me plan production: [PRODUCTION_REQUIREMENTS]. Provide guidance on scheduling, resource allocation, and quality control.",
-      "type": "prompt-studio",
-      "category": "prompt-studio",
+      "id": "mcp-suitecloud-1",
+      "title": "SuiteQL Custom Query",
+      "description": "Run a custom SuiteQL query to retrieve NetSuite data",
+      "content": "Run a SuiteQL query to get all open sales orders created in the last 30 days with their customer names and total amounts",
+      "format": "mcp",
+      "businessArea": "suitecloud",
+      "mcpTools": ["runCustomSuiteQL"],
       "author": {
-        "id": "author-9",
-        "name": "James Wilson",
-        "avatar": ""
-      },
-      "rating": {
-        "average": 4.4,
-        "count": 25
-      },
-      "downloads": 156,
-      "tags": ["manufacturing", "production", "planning", "operations"],
-      "createdAt": "2024-01-18T08:00:00Z",
-      "updatedAt": "2024-01-24T12:00:00Z"
-    },
-    {
-      "id": "prompt-11",
-      "title": "Financial Reporting Assistant",
-      "description": "Generate comprehensive financial reports and analysis in NetSuite",
-      "content": "You are a NetSuite accounting expert. Help me create financial reports: [REPORT_REQUIREMENTS]. Provide guidance on P&L statements, balance sheets, and financial analysis.",
-      "type": "prompt-studio",
-      "category": "prompt-studio",
-      "author": {
-        "id": "author-10",
-        "name": "Patricia Taylor",
+        "id": "author-1",
+        "name": "NetSuite Marketplace",
         "avatar": ""
       },
       "rating": {
         "average": 4.8,
-        "count": 51
+        "count": 0
       },
-      "downloads": 298,
-      "tags": ["accounting", "financial", "reporting", "analysis"],
-      "createdAt": "2024-01-15T13:00:00Z",
-      "updatedAt": "2024-01-21T14:00:00Z"
+      "downloads": 0,
+      "tags": ["mcp", "suitecloud", "suiteql", "query", "data"],
+      "createdAt": "2024-01-15T10:00:00Z",
+      "updatedAt": "2024-01-15T10:00:00Z",
+      "usageExamples": [
+        "Query all customers with balance over $10,000",
+        "Get all items with quantity on hand less than 100"
+      ],
+      "longDescription": "Execute custom SuiteQL queries to retrieve specific NetSuite data. Only read-only queries are supported. Modify the query to match your data needs."
     },
     {
-      "id": "prompt-12",
-      "title": "Field Service Scheduling",
-      "description": "Optimize field service appointments and technician assignments",
-      "content": "You are a NetSuite field service expert. Help me schedule service calls: [SERVICE_REQUIREMENTS]. Provide guidance on route optimization, technician assignment, and customer communication.",
-      "type": "prompt-studio",
-      "category": "prompt-studio",
+      "id": "mcp-admin-1",
+      "title": "Financial Performance Summary",
+      "description": "Generate a financial performance summary for a date range",
+      "content": "Generate a financial performance summary for the last quarter",
+      "format": "mcp",
+      "businessArea": "admin",
+      "mcpTools": ["getFinancialPerformance"],
       "author": {
-        "id": "author-11",
-        "name": "Michael Davis",
+        "id": "author-1",
+        "name": "NetSuite Marketplace",
         "avatar": ""
       },
       "rating": {
         "average": 4.6,
-        "count": 34
+        "count": 0
       },
-      "downloads": 201,
-      "tags": ["field-service", "scheduling", "dispatch", "service"],
-      "createdAt": "2024-01-19T10:00:00Z",
-      "updatedAt": "2024-01-25T11:00:00Z"
+      "downloads": 0,
+      "tags": ["mcp", "admin", "financial", "performance", "reporting"],
+      "createdAt": "2024-01-15T10:00:00Z",
+      "updatedAt": "2024-01-15T10:00:00Z",
+      "usageExamples": [
+        "Show financial performance for last month",
+        "Generate performance summary for Q1 2024"
+      ],
+      "longDescription": "Get a high-level financial performance overview for any date range. Useful for executive reporting and quick financial health checks."
     },
     {
-      "id": "prompt-13",
-      "title": "Customer Support Case Management",
-      "description": "Manage customer support cases efficiently in NetSuite",
-      "content": "You are a NetSuite support specialist. Help me manage support cases: [CASE_DETAILS]. Provide guidance on case routing, escalation, resolution, and customer satisfaction.",
-      "type": "prompt-studio",
-      "category": "prompt-studio",
+      "id": "general-accounting-1",
+      "title": "GL Account Mapping Guide",
+      "description": "Map expense categories to appropriate NetSuite GL accounts",
+      "content": "You are a NetSuite accounting expert. I need to map these expense categories to NetSuite GL accounts:\n\n[List your expense categories here]\n\nSuggest appropriate account numbers and types following NetSuite best practices for a standard Chart of Accounts. Include:\n- Account number recommendations\n- Account type (Expense, Other Expense, etc.)\n- Sub-account structure if needed\n- Any special considerations",
+      "format": "general",
+      "businessArea": "accounting",
       "author": {
-        "id": "author-12",
-        "name": "Jennifer Lee",
+        "id": "author-1",
+        "name": "NetSuite Marketplace",
+        "avatar": ""
+      },
+      "rating": {
+        "average": 4.5,
+        "count": 0
+      },
+      "downloads": 0,
+      "tags": ["accounting", "gl", "chart-of-accounts", "mapping"],
+      "createdAt": "2024-01-15T10:00:00Z",
+      "updatedAt": "2024-01-15T10:00:00Z",
+      "usageExamples": [
+        "Map travel expenses, office supplies, and software subscriptions",
+        "Set up GL accounts for a new department"
+      ],
+      "longDescription": "Get expert guidance on mapping your business expense categories to NetSuite's Chart of Accounts structure. Ensures proper financial reporting and compliance."
+    },
+    {
+      "id": "general-sales-1",
+      "title": "Sales Order Workflow Builder",
+      "description": "Build a Saved Search for open Sales Orders with specific criteria",
+      "content": "You are a NetSuite expert. Help me build a Saved Search that:\n- Shows all open Sales Orders\n- Groups by Customer\n- Includes: Document Number, Date, Amount, Status\n- Filters: Created in last 30 days\n- Sorts by: Amount descending\n\nProvide the exact criteria, columns, and formulas needed to create this Saved Search in NetSuite.",
+      "format": "general",
+      "businessArea": "sales",
+      "author": {
+        "id": "author-1",
+        "name": "NetSuite Marketplace",
+        "avatar": ""
+      },
+      "rating": {
+        "average": 4.6,
+        "count": 0
+      },
+      "downloads": 0,
+      "tags": ["sales", "saved-search", "workflow", "orders"],
+      "createdAt": "2024-01-15T10:00:00Z",
+      "updatedAt": "2024-01-15T10:00:00Z",
+      "usageExamples": [
+        "Create search for overdue sales orders",
+        "Build search for sales orders by sales rep"
+      ],
+      "longDescription": "Get step-by-step instructions for creating Saved Searches in NetSuite. Modify the criteria to match your specific reporting needs."
+    },
+    {
+      "id": "general-inventory-1",
+      "title": "Inventory Reorder Point Calculator",
+      "description": "Calculate optimal reorder points based on sales velocity and lead times",
+      "content": "You are a NetSuite inventory management expert. Help me calculate optimal reorder points for my inventory items.\n\nGiven:\n- Average daily sales: [DAILY_SALES]\n- Lead time in days: [LEAD_TIME]\n- Safety stock days: [SAFETY_STOCK]\n- Current on-hand quantity: [ON_HAND]\n\nCalculate:\n1. Reorder point quantity\n2. Economic order quantity (EOQ) if applicable\n3. Recommended reorder frequency\n4. Expected stockout risk\n\nProvide the calculations and explain how to set these values in NetSuite item records.",
+      "format": "general",
+      "businessArea": "inventory",
+      "author": {
+        "id": "author-1",
+        "name": "NetSuite Marketplace",
         "avatar": ""
       },
       "rating": {
         "average": 4.7,
-        "count": 39
+        "count": 0
       },
-      "downloads": 234,
-      "tags": ["support", "cases", "customer-service", "helpdesk"],
-      "createdAt": "2024-01-20T09:00:00Z",
-      "updatedAt": "2024-01-26T10:00:00Z"
+      "downloads": 0,
+      "tags": ["inventory", "reorder-point", "planning", "optimization"],
+      "createdAt": "2024-01-15T10:00:00Z",
+      "updatedAt": "2024-01-15T10:00:00Z",
+      "usageExamples": [
+        "Calculate reorder points for fast-moving items",
+        "Optimize inventory levels for seasonal products"
+      ],
+      "longDescription": "Optimize your inventory management by calculating appropriate reorder points based on sales patterns and supplier lead times. Reduces stockouts and excess inventory."
+    },
+    {
+      "id": "general-crm-1",
+      "title": "Customer Segmentation Strategy",
+      "description": "Develop a customer segmentation strategy using NetSuite CRM features",
+      "content": "You are a NetSuite CRM expert. Help me develop a customer segmentation strategy.\n\nMy business has:\n- [NUMBER] customers\n- Sales range: $[MIN] to $[MAX] per customer annually\n- Industries: [LIST_INDUSTRIES]\n- Customer lifecycle stages: [LIST_STAGES]\n\nProvide:\n1. Recommended customer segments\n2. Custom fields needed in NetSuite\n3. Saved Search criteria for each segment\n4. Workflow automation opportunities\n5. Reporting recommendations\n\nExplain how to implement this segmentation in NetSuite.",
+      "format": "general",
+      "businessArea": "crm",
+      "author": {
+        "id": "author-1",
+        "name": "NetSuite Marketplace",
+        "avatar": ""
+      },
+      "rating": {
+        "average": 4.5,
+        "count": 0
+      },
+      "downloads": 0,
+      "tags": ["crm", "segmentation", "customers", "strategy"],
+      "createdAt": "2024-01-15T10:00:00Z",
+      "updatedAt": "2024-01-15T10:00:00Z",
+      "usageExamples": [
+        "Segment customers by revenue and industry",
+        "Create segments for customer lifecycle management"
+      ],
+      "longDescription": "Develop a comprehensive customer segmentation strategy that leverages NetSuite's CRM capabilities for targeted marketing and sales efforts."
+    },
+    {
+      "id": "general-suitecloud-1",
+      "title": "SuiteScript Error Debugging",
+      "description": "Debug SuiteScript errors and optimize script performance",
+      "content": "You are a NetSuite SuiteScript expert. Help me debug this SuiteScript error:\n\nError Message: [ERROR_MESSAGE]\nScript Type: [SCRIPT_TYPE]\nScript Context: [CONTEXT]\n\nPlease:\n1. Identify the root cause\n2. Explain why the error occurred\n3. Provide a fix\n4. Suggest best practices to prevent similar issues\n5. Check for governance limit concerns\n6. Optimize the script if possible\n\nIf you need more context, ask specific questions.",
+      "format": "general",
+      "businessArea": "suitecloud",
+      "author": {
+        "id": "author-1",
+        "name": "NetSuite Marketplace",
+        "avatar": ""
+      },
+      "rating": {
+        "average": 4.8,
+        "count": 0
+      },
+      "downloads": 0,
+      "tags": ["suitescript", "debugging", "development", "troubleshooting"],
+      "createdAt": "2024-01-15T10:00:00Z",
+      "updatedAt": "2024-01-15T10:00:00Z",
+      "usageExamples": [
+        "Debug governance limit errors",
+        "Fix record locking issues",
+        "Optimize search performance"
+      ],
+      "longDescription": "Get expert help debugging SuiteScript errors with detailed explanations, fixes, and optimization recommendations. Works for SuiteScript 1.0, 2.0, and 2.1."
+    },
+    {
+      "id": "general-admin-1",
+      "title": "Role and Permission Audit",
+      "description": "Audit user roles and permissions for security compliance",
+      "content": "You are a NetSuite security expert. Help me audit user roles and permissions.\n\nI need to:\n1. Review role-based access controls\n2. Identify excessive permissions\n3. Verify principle of least privilege\n4. Check for inactive users with access\n5. Recommend role structure improvements\n\nCurrent situation:\n- Number of roles: [NUMBER]\n- Number of users: [NUMBER]\n- Concerns: [LIST_CONCERNS]\n\nProvide:\n- Security best practices\n- Specific recommendations for my setup\n- Step-by-step audit checklist\n- Common permission pitfalls to avoid",
+      "format": "general",
+      "businessArea": "admin",
+      "author": {
+        "id": "author-1",
+        "name": "NetSuite Marketplace",
+        "avatar": ""
+      },
+      "rating": {
+        "average": 4.6,
+        "count": 0
+      },
+      "downloads": 0,
+      "tags": ["admin", "security", "roles", "permissions", "audit"],
+      "createdAt": "2024-01-15T10:00:00Z",
+      "updatedAt": "2024-01-15T10:00:00Z",
+      "usageExamples": [
+        "Audit roles before compliance review",
+        "Identify users with excessive permissions",
+        "Restructure role hierarchy"
+      ],
+      "longDescription": "Comprehensive security audit guidance for NetSuite roles and permissions. Ensures compliance and follows security best practices."
+    },
+    {
+      "id": "te-item-summary",
+      "title": "Item Description Summary",
+      "description": "Summarize product descriptions concisely for better readability",
+      "content": "Summarize this product description in 50 words or less, highlighting key features and benefits.",
+      "format": "general",
+      "targetPlatform": "text-enhance",
+      "businessArea": "inventory",
+      "author": {
+        "id": "author-1",
+        "name": "NetSuite Marketplace",
+        "avatar": ""
+      },
+      "rating": {
+        "average": 4.5,
+        "count": 0
+      },
+      "downloads": 0,
+      "tags": ["text-enhance", "inventory", "items", "description"],
+      "createdAt": "2024-01-15T10:00:00Z",
+      "updatedAt": "2024-01-15T10:00:00Z",
+      "longDescription": "Use Text Enhance to quickly summarize long product descriptions into concise, readable summaries that highlight key features."
+    },
+    {
+      "id": "te-customer-note",
+      "title": "Professional Customer Note",
+      "description": "Generate professional customer communication notes",
+      "content": "Write a professional, friendly note to the customer about [TOPIC]. Keep it concise and include next steps if applicable.",
+      "format": "general",
+      "targetPlatform": "text-enhance",
+      "businessArea": "crm",
+      "inputVariables": ["[TOPIC]"],
+      "author": {
+        "id": "author-1",
+        "name": "NetSuite Marketplace",
+        "avatar": ""
+      },
+      "rating": {
+        "average": 4.6,
+        "count": 0
+      },
+      "downloads": 0,
+      "tags": ["text-enhance", "crm", "customer", "communication"],
+      "createdAt": "2024-01-15T10:00:00Z",
+      "updatedAt": "2024-01-15T10:00:00Z",
+      "longDescription": "Create professional customer notes directly in NetSuite fields using Text Enhance. Perfect for customer communication and follow-ups."
+    },
+    {
+      "id": "te-transaction-memo",
+      "title": "Transaction Memo Generator",
+      "description": "Generate clear transaction memos for accounting clarity",
+      "content": "Create a clear, professional memo for this transaction that explains the purpose and key details in 2-3 sentences.",
+      "format": "general",
+      "targetPlatform": "text-enhance",
+      "businessArea": "accounting",
+      "author": {
+        "id": "author-1",
+        "name": "NetSuite Marketplace",
+        "avatar": ""
+      },
+      "rating": {
+        "average": 4.4,
+        "count": 0
+      },
+      "downloads": 0,
+      "tags": ["text-enhance", "accounting", "transactions", "memo"],
+      "createdAt": "2024-01-15T10:00:00Z",
+      "updatedAt": "2024-01-15T10:00:00Z",
+      "longDescription": "Quickly generate clear transaction memos that improve accounting clarity and audit trail documentation."
+    },
+    {
+      "id": "ps-sales-order-note",
+      "title": "Sales Order Note Generator",
+      "description": "Generate professional notes for sales orders with customizable variables",
+      "content": "PREAMBLE:\nYou are a professional sales assistant creating order notes for NetSuite.\n\nTEMPLATE:\nGenerate a professional note for sales order ${ORDER_NUMBER}:\n- Customer: ${CUSTOMER_NAME}\n- Order Date: ${ORDER_DATE}\n- Items: ${ITEM_COUNT} items\n- Total: $${ORDER_TOTAL}\n\nInclude:\n1. Order confirmation details\n2. Expected fulfillment timeline\n3. Special instructions or notes\n4. Next steps for customer\n\nWrite in a professional, friendly tone.",
+      "format": "general",
+      "targetPlatform": "prompt-studio",
+      "businessArea": "sales",
+      "inputVariables": ["${ORDER_NUMBER}", "${CUSTOMER_NAME}", "${ORDER_DATE}", "${ITEM_COUNT}", "${ORDER_TOTAL}"],
+      "modelSettings": {
+        "temperature": 0.2,
+        "topP": 0.7,
+        "topK": 500,
+        "maxTokens": 500
+      },
+      "author": {
+        "id": "author-1",
+        "name": "NetSuite Marketplace",
+        "avatar": ""
+      },
+      "rating": {
+        "average": 4.7,
+        "count": 0
+      },
+      "downloads": 0,
+      "tags": ["prompt-studio", "sales", "orders", "notes"],
+      "createdAt": "2024-01-15T10:00:00Z",
+      "updatedAt": "2024-01-15T10:00:00Z",
+      "longDescription": "Full Prompt Studio template for generating professional sales order notes. Includes preamble, template with variables, and optimized model settings."
+    },
+    {
+      "id": "ps-invoice-description",
+      "title": "Invoice Line Description Builder",
+      "description": "Create detailed invoice line descriptions from item data",
+      "content": "PREAMBLE:\nYou are creating detailed invoice line descriptions for NetSuite invoices.\n\nTEMPLATE:\nCreate a professional invoice line description for:\n- Item: ${ITEM_NAME}\n- Quantity: ${QUANTITY}\n- Unit Price: $${UNIT_PRICE}\n- Customer: ${CUSTOMER_NAME}\n- Project/PO: ${PROJECT_REF}\n\nInclude:\n1. Clear item description\n2. Quantity and pricing details\n3. Project or PO reference if applicable\n4. Professional formatting\n\nKeep it concise but informative.",
+      "format": "general",
+      "targetPlatform": "prompt-studio",
+      "businessArea": "accounting",
+      "inputVariables": ["${ITEM_NAME}", "${QUANTITY}", "${UNIT_PRICE}", "${CUSTOMER_NAME}", "${PROJECT_REF}"],
+      "modelSettings": {
+        "temperature": 0.3,
+        "topP": 0.8,
+        "topK": 400,
+        "maxTokens": 300
+      },
+      "author": {
+        "id": "author-1",
+        "name": "NetSuite Marketplace",
+        "avatar": ""
+      },
+      "rating": {
+        "average": 4.6,
+        "count": 0
+      },
+      "downloads": 0,
+      "tags": ["prompt-studio", "accounting", "invoices", "descriptions"],
+      "createdAt": "2024-01-15T10:00:00Z",
+      "updatedAt": "2024-01-15T10:00:00Z",
+      "longDescription": "Prompt Studio template for generating detailed invoice line descriptions with customizable variables and model settings."
+    },
+    {
+      "id": "ps-customer-email",
+      "title": "Customer Email Template",
+      "description": "Generate personalized customer emails with variable substitution",
+      "content": "PREAMBLE:\nYou are writing professional customer emails for NetSuite CRM.\n\nTEMPLATE:\nWrite a professional email to ${CUSTOMER_NAME}:\n\nSubject: ${EMAIL_SUBJECT}\n\nContext:\n- Customer Type: ${CUSTOMER_TYPE}\n- Previous Interaction: ${LAST_INTERACTION}\n- Purpose: ${EMAIL_PURPOSE}\n\nTone: ${TONE}\n\nInclude:\n1. Personalized greeting\n2. Clear purpose statement\n3. Relevant details\n4. Call to action\n5. Professional closing",
+      "format": "general",
+      "targetPlatform": "prompt-studio",
+      "businessArea": "crm",
+      "inputVariables": ["${CUSTOMER_NAME}", "${EMAIL_SUBJECT}", "${CUSTOMER_TYPE}", "${LAST_INTERACTION}", "${EMAIL_PURPOSE}", "${TONE}"],
+      "modelSettings": {
+        "temperature": 0.4,
+        "topP": 0.7,
+        "topK": 500,
+        "maxTokens": 600
+      },
+      "author": {
+        "id": "author-1",
+        "name": "NetSuite Marketplace",
+        "avatar": ""
+      },
+      "rating": {
+        "average": 4.8,
+        "count": 0
+      },
+      "downloads": 0,
+      "tags": ["prompt-studio", "crm", "email", "customer"],
+      "createdAt": "2024-01-15T10:00:00Z",
+      "updatedAt": "2024-01-15T10:00:00Z",
+      "longDescription": "Comprehensive Prompt Studio template for generating personalized customer emails with full variable support and model configuration."
+    },
+    {
+      "id": "adv-overdue-invoices",
+      "title": "Overdue Invoice Query",
+      "description": "Query NetSuite Advisor for overdue invoices by customer",
+      "content": "What invoices are overdue for customer [CUSTOMER_NAME]? Show me the invoice numbers, amounts, and days overdue.",
+      "format": "general",
+      "targetPlatform": "advisor",
+      "businessArea": "accounting",
+      "inputVariables": ["[CUSTOMER_NAME]"],
+      "author": {
+        "id": "author-1",
+        "name": "NetSuite Marketplace",
+        "avatar": ""
+      },
+      "rating": {
+        "average": 4.5,
+        "count": 0
+      },
+      "downloads": 0,
+      "tags": ["advisor", "accounting", "invoices", "overdue"],
+      "createdAt": "2024-01-15T10:00:00Z",
+      "updatedAt": "2024-01-15T10:00:00Z",
+      "longDescription": "Use NetSuite Advisor to quickly find overdue invoices for a specific customer. Native chatbot responds with invoice details."
+    },
+    {
+      "id": "adv-inventory-levels",
+      "title": "Inventory Level Check",
+      "description": "Check current inventory levels for items below reorder point",
+      "content": "Show me all inventory items that are below their reorder point. Include the item name, current quantity, reorder point, and location.",
+      "format": "general",
+      "targetPlatform": "advisor",
+      "businessArea": "inventory",
+      "author": {
+        "id": "author-1",
+        "name": "NetSuite Marketplace",
+        "avatar": ""
+      },
+      "rating": {
+        "average": 4.6,
+        "count": 0
+      },
+      "downloads": 0,
+      "tags": ["advisor", "inventory", "reorder", "stock"],
+      "createdAt": "2024-01-15T10:00:00Z",
+      "updatedAt": "2024-01-15T10:00:00Z",
+      "longDescription": "Query NetSuite Advisor to identify items that need reordering. Perfect for inventory management and purchasing decisions."
+    },
+    {
+      "id": "adv-sales-performance",
+      "title": "Sales Performance Query",
+      "description": "Get sales performance summary for a sales rep or period",
+      "content": "What are the sales numbers for [SALES_REP] for [PERIOD]? Show total sales, number of orders, and average order value.",
+      "format": "general",
+      "targetPlatform": "advisor",
+      "businessArea": "sales",
+      "inputVariables": ["[SALES_REP]", "[PERIOD]"],
+      "author": {
+        "id": "author-1",
+        "name": "NetSuite Marketplace",
+        "avatar": ""
+      },
+      "rating": {
+        "average": 4.7,
+        "count": 0
+      },
+      "downloads": 0,
+      "tags": ["advisor", "sales", "performance", "reporting"],
+      "createdAt": "2024-01-15T10:00:00Z",
+      "updatedAt": "2024-01-15T10:00:00Z",
+      "longDescription": "Use NetSuite Advisor to quickly get sales performance metrics. Native chatbot provides instant answers without generating artifacts."
     }
   ],
   "skills": [
     {
-      "id": "skill-1",
-      "title": "NetSuite Record Manager",
-      "description": "A Claude skill for managing NetSuite records with advanced search and filtering capabilities",
-      "content": "{\n  \"name\": \"netsuite-record-manager\",\n  \"description\": \"Manage NetSuite records efficiently\",\n  \"tools\": [\"search\", \"create\", \"update\", \"delete\"],\n  \"parameters\": {\n    \"recordType\": \"string\",\n    \"filters\": \"object\"\n  }\n}",
-      "category": "record-management",
+      "id": "skill-suiteql-1",
+      "title": "NetSuite SuiteQL Helper",
+      "description": "Write and optimize SuiteQL queries for NetSuite data retrieval and analysis",
+      "content": "SuiteQL query assistance and optimization",
+      "format": "skill",
+      "businessArea": "suitecloud",
       "version": "1.0.0",
       "author": {
-        "id": "author-2",
-        "name": "Jane Smith",
-        "avatar": ""
-      },
-      "rating": {
-        "average": 4.9,
-        "count": 67
-      },
-      "downloads": 342,
-      "tags": ["records", "management", "claude", "skill"],
-      "createdAt": "2024-01-05T10:00:00Z",
-      "updatedAt": "2024-01-22T14:00:00Z",
-      "metadata": {
-        "name": "netsuite-record-manager",
-        "description": "Manage NetSuite records efficiently with advanced search and filtering capabilities",
-        "version": "1.0.0",
-        "author": "jane-smith",
-        "repository": "netsuite-skills/record-manager",
-        "license": "MIT",
-        "marketplace": true,
-        "stars": 342,
-        "forks": 45,
-        "tags": ["records", "management", "claude", "netsuite"],
-        "dependencies": []
-      },
-      "skillContent": "---\nname: netsuite-record-manager\ndescription: Manage NetSuite records efficiently with advanced search and filtering capabilities\n---\n\n# NetSuite Record Manager\n\nEfficiently manage NetSuite records with advanced search and filtering capabilities.\n\n## When to Use\n\nUse this skill when you need to:\n\n* Search for NetSuite records across different record types\n* Create new records with proper field mapping\n* Update existing records with validation\n* Delete records with proper cleanup\n* Filter records based on complex criteria\n\n## Guidelines\n\n### Record Search\n\nWhen searching for records:\n\n* Always specify the record type explicitly (e.g., customer, item, transaction)\n* Use proper NetSuite search filters and operators\n* Consider performance implications for large datasets\n* Return only necessary fields to optimize response time\n* Use saved searches when available for better performance\n\n### Record Creation\n\nWhen creating records:\n\n* Validate all required fields before creation\n* Map external data to NetSuite field IDs correctly\n* Handle custom fields appropriately\n* Set proper default values where applicable\n* Return the created record ID for reference\n* Handle duplicate detection when applicable\n\n### Record Updates\n\nWhen updating records:\n\n* Always fetch the current record state first\n* Use proper field-level updates to avoid overwriting\n* Validate data types and constraints\n* Handle version conflicts gracefully\n* Log changes for audit purposes\n* Respect field-level permissions and restrictions\n\n### Record Deletion\n\nWhen deleting records:\n\n* Verify record dependencies before deletion\n* Handle cascading deletions appropriately\n* Provide clear confirmation messages\n* Log deletion actions for audit\n* Respect deletion restrictions and permissions\n\n## Best Practices\n\n* Always use proper error handling for API calls\n* Implement retry logic for transient failures\n* Cache frequently accessed record types\n* Use batch operations when possible\n* Respect NetSuite governance limits\n* Validate all inputs before processing\n* Use transaction-safe operations when modifying multiple records"
-    },
-    {
-      "id": "skill-2",
-      "title": "NetSuite Report Generator",
-      "description": "Generate custom NetSuite reports using natural language queries",
-      "content": "{\n  \"name\": \"netsuite-report-generator\",\n  \"description\": \"Generate NetSuite reports from natural language\",\n  \"tools\": [\"search\", \"analyze\", \"format\"],\n  \"parameters\": {\n    \"reportType\": \"string\",\n    \"dateRange\": \"object\"\n  }\n}",
-      "category": "reporting",
-      "version": "1.2.0",
-      "author": {
-        "id": "author-3",
-        "name": "Mike Johnson",
-        "avatar": ""
-      },
-      "rating": {
-        "average": 4.7,
-        "count": 54
-      },
-      "downloads": 267,
-      "tags": ["reports", "analytics", "claude", "skill"],
-      "createdAt": "2024-01-07T08:00:00Z",
-      "updatedAt": "2024-01-20T16:00:00Z",
-      "metadata": {
-        "name": "netsuite-report-generator",
-        "description": "Generate custom NetSuite reports using natural language queries",
-        "version": "1.2.0",
-        "author": "mike-johnson",
-        "repository": "netsuite-skills/report-generator",
-        "license": "MIT",
-        "marketplace": true,
-        "stars": 267,
-        "forks": 32,
-        "tags": ["reports", "analytics", "claude", "netsuite"],
-        "dependencies": []
-      },
-      "skillContent": "---\nname: netsuite-report-generator\ndescription: Generate custom NetSuite reports using natural language queries\n---\n\n# NetSuite Report Generator\n\nGenerate custom NetSuite reports from natural language queries with intelligent interpretation and formatting.\n\n## When to Use\n\nUse this skill when you need to:\n\n* Create financial reports (P&L, Balance Sheet, Cash Flow)\n* Generate sales analytics and performance reports\n* Build custom transaction reports\n* Create inventory and warehouse reports\n* Generate employee and HR reports\n* Analyze data trends and patterns\n* Export data in various formats\n\n## Guidelines\n\n### Natural Language Processing\n\nWhen interpreting user queries:\n\n* Extract key entities (record types, date ranges, metrics)\n* Identify aggregation requirements (sum, average, count)\n* Recognize filter conditions and criteria\n* Understand sorting and grouping preferences\n* Handle ambiguous terms with context\n* Clarify requirements when queries are unclear\n\n### Report Design\n\nWhen designing reports:\n\n* Understand the user's intent from natural language queries\n* Map query requirements to NetSuite report types\n* Select appropriate columns and filters\n* Configure proper date ranges and groupings\n* Format output for readability\n* Consider user's role and permissions\n\n### Report Execution\n\nWhen executing reports:\n\n* Use saved searches when possible for performance\n* Apply proper date range filters\n* Handle large datasets with pagination\n* Format numbers and dates consistently\n* Include proper headers and footers\n* Respect NetSuite governance limits\n* Provide progress indicators for long-running reports\n\n### Output Formatting\n\nWhen formatting results:\n\n* Use appropriate number formats (currency, percentages)\n* Apply consistent date formatting\n* Include totals and subtotals where relevant\n* Add visual separators for readability\n* Export to common formats (CSV, Excel, PDF) when requested\n* Maintain data accuracy during formatting\n\n## Best Practices\n\n* Cache frequently accessed report configurations\n* Validate user permissions before report generation\n* Handle errors gracefully with clear messages\n* Optimize queries for performance\n* Document report parameters and filters\n* Test reports with sample data before production use"
-    },
-    {
-      "id": "skill-3",
-      "title": "NetSuite Workflow Automation",
-      "description": "Automate NetSuite workflows with intelligent decision-making",
-      "content": "{\n  \"name\": \"netsuite-workflow-automation\",\n  \"description\": \"Automate NetSuite workflows\",\n  \"tools\": [\"trigger\", \"evaluate\", \"execute\"],\n  \"parameters\": {\n    \"workflowId\": \"string\",\n    \"conditions\": \"object\"\n  }\n}",
-      "category": "automation",
-      "version": "2.0.0",
-      "dependencies": ["netsuite-record-manager"],
-      "author": {
-        "id": "author-4",
-        "name": "Sarah Williams",
+        "id": "author-1",
+        "name": "NetSuite Marketplace",
         "avatar": ""
       },
       "rating": {
         "average": 4.8,
-        "count": 41
+        "count": 0
       },
-      "downloads": 198,
-      "tags": ["automation", "workflow", "claude", "skill"],
-      "createdAt": "2024-01-09T12:00:00Z",
-      "updatedAt": "2024-01-19T10:00:00Z",
+      "downloads": 0,
+      "tags": ["suiteql", "query", "data", "reporting", "suitecloud"],
+      "createdAt": "2024-01-15T10:00:00Z",
+      "updatedAt": "2024-01-15T10:00:00Z",
       "metadata": {
-        "name": "netsuite-workflow-automation",
-        "description": "Automate NetSuite workflows with intelligent decision-making",
-        "version": "2.0.0",
-        "author": "sarah-williams",
-        "repository": "netsuite-skills/workflow-automation",
+        "name": "netsuite-suiteql-helper",
+        "description": "Write and optimize SuiteQL queries for NetSuite. Use when building reports, data exports, or analyzing NetSuite records.",
+        "version": "1.0.0",
+        "author": "netsuite-marketplace",
         "license": "MIT",
         "marketplace": true,
-        "stars": 198,
-        "forks": 28,
-        "tags": ["automation", "workflow", "claude", "netsuite"],
-        "dependencies": ["netsuite-record-manager"]
+        "tags": ["suiteql", "query", "data", "netsuite"]
       },
-      "skillContent": "---\nname: netsuite-workflow-automation\ndescription: Automate NetSuite workflows with intelligent decision-making\n---\n\n# NetSuite Workflow Automation\n\nAutomate NetSuite workflows with intelligent decision-making and conditional logic.\n\n## When to Use\n\nUse this skill when you need to:\n\n* Automate repetitive business processes\n* Implement conditional workflow logic\n* Trigger workflows based on record changes\n* Execute multi-step automation sequences\n* Handle workflow errors and retries\n* Streamline approval processes\n* Automate data transformations\n\n## Guidelines\n\n### Workflow Triggering\n\nWhen triggering workflows:\n\n* Identify the appropriate trigger event (create, update, delete)\n* Evaluate trigger conditions before execution\n* Handle concurrent workflow executions\n* Respect workflow execution limits\n* Log all workflow triggers for audit\n* Prevent infinite loops and circular dependencies\n\n### Condition Evaluation\n\nWhen evaluating conditions:\n\n* Parse complex conditional logic correctly\n* Handle multiple condition types (field, formula, script)\n* Evaluate conditions in proper order\n* Handle null and empty values appropriately\n* Provide clear error messages for failed conditions\n* Support nested and compound conditions\n\n### Workflow Execution\n\nWhen executing workflows:\n\n* Execute workflow actions in sequence\n* Handle action failures gracefully\n* Support parallel action execution where possible\n* Track workflow execution status\n* Implement proper timeout handling\n* Respect action dependencies and prerequisites\n\n### Error Handling\n\nWhen handling errors:\n\n* Catch and log all workflow errors\n* Implement retry logic for transient failures\n* Provide meaningful error messages\n* Rollback changes when appropriate\n* Notify administrators of critical failures\n* Maintain workflow state during error recovery\n\n## Best Practices\n\n* Use workflow states to track progress\n* Implement idempotent workflow actions\n* Test workflows in sandbox first\n* Monitor workflow performance\n* Document workflow logic clearly\n* Version control workflow definitions\n* Review and optimize workflow performance regularly\n* Use workflow templates for common patterns"
+      "skillContent": "---\nname: netsuite-suiteql-helper\ndescription: Write and optimize SuiteQL queries for NetSuite. Use when building reports, data exports, or analyzing NetSuite records.\n---\n\n# NetSuite SuiteQL Helper\n\n## Quick Reference\n\nSuiteQL is NetSuite's SQL-like query language for accessing record data. Use SuiteQL when you need:\n- Complex data joins across multiple record types\n- Aggregations and calculations\n- Performance-optimized queries\n- Direct database access\n\n## Common Patterns\n\n### Customer Queries\n```sql\nSELECT customer.id, customer.entityid, customer.companyname, customer.balance\nFROM customer\nWHERE customer.balance > 10000\nORDER BY customer.balance DESC\n```\n\n### Transaction Queries\n```sql\nSELECT transaction.id, transaction.tranid, transaction.trandate, transaction.total\nFROM transaction\nWHERE transaction.type = 'SalesOrd'\n  AND transaction.trandate >= '2024-01-01'\n```\n\n### Item/Inventory Queries\n```sql\nSELECT item.id, item.itemid, item.displayname, itemlocation.quantityonhand\nFROM item\nINNER JOIN itemlocation ON item.id = itemlocation.item\nWHERE itemlocation.location = 1\n  AND itemlocation.quantityonhand < item.reorderpoint\n```\n\n## MCP Integration\n\nWhen using with NetSuite MCP tools, use `NetSuite:runCustomSuiteQL` to execute queries:\n\n```\nRun this SuiteQL query: SELECT * FROM customer WHERE balance > 10000\n```\n\n## Best Practices\n\n- Always use read-only queries (no INSERT/UPDATE/DELETE)\n- Include WHERE clauses to limit results\n- Use proper JOINs instead of subqueries when possible\n- Test queries in SuiteQL Query Tool first\n- Be mindful of governance limits\n- Use field IDs, not internal IDs in WHERE clauses\n\n## Common Fields\n\n- Customer: id, entityid, companyname, balance, email\n- Transaction: id, tranid, trandate, type, total, status\n- Item: id, itemid, displayname, baseprice\n- ItemLocation: item, location, quantityonhand, reorderpoint"
     },
     {
-      "id": "skill-4",
-      "title": "NetSuite Data Validator",
-      "description": "Validate and clean NetSuite data with comprehensive checks",
-      "content": "{\n  \"name\": \"netsuite-data-validator\",\n  \"description\": \"Validate NetSuite data integrity\",\n  \"tools\": [\"validate\", \"clean\", \"report\"],\n  \"parameters\": {\n    \"validationRules\": \"array\",\n    \"strictMode\": \"boolean\"\n  }\n}",
-      "category": "data-quality",
-      "version": "1.1.0",
+      "id": "skill-suitescript-1",
+      "title": "SuiteScript Debugger",
+      "description": "Debug SuiteScript 2.x errors and optimize script performance",
+      "content": "SuiteScript debugging and optimization assistance",
+      "format": "skill",
+      "businessArea": "suitecloud",
+      "version": "1.0.0",
       "author": {
-        "id": "author-5",
-        "name": "David Brown",
+        "id": "author-1",
+        "name": "NetSuite Marketplace",
+        "avatar": ""
+      },
+      "rating": {
+        "average": 4.7,
+        "count": 0
+      },
+      "downloads": 0,
+      "tags": ["suitescript", "debugging", "development", "optimization"],
+      "createdAt": "2024-01-15T10:00:00Z",
+      "updatedAt": "2024-01-15T10:00:00Z",
+      "metadata": {
+        "name": "suitescript-debugger",
+        "description": "Debug SuiteScript 2.x errors and optimize script performance. Use when encountering script errors or governance issues.",
+        "version": "1.0.0",
+        "author": "netsuite-marketplace",
+        "license": "MIT",
+        "marketplace": true,
+        "tags": ["suitescript", "debugging", "netsuite"]
+      },
+      "skillContent": "---\nname: suitescript-debugger\ndescription: Debug SuiteScript 2.x errors and optimize script performance. Use when encountering script errors or governance issues.\n---\n\n# SuiteScript Debugger\n\n## Error Analysis\n\nWhen debugging SuiteScript errors:\n\n1. **Identify the error type**:\n   - Syntax errors (check script syntax)\n   - Runtime errors (check record access, field existence)\n   - Governance errors (check usage limits)\n   - Type errors (check data types)\n\n2. **Check the error message**:\n   - Look for specific line numbers\n   - Identify missing modules or functions\n   - Check for undefined variables\n\n3. **Review script context**:\n   - Script type (User Event, Scheduled, etc.)\n   - Execution context (before/after submit)\n   - Record type being processed\n\n## Common Issues\n\n### Governance Limits\n\n```javascript\n// Check governance usage\nvar usage = runtime.getCurrentScript().getRemainingUsage();\nlog.debug('Remaining usage', usage);\n\n// Optimize searches\nvar search = search.create({...});\nsearch.run().each(function(result) {\n  // Process each result\n  return true; // Continue\n});\n```\n\n### Record Locking\n\n```javascript\n// Use try-catch for record locking\nvar record = record.load({...});\ntry {\n  record.setValue('field', value);\n  record.save();\n} catch (e) {\n  if (e.name === 'RECORD_LOCKED') {\n    // Handle lock error\n  }\n}\n```\n\n### Search Optimization\n\n```javascript\n// Use search columns efficiently\nvar search = search.create({\n  type: 'customer',\n  filters: [\n    ['balance', 'greaterthan', 1000]\n  ],\n  columns: ['entityid', 'companyname', 'balance'] // Only needed columns\n});\n```\n\n## Debugging Workflow\n\n1. Enable script logging\n2. Add log.debug() statements at key points\n3. Check execution log in NetSuite\n4. Use SuiteScript Debugger for step-through\n5. Test in sandbox first\n\n## Performance Tips\n\n- Minimize search result processing\n- Use batch processing for large datasets\n- Cache frequently accessed data\n- Avoid nested searches when possible\n- Use getValue/setValue efficiently"
+    },
+    {
+      "id": "skill-saved-search-1",
+      "title": "NetSuite Saved Search Builder",
+      "description": "Build and optimize Saved Searches for reporting and workflows",
+      "content": "Saved Search creation and optimization guidance",
+      "format": "skill",
+      "businessArea": "admin",
+      "version": "1.0.0",
+      "author": {
+        "id": "author-1",
+        "name": "NetSuite Marketplace",
+        "avatar": ""
+      },
+      "rating": {
+        "average": 4.6,
+        "count": 0
+      },
+      "downloads": 0,
+      "tags": ["saved-search", "reporting", "admin", "workflow"],
+      "createdAt": "2024-01-15T10:00:00Z",
+      "updatedAt": "2024-01-15T10:00:00Z",
+      "metadata": {
+        "name": "netsuite-saved-search-builder",
+        "description": "Build and optimize Saved Searches for reporting and workflows. Use when creating searches for reports, dashboards, or workflow criteria.",
+        "version": "1.0.0",
+        "author": "netsuite-marketplace",
+        "license": "MIT",
+        "marketplace": true,
+        "tags": ["saved-search", "reporting", "netsuite"]
+      },
+      "skillContent": "---\nname: netsuite-saved-search-builder\ndescription: Build and optimize Saved Searches for reporting and workflows. Use when creating searches for reports, dashboards, or workflow criteria.\n---\n\n# NetSuite Saved Search Builder\n\n## Search Types\n\n- **Transaction**: Sales Orders, Invoices, Purchase Orders\n- **Item**: Inventory items, assemblies\n- **Customer**: Customer records\n- **Employee**: Employee records\n- **Custom Record**: Custom record types\n\n## Common Criteria Patterns\n\n### Date Ranges\n```\nCriteria: Date Field\nCondition: Within\nPeriod: Last 30 Days\n```\n\n### Status Filters\n```\nCriteria: Status\nCondition: Any Of\nValues: [Open, Pending Approval]\n```\n\n### Amount Ranges\n```\nCriteria: Amount\nCondition: Greater Than\nValue: 1000\n```\n\n## Column Selection\n\n### Standard Columns\n- Document Number (tranid)\n- Date (trandate)\n- Amount (amount)\n- Status (status)\n- Customer/Entity (entity)\n\n### Formula Columns\n```\nFormula: CASE WHEN {amount} > 10000 THEN 'High Value' ELSE 'Standard' END\n```\n\n## Grouping and Summaries\n\n- Group by: Customer, Date, Status\n- Summary Type: Sum, Average, Count\n- Summary Label: Custom labels for clarity\n\n## Best Practices\n\n- Use specific criteria to limit results\n- Only include needed columns\n- Test search performance\n- Use formulas for calculated fields\n- Set appropriate permissions\n- Document search purpose\n\n## Workflow Integration\n\nSaved Searches can be used in:\n- Workflow criteria\n- Scheduled reports\n- Dashboard portlets\n- Email notifications\n- Script criteria"
+    },
+    {
+      "id": "skill-admin-1",
+      "title": "NetSuite Administration Guide",
+      "description": "Administrative guidance for NetSuite configuration and management",
+      "content": "NetSuite administration best practices and configuration guidance",
+      "format": "skill",
+      "businessArea": "admin",
+      "version": "1.0.0",
+      "author": {
+        "id": "author-1",
+        "name": "NetSuite Marketplace",
         "avatar": ""
       },
       "rating": {
         "average": 4.5,
-        "count": 33
+        "count": 0
       },
-      "downloads": 145,
-      "tags": ["validation", "data-quality", "claude", "skill"],
-      "createdAt": "2024-01-13T14:00:00Z",
-      "updatedAt": "2024-01-18T11:00:00Z",
+      "downloads": 0,
+      "tags": ["admin", "administration", "configuration", "management"],
+      "createdAt": "2024-01-15T10:00:00Z",
+      "updatedAt": "2024-01-15T10:00:00Z",
       "metadata": {
-        "name": "netsuite-data-validator",
-        "description": "Validate and clean NetSuite data with comprehensive checks",
-        "version": "1.1.0",
-        "author": "david-brown",
-        "repository": "netsuite-skills/data-validator",
+        "name": "netsuite-admin-guide",
+        "description": "Administrative guidance for NetSuite configuration and management. Use when setting up system preferences, managing users, or configuring workflows.",
+        "version": "1.0.0",
+        "author": "netsuite-marketplace",
         "license": "MIT",
         "marketplace": true,
-        "stars": 145,
-        "forks": 19,
-        "tags": ["validation", "data-quality", "claude", "netsuite"],
-        "dependencies": []
+        "tags": ["admin", "administration", "netsuite"]
       },
-      "skillContent": "---\nname: netsuite-data-validator\ndescription: Validate and clean NetSuite data with comprehensive checks\n---\n\n# NetSuite Data Validator\n\nValidate and clean NetSuite data with comprehensive integrity checks and quality assurance.\n\n## When to Use\n\nUse this skill when you need to:\n\n* Validate data before import\n* Check data quality in existing records\n* Clean duplicate or invalid records\n* Verify data consistency across records\n* Prepare data for migration\n* Ensure data compliance with business rules\n* Maintain data integrity over time\n\n## Guidelines\n\n### Validation Rules\n\nWhen defining validation rules:\n\n* Specify field-level validation requirements\n* Define record-level validation constraints\n* Set up cross-record validation rules\n* Configure custom validation logic\n* Handle validation exceptions appropriately\n* Support rule inheritance and overrides\n* Document all validation rules clearly\n\n### Data Type Validation\n\nWhen validating data types:\n\n* Verify field data types match expected formats\n* Validate date formats and ranges\n* Check numeric ranges and constraints\n* Validate text length and patterns\n* Handle null and empty values correctly\n* Support custom field types\n* Validate formula fields appropriately\n\n### Data Quality Checks\n\nWhen performing quality checks:\n\n* Identify duplicate records\n* Detect missing required fields\n* Find inconsistent data across related records\n* Validate reference integrity\n* Check for orphaned records\n* Verify data relationships\n* Identify data anomalies and outliers\n\n### Data Cleaning\n\nWhen cleaning data:\n\n* Remove or merge duplicate records\n* Standardize field formats\n* Fill missing required fields with defaults\n* Correct invalid data values\n* Update inconsistent references\n* Preserve data history when possible\n* Create audit trail for all changes\n\n### Reporting\n\nWhen generating validation reports:\n\n* List all validation errors with context\n* Group errors by type and severity\n* Provide actionable recommendations\n* Include record IDs for easy reference\n* Export reports in multiple formats\n* Include summary statistics\n* Track validation trends over time\n\n## Best Practices\n\n* Run validations in batches for performance\n* Use transaction-safe operations\n* Create validation checkpoints\n* Implement rollback for failed validations\n* Document all validation rules clearly\n* Schedule regular data quality audits\n* Maintain validation rule versioning\n* Provide clear error messages and remediation steps"
+      "skillContent": "---\nname: netsuite-admin-guide\ndescription: Administrative guidance for NetSuite configuration and management. Use when setting up system preferences, managing users, or configuring workflows.\n---\n\n# NetSuite Administration Guide\n\n## User Management\n\n### Creating Users\n1. Setup > Users/Roles > Manage Users\n2. Click New\n3. Enter user details\n4. Assign role(s)\n5. Set access restrictions if needed\n\n### Role Configuration\n- Assign appropriate permissions\n- Use principle of least privilege\n- Review role access regularly\n- Create custom roles for specific needs\n\n## System Preferences\n\n### Company Information\n- Setup > Company > Company Information\n- Update address, phone, tax info\n- Set fiscal year preferences\n\n### General Preferences\n- Setup > Company > General Preferences\n- Configure date formats\n- Set time zone\n- Enable/disable features\n\n## Custom Fields\n\n### Creating Custom Fields\n1. Customization > Forms > Transaction Form Types (or Record Types)\n2. Select form to customize\n3. Click Customize\n4. Add field\n5. Configure field properties\n\n### Field Types\n- Text, Number, Date, Checkbox\n- List/Record (dropdown)\n- Rich Text Editor\n- File Upload\n\n## Workflow Configuration\n\n### Creating Workflows\n1. Customization > Workflow > Workflows\n2. Click New\n3. Set trigger (Before Save, After Submit, etc.)\n4. Add states and actions\n5. Test in sandbox first\n\n### Common Actions\n- Set Field Value\n- Send Email\n- Create Record\n- Change Status\n- Show Message\n\n## Best Practices\n\n- Always test in sandbox\n- Document all customizations\n- Use change management process\n- Review system logs regularly\n- Keep documentation updated\n- Train users on new features\n- Monitor system performance"
     }
   ]
 }
-

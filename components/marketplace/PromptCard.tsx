@@ -2,10 +2,8 @@
 
 import * as React from "react"
 import { Star, User, Calendar, Download as DownloadIcon } from "lucide-react"
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
-import { CopyButton } from "./CopyButton"
-import { DownloadButton } from "./DownloadButton"
 import { Prompt } from "@/types/marketplace"
 import { cn } from "@/lib/utils"
 
@@ -47,10 +45,8 @@ export function PromptCard({ prompt, className, onClick }: PromptCardProps) {
           </div>
         </div>
         <div className="flex items-center gap-2 mt-2">
-          <Badge variant="outline">{prompt.category}</Badge>
-          {prompt.chatbot && (
-            <Badge variant="secondary">{prompt.chatbot}</Badge>
-          )}
+          <Badge variant="outline" className="capitalize">{prompt.format}</Badge>
+          <Badge variant="secondary" className="capitalize">{prompt.businessArea}</Badge>
         </div>
       </CardHeader>
       <CardContent className="flex-1">
@@ -87,22 +83,6 @@ export function PromptCard({ prompt, className, onClick }: PromptCardProps) {
           </div>
         </div>
       </CardContent>
-      <CardFooter className="flex gap-2">
-        <CopyButton
-          content={prompt.content}
-          variant="outline"
-          size="sm"
-          className="flex-1"
-        />
-        <DownloadButton
-          content={prompt.content}
-          filename={`${prompt.title.replace(/\s+/g, "-").toLowerCase()}.txt`}
-          variant="outline"
-          size="sm"
-          className="flex-1"
-        />
-      </CardFooter>
     </Card>
   )
 }
-
