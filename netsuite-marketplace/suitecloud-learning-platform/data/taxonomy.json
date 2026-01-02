@@ -1,0 +1,640 @@
+{
+  "platformFeatures": {
+    "targetPlatform": {
+      "text-enhance": {
+        "id": "text-enhance",
+        "displayName": "Text Enhance",
+        "description": "NetSuite's native AI-powered text enhancement feature for improving field content",
+        "category": "native",
+        "icon": "Type"
+      },
+      "prompt-studio": {
+        "id": "prompt-studio",
+        "displayName": "Prompt Studio",
+        "description": "NetSuite's prompt template builder for creating reusable AI prompts",
+        "category": "native",
+        "icon": "Sparkles"
+      },
+      "advisor": {
+        "id": "advisor",
+        "displayName": "NetSuite Advisor",
+        "description": "NetSuite's AI chatbot assistant for querying and analyzing NetSuite data",
+        "category": "native",
+        "icon": "MessageSquare"
+      },
+      "mcp": {
+        "id": "mcp",
+        "displayName": "MCP",
+        "description": "Model Context Protocol integration for connecting AI assistants to NetSuite",
+        "category": "integration",
+        "icon": "Atom"
+      },
+      "claude": {
+        "id": "claude",
+        "displayName": "Claude",
+        "description": "Anthropic's Claude AI assistant",
+        "category": "ai-assistant",
+        "icon": "Bot"
+      },
+      "chatgpt": {
+        "id": "chatgpt",
+        "displayName": "ChatGPT",
+        "description": "OpenAI's ChatGPT AI assistant",
+        "category": "ai-assistant",
+        "icon": "Bot"
+      }
+    },
+    "format": {
+      "mcp": {
+        "id": "mcp",
+        "displayName": "MCP",
+        "description": "Model Context Protocol prompt format for AI assistant integration",
+        "category": "integration"
+      },
+      "general": {
+        "id": "general",
+        "displayName": "General",
+        "description": "General-purpose prompt format usable across multiple platforms",
+        "category": "general"
+      },
+      "skill": {
+        "id": "skill",
+        "displayName": "Skill",
+        "description": "Comprehensive skill set for NetSuite development and administration",
+        "category": "skill"
+      }
+    }
+  },
+  "businessAreas": {
+    "accounting": {
+      "id": "accounting",
+      "displayName": "Accounting",
+      "description": "Financial management, GL accounts, transactions, and accounting workflows",
+      "modules": ["General Ledger", "Accounts Payable", "Accounts Receivable", "Banking", "Fixed Assets", "Advanced Financials", "Advanced Electronic Bank Payments", "Revenue Management", "Fixed Assets Management", "Collections (Dunning)", "SuiteBilling", "Electronic Invoices", "Rebates", "Payment Automation", "Bill Capture", "Account Reconciliation", "Close Management & Consolidation", "Corporate Tax Reporting", "Profitability & Cost Management Reporting", "Multi-Book", "SuiteTax"],
+      "icon": "Calculator"
+    },
+    "sales": {
+      "id": "sales",
+      "displayName": "Sales",
+      "description": "Sales orders, opportunities, revenue tracking, and sales management",
+      "modules": ["Sales Orders", "Opportunities", "Quotes", "Estimates", "Revenue Recognition", "Configure Price Quote", "Advanced Order Management"],
+      "icon": "TrendingUp"
+    },
+    "inventory": {
+      "id": "inventory",
+      "displayName": "Inventory",
+      "description": "Inventory management, stock levels, items, and warehouse operations",
+      "modules": ["Inventory", "Items", "Warehouse Management", "Inventory Costing", "Inventory Adjustments", "Advanced Inventory", "Smart Count", "Warehouse Management System"],
+      "icon": "Package"
+    },
+    "crm": {
+      "id": "crm",
+      "displayName": "CRM",
+      "description": "Customer relationship management, contacts, leads, and customer data",
+      "modules": ["CRM", "Contacts", "Leads", "Cases", "Marketing", "Customer Relationship Management", "Suite Commerce", "MyAccount", "Instore"],
+      "icon": "Users"
+    },
+    "suitecloud": {
+      "id": "suitecloud",
+      "displayName": "SuiteCloud",
+      "description": "NetSuite development platform including SuiteScript, SuiteQL, and customization",
+      "modules": ["SuiteScript", "SuiteQL", "SuiteFlow", "SuiteBuilder", "SuiteAnalytics", "Sandbox", "SuiteCloud+", "NetSuite Connector"],
+      "icon": "Code"
+    },
+    "admin": {
+      "id": "admin",
+      "displayName": "Administration",
+      "description": "System administration, configuration, user management, and security",
+      "modules": ["User Management", "Roles & Permissions", "Customization", "Workflows", "System Preferences", "Learning Cloud Support", "Premium Support", "Disaster Recovery", "Narrative Reporting", "Analytics Workbooks", "Suite Analytics Connect", "Analytics Warehouse", "Compliance 360"],
+      "icon": "Settings"
+    },
+    "manufacturing": {
+      "id": "manufacturing",
+      "displayName": "Manufacturing",
+      "description": "Manufacturing operations, work orders, and production management",
+      "modules": ["Work Orders", "Assembly Items", "Bill of Materials", "Production Planning", "Work Orders & Assembly", "WIP & Routings", "Advanced Manufacturing", "Quality Management"],
+      "icon": "Factory"
+    },
+    "field-service": {
+      "id": "field-service",
+      "displayName": "Field Service",
+      "description": "Field service management, service calls, and technician scheduling",
+      "modules": ["Service Calls", "Resources", "Scheduling", "Service Items", "Field Service Management"],
+      "icon": "Wrench"
+    },
+    "forecasting": {
+      "id": "forecasting",
+      "displayName": "Forecasting",
+      "description": "Demand forecasting, sales forecasting, and predictive analytics",
+      "modules": ["Demand Planning", "Sales Forecasting", "Inventory Forecasting", "Planning & Budgeting"],
+      "icon": "TrendingUp"
+    },
+    "support": {
+      "id": "support",
+      "displayName": "Support",
+      "description": "Customer support, cases, and issue tracking",
+      "modules": ["Cases", "Issue Tracking", "Customer Support", "Advanced Customer Support"],
+      "icon": "Headphones"
+    },
+    "procurement": {
+      "id": "procurement",
+      "displayName": "Procurement",
+      "description": "Procurement, purchasing, and supplier management",
+      "modules": ["Suite Procurement (Punchout)", "Advanced Procurement"],
+      "icon": "ShoppingCart"
+    },
+    "project-mgmt": {
+      "id": "project-mgmt",
+      "displayName": "Project Management",
+      "description": "Project tracking, resource allocation, and project accounting",
+      "modules": ["SuiteProjects", "SuiteProjects Pro (OpenAir)"],
+      "icon": "Briefcase"
+    },
+    "hr": {
+      "id": "hr",
+      "displayName": "Human Resources",
+      "description": "HR management, payroll, and workforce administration",
+      "modules": ["SuitePeople HR", "Payroll", "Incentive Comp", "Workforce Management", "Performance Management"],
+      "icon": "Users"
+    },
+    "international": {
+      "id": "international",
+      "displayName": "International",
+      "description": "Multi-currency, multi-subsidiary, and global operations",
+      "modules": ["OneWorld", "Countries / Currencies"],
+      "icon": "Globe"
+    }
+  },
+  "modules": {
+    "General Ledger": {
+      "id": "general-ledger",
+      "displayName": "General Ledger",
+      "businessArea": "accounting",
+      "description": "Chart of accounts and general ledger management"
+    },
+    "Accounts Payable": {
+      "id": "accounts-payable",
+      "displayName": "Accounts Payable",
+      "businessArea": "accounting",
+      "description": "Vendor bills and payment management"
+    },
+    "Accounts Receivable": {
+      "id": "accounts-receivable",
+      "displayName": "Accounts Receivable",
+      "businessArea": "accounting",
+      "description": "Customer invoices and payment collection"
+    },
+    "Sales Orders": {
+      "id": "sales-orders",
+      "displayName": "Sales Orders",
+      "businessArea": "sales",
+      "description": "Sales order creation and management"
+    },
+    "Opportunities": {
+      "id": "opportunities",
+      "displayName": "Opportunities",
+      "businessArea": "sales",
+      "description": "Sales opportunity tracking and pipeline management"
+    },
+    "Inventory": {
+      "id": "inventory",
+      "displayName": "Inventory",
+      "businessArea": "inventory",
+      "description": "Inventory item and stock level management"
+    },
+    "SuiteScript": {
+      "id": "suitescript",
+      "displayName": "SuiteScript",
+      "businessArea": "suitecloud",
+      "description": "NetSuite's JavaScript-based scripting platform"
+    },
+    "SuiteQL": {
+      "id": "suiteql",
+      "displayName": "SuiteQL",
+      "businessArea": "suitecloud",
+      "description": "SQL-like query language for NetSuite data access"
+    },
+    "Advanced Financials": {
+      "id": "advanced-financials",
+      "displayName": "Advanced Financials",
+      "businessArea": "accounting",
+      "description": "Advanced financial management including multi-book, intercompany, and consolidated financials",
+      "category": "Financials"
+    },
+    "Advanced Electronic Bank Payments": {
+      "id": "advanced-electronic-bank-payments",
+      "displayName": "Advanced Electronic Bank Payments",
+      "businessArea": "accounting",
+      "description": "Automated electronic payment processing and bank file generation",
+      "category": "Financials"
+    },
+    "Revenue Management": {
+      "id": "revenue-management",
+      "displayName": "Revenue Management",
+      "businessArea": "accounting",
+      "description": "Revenue recognition, allocation, and compliance management",
+      "category": "Financials"
+    },
+    "Fixed Assets Management": {
+      "id": "fixed-assets-management",
+      "displayName": "Fixed Assets Management",
+      "businessArea": "accounting",
+      "description": "Fixed asset tracking, depreciation, and asset lifecycle management",
+      "category": "Financials"
+    },
+    "Collections (Dunning)": {
+      "id": "collections-dunning",
+      "displayName": "Collections (Dunning)",
+      "businessArea": "accounting",
+      "description": "Automated collections management and dunning letter generation",
+      "category": "Financials"
+    },
+    "SuiteBilling": {
+      "id": "suitebilling",
+      "displayName": "SuiteBilling",
+      "businessArea": "accounting",
+      "description": "Subscription billing and recurring revenue management",
+      "category": "Financials"
+    },
+    "Electronic Invoices": {
+      "id": "electronic-invoices",
+      "displayName": "Electronic Invoices",
+      "businessArea": "accounting",
+      "description": "Electronic invoice generation and delivery",
+      "category": "Financials"
+    },
+    "Rebates": {
+      "id": "rebates",
+      "displayName": "Rebates",
+      "businessArea": "accounting",
+      "description": "Rebate calculation, tracking, and payment management",
+      "category": "Financials"
+    },
+    "Learning Cloud Support": {
+      "id": "learning-cloud-support",
+      "displayName": "Learning Cloud Support",
+      "businessArea": "admin",
+      "description": "NetSuite Learning Cloud Support resources and training",
+      "category": "Refine"
+    },
+    "Premium Support": {
+      "id": "premium-support",
+      "displayName": "Premium Support",
+      "businessArea": "admin",
+      "description": "Premium NetSuite support services and priority assistance",
+      "category": "Refine"
+    },
+    "Advanced Customer Support": {
+      "id": "advanced-customer-support",
+      "displayName": "Advanced Customer Support",
+      "businessArea": "support",
+      "description": "Advanced customer support features and case management",
+      "category": "Refine"
+    },
+    "Sandbox": {
+      "id": "sandbox",
+      "displayName": "Sandbox",
+      "businessArea": "suitecloud",
+      "description": "NetSuite sandbox environment for testing and development",
+      "category": "Refine"
+    },
+    "Disaster Recovery": {
+      "id": "disaster-recovery",
+      "displayName": "Disaster Recovery",
+      "businessArea": "admin",
+      "description": "Disaster recovery and business continuity services",
+      "category": "Refine"
+    },
+    "SuiteCloud+": {
+      "id": "suitecloud-plus",
+      "displayName": "SuiteCloud+",
+      "businessArea": "suitecloud",
+      "description": "Enhanced SuiteCloud development platform features",
+      "category": "Refine"
+    },
+    "Suite Procurement (Punchout)": {
+      "id": "suite-procurement-punchout",
+      "displayName": "Suite Procurement (Punchout)",
+      "businessArea": "procurement",
+      "description": "Punchout catalog integration for procurement",
+      "category": "Procurement"
+    },
+    "Advanced Procurement": {
+      "id": "advanced-procurement",
+      "displayName": "Advanced Procurement",
+      "businessArea": "procurement",
+      "description": "Advanced procurement and purchasing management",
+      "category": "Procurement"
+    },
+    "Payment Automation": {
+      "id": "payment-automation",
+      "displayName": "Payment Automation",
+      "businessArea": "accounting",
+      "description": "Automated payment processing and approval workflows",
+      "category": "Procurement"
+    },
+    "Bill Capture": {
+      "id": "bill-capture",
+      "displayName": "Bill Capture",
+      "businessArea": "accounting",
+      "description": "Automated bill capture and data extraction",
+      "category": "Procurement"
+    },
+    "Planning & Budgeting": {
+      "id": "planning-budgeting",
+      "displayName": "Planning & Budgeting",
+      "businessArea": "forecasting",
+      "description": "Financial planning, budgeting, and forecasting",
+      "category": "Enterprise Performance Management"
+    },
+    "Account Reconciliation": {
+      "id": "account-reconciliation",
+      "displayName": "Account Reconciliation",
+      "businessArea": "accounting",
+      "description": "Automated account reconciliation and matching",
+      "category": "Enterprise Performance Management"
+    },
+    "Close Management & Consolidation": {
+      "id": "close-management-consolidation",
+      "displayName": "Close Management & Consolidation",
+      "businessArea": "accounting",
+      "description": "Financial close management and multi-entity consolidation",
+      "category": "Enterprise Performance Management"
+    },
+    "Corporate Tax Reporting": {
+      "id": "corporate-tax-reporting",
+      "displayName": "Corporate Tax Reporting",
+      "businessArea": "accounting",
+      "description": "Corporate tax calculation and reporting",
+      "category": "Enterprise Performance Management"
+    },
+    "Narrative Reporting": {
+      "id": "narrative-reporting",
+      "displayName": "Narrative Reporting",
+      "businessArea": "admin",
+      "description": "Narrative and text-based financial reporting",
+      "category": "Enterprise Performance Management"
+    },
+    "Profitability & Cost Management Reporting": {
+      "id": "profitability-cost-management-reporting",
+      "displayName": "Profitability & Cost Management Reporting",
+      "businessArea": "accounting",
+      "description": "Profitability analysis and cost management reporting",
+      "category": "Enterprise Performance Management"
+    },
+    "Customer Relationship Management": {
+      "id": "customer-relationship-management",
+      "displayName": "Customer Relationship Management",
+      "businessArea": "crm",
+      "description": "Comprehensive CRM functionality for customer management",
+      "category": "CRM/eComm"
+    },
+    "Configure Price Quote": {
+      "id": "configure-price-quote",
+      "displayName": "Configure Price Quote",
+      "businessArea": "sales",
+      "description": "Configure, price, and quote (CPQ) functionality",
+      "category": "CRM/eComm"
+    },
+    "Suite Commerce": {
+      "id": "suite-commerce",
+      "displayName": "Suite Commerce",
+      "businessArea": "crm",
+      "description": "E-commerce platform integrated with NetSuite",
+      "category": "CRM/eComm"
+    },
+    "MyAccount": {
+      "id": "myaccount",
+      "displayName": "MyAccount",
+      "businessArea": "crm",
+      "description": "Customer self-service portal",
+      "category": "CRM/eComm"
+    },
+    "Instore": {
+      "id": "instore",
+      "displayName": "Instore",
+      "businessArea": "crm",
+      "description": "Point-of-sale and in-store retail management",
+      "category": "CRM/eComm"
+    },
+    "NetSuite Connector": {
+      "id": "netsuite-connector",
+      "displayName": "NetSuite Connector",
+      "businessArea": "suitecloud",
+      "description": "Integration connector for connecting external systems",
+      "category": "CRM/eComm"
+    },
+    "SuiteProjects": {
+      "id": "suiteprojects",
+      "displayName": "SuiteProjects",
+      "businessArea": "project-mgmt",
+      "description": "Project management and project accounting",
+      "category": "Project Management"
+    },
+    "SuiteProjects Pro (OpenAir)": {
+      "id": "suiteprojects-pro-openair",
+      "displayName": "SuiteProjects Pro (OpenAir)",
+      "businessArea": "project-mgmt",
+      "description": "Advanced project management with OpenAir integration",
+      "category": "Project Management"
+    },
+    "Field Service Management": {
+      "id": "field-service-management",
+      "displayName": "Field Service Management",
+      "businessArea": "field-service",
+      "description": "Field service operations and technician management",
+      "category": "Project Management"
+    },
+    "Advanced Inventory": {
+      "id": "advanced-inventory",
+      "displayName": "Advanced Inventory",
+      "businessArea": "inventory",
+      "description": "Advanced inventory management features",
+      "category": "Inventory"
+    },
+    "Demand Planning": {
+      "id": "demand-planning",
+      "displayName": "Demand Planning",
+      "businessArea": "forecasting",
+      "description": "Demand forecasting and planning",
+      "category": "Inventory"
+    },
+    "Smart Count": {
+      "id": "smart-count",
+      "displayName": "Smart Count",
+      "businessArea": "inventory",
+      "description": "Intelligent cycle counting and inventory auditing",
+      "category": "Inventory"
+    },
+    "Advanced Order Management": {
+      "id": "advanced-order-management",
+      "displayName": "Advanced Order Management",
+      "businessArea": "sales",
+      "description": "Advanced order fulfillment and management",
+      "category": "Inventory"
+    },
+    "Warehouse Management System": {
+      "id": "warehouse-management-system",
+      "displayName": "Warehouse Management System",
+      "businessArea": "inventory",
+      "description": "Comprehensive warehouse management and operations",
+      "category": "Inventory"
+    },
+    "Work Orders & Assembly": {
+      "id": "work-orders-assembly",
+      "displayName": "Work Orders & Assembly",
+      "businessArea": "manufacturing",
+      "description": "Work order creation and assembly management",
+      "category": "MFG"
+    },
+    "WIP & Routings": {
+      "id": "wip-routings",
+      "displayName": "WIP & Routings",
+      "businessArea": "manufacturing",
+      "description": "Work-in-progress tracking and manufacturing routings",
+      "category": "MFG"
+    },
+    "Advanced Manufacturing": {
+      "id": "advanced-manufacturing",
+      "displayName": "Advanced Manufacturing",
+      "businessArea": "manufacturing",
+      "description": "Advanced manufacturing operations and production management",
+      "category": "MFG"
+    },
+    "Quality Management": {
+      "id": "quality-management",
+      "displayName": "Quality Management",
+      "businessArea": "manufacturing",
+      "description": "Quality control and inspection management",
+      "category": "MFG"
+    },
+    "Analytics Workbooks": {
+      "id": "analytics-workbooks",
+      "displayName": "Analytics Workbooks",
+      "businessArea": "admin",
+      "description": "Analytics workbooks for data analysis and reporting",
+      "category": "Insights"
+    },
+    "Suite Analytics Connect": {
+      "id": "suite-analytics-connect",
+      "displayName": "Suite Analytics Connect",
+      "businessArea": "admin",
+      "description": "Connect external analytics tools to NetSuite data",
+      "category": "Insights"
+    },
+    "Analytics Warehouse": {
+      "id": "analytics-warehouse",
+      "displayName": "Analytics Warehouse",
+      "businessArea": "admin",
+      "description": "Data warehouse for advanced analytics and reporting",
+      "category": "Insights"
+    },
+    "Compliance 360": {
+      "id": "compliance-360",
+      "displayName": "Compliance 360",
+      "businessArea": "admin",
+      "description": "Comprehensive compliance management and monitoring",
+      "category": "Insights"
+    },
+    "SuitePeople HR": {
+      "id": "suitepeople-hr",
+      "displayName": "SuitePeople HR",
+      "businessArea": "hr",
+      "description": "Human resources management system",
+      "category": "HRIS"
+    },
+    "Payroll": {
+      "id": "payroll",
+      "displayName": "Payroll",
+      "businessArea": "hr",
+      "description": "Payroll processing and management",
+      "category": "HRIS"
+    },
+    "Incentive Comp": {
+      "id": "incentive-comp",
+      "displayName": "Incentive Comp",
+      "businessArea": "hr",
+      "description": "Incentive compensation planning and management",
+      "category": "HRIS"
+    },
+    "Workforce Management": {
+      "id": "workforce-management",
+      "displayName": "Workforce Management",
+      "businessArea": "hr",
+      "description": "Workforce scheduling and time tracking",
+      "category": "HRIS"
+    },
+    "Performance Management": {
+      "id": "performance-management",
+      "displayName": "Performance Management",
+      "businessArea": "hr",
+      "description": "Employee performance reviews and management",
+      "category": "HRIS"
+    },
+    "OneWorld": {
+      "id": "oneworld",
+      "displayName": "OneWorld",
+      "businessArea": "international",
+      "description": "Multi-subsidiary and multi-currency management",
+      "category": "International"
+    },
+    "Countries / Currencies": {
+      "id": "countries-currencies",
+      "displayName": "Countries / Currencies",
+      "businessArea": "international",
+      "description": "Multi-country and multi-currency support",
+      "category": "International"
+    },
+    "Multi-Book": {
+      "id": "multi-book",
+      "displayName": "Multi-Book",
+      "businessArea": "accounting",
+      "description": "Multiple accounting books and reporting standards",
+      "category": "International"
+    },
+    "SuiteTax": {
+      "id": "suitetax",
+      "displayName": "SuiteTax",
+      "businessArea": "accounting",
+      "description": "Automated tax calculation and compliance",
+      "category": "International"
+    }
+  },
+  "skillCapabilities": {
+    "development": {
+      "id": "development",
+      "displayName": "Development",
+      "description": "SuiteScript, SuiteQL, customization, and development skills",
+      "relatedBusinessAreas": ["suitecloud"],
+      "icon": "Code"
+    },
+    "administration": {
+      "id": "administration",
+      "displayName": "Administration",
+      "description": "System audit, user management, roles, and configuration",
+      "relatedBusinessAreas": ["admin"],
+      "icon": "Settings"
+    },
+    "integration": {
+      "id": "integration",
+      "displayName": "Integration",
+      "description": "MCP tools, connectors, APIs, and external integrations",
+      "relatedBusinessAreas": ["suitecloud"],
+      "icon": "Plug"
+    },
+    "analytics": {
+      "id": "analytics",
+      "displayName": "Analytics",
+      "description": "Reporting, dashboards, and data analysis",
+      "relatedBusinessAreas": ["admin", "forecasting"],
+      "icon": "BarChart"
+    },
+    "automation": {
+      "id": "automation",
+      "displayName": "Automation",
+      "description": "Workflows, scheduled scripts, and process automation",
+      "relatedBusinessAreas": ["suitecloud", "admin"],
+      "icon": "Zap"
+    }
+  }
+}

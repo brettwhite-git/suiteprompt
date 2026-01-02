@@ -1,0 +1,1366 @@
+---
+alwaysApply: false
+---
+## 2. Project Type Selection: ACCOUNTCUSTOMIZATION vs SUITEAPP
+
+### Decision Flow
+
+```
+manifest.xml
+    │
+    ├─── projecttype="ACCOUNTCUSTOMIZATION"
+    │    │
+    │    └───► Direct Account Deployment
+    │         • No Publisher ID needed
+    │         • No versioning
+    │         • Files/Objects deployed directly
+    │         • NOT in SuiteApps list
+    │
+    └─── projecttype="SUITEAPP"
+         │
+         ├─── Has <publisherid>com.netsuite</publisherid>?
+         │    │
+         │    ├─── YES ──► Installable SuiteApp Bundle
+         │    │           • Versioned (1.0.0, etc.)
+         │    │           • Appears in "Installed SuiteApps"
+         │    │           • Distributable to multiple accounts
+         │    │           • Professional deployment
+         │    │
+         │    └─── NO ──► Direct SuiteApp Deployment ⭐
+         │                • Still versioned (if specified)
+         │                • Appears in "Installed SuiteApps"
+         │                • Direct deployment (not distributable)
+         │                • Uses default/system publisher
+         │                • Good for dev/testing
+```
+
+### Comparison Table
+
+| Feature | ACCOUNTCUSTOMIZATION | SUITEAPP (with Publisher) | SUITEAPP (no Publisher) |
+|---------|---------------------|---------------------------|-------------------------|
+| **Publisher ID Required** | ❌ No | ✅ Yes | ⚠️ No (uses default) |
+| **Versioning** | ❌ No | ✅ Yes | ⚠️ Optional |
+| **Appears in SuiteApps List** | ❌ No | ✅ Yes | ✅ Yes |--
+| **Distributable** | ❌ No | ✅ Yes | ❌ No |
+| **Direct Deployment** | ✅ Yes | ❌ No | ✅ Yes |
+| **Uninstallable** | ❌ No | ✅ Yes | ✅ Yes |
+| **Use Case** | Account-only | Production | Dev/Testing |
+
+### 1. ACCOUNTCUSTOMIZATION Project
+
+**Manifest Structure:**
+```xml
+<manifest projecttype="ACCOUNTCUSTOMIZATION">
+  <projectname>My Customization</projectname>
+  <frameworkversion>1.0</frameworkversion>
+</manifest>
+```
+
+**Characteristics:**
+- ✅ No publisher ID required
+- ✅ Direct deployment to account
+- ✅ Simple, account-specific customizations
+- ❌ No versioning management
+- ❌ Not distributable as installable bundle
+- ❌ Appears as direct customizations, not in SuiteApps list
+- ❌ **Cannot be automatically reversed or uninstalled**
+
+**Deployment Command:**
+```bash
+suitecloud project:deploy
+```
+
+**Result:**
+- Files uploaded directly to File Cabinet
+- Objects created/updated directly
+- No SuiteApp installation record
+
+### 2. SUITEAPP Project (With Publisher ID)
+
+**Manifest Structure:**
+```xml
+<manifest projecttype="SUITEAPP">
+  <publisherid>com.netsuite</publisherid>
+  <projectid>myapp</projectid>
+  <projectname>My SuiteApp</projectname>
+  <projectversion>1.0.0</projectversion>
+  <frameworkversion>1.0</frameworkversion>
+</manifest>
+```
+
+**Characteristics:**
+- ✅ Publisher ID required (e.g., `com.netsuite`, `com.yourcompany`)
+- ✅ Versioned deployment
+- ✅ Appears in "Installed SuiteApps" list
+- ✅ Can be distributed to multiple accounts
+- ✅ Can be updated with new versions
+- ✅ Professional distribution model
+- ✅ Can be uninstalled via NetSuite UI
+
+**Deployment Command:**
+```bash
+suitecloud project:deploy
+```
+
+**Result:**
+- Creates installable SuiteApp bundle
+- Appears in: `Customization > SuiteBundler > Search & Install Bundles`
+- Shows in: `Customization > SuiteBundler > Installed SuiteApps`
+- Version tracked and manageable
+
+### 3. SUITEAPP Project (Without Publisher ID) ⭐
+
+**Manifest Structure:**
+```xml
+<manifest projecttype="SUITEAPP">
+  <projectname>My SuiteApp</projectname>
+  <frameworkversion>1.0</frameworkversion>
+  <!-- No publisherid, projectid, or projectversion -->
+</manifest>
+```
+
+**Characteristics:**
+- ✅ Can deploy without publisher ID
+- ✅ Still versioned (if projectversion specified)
+- ✅ Appears in "Installed SuiteApps" list
+- ✅ Direct deployment (not distributable bundle)
+- ✅ Can be uninstalled via NetSuite UI
+- ⚠️ Hybrid approach - SuiteApp type but direct deployment
+- ⚠️ May use default publisher ID from account
+
+**Deployment Command:**
+```bash
+suitecloud project:deploy
+```
+
+**Result:**
+- Files deployed to File Cabinet
+- Objects created/updated
+- **Still appears in Installed SuiteApps**
+- Uses account's default publisher or system publisher
+
+### When to Use Each Type
+
+**ACCOUNTCUSTOMIZATION:**
+- Account-specific customizations
+- One-off scripts and workflows
+- Quick deployments
+- No distribution needed
+- **Warning:** Cannot be uninstalled - must manually delete everything
+
+**SUITEAPP (with Publisher):**
+- Production applications
+- Multi-account distribution
+- Professional SuiteApp store
+- Version management critical
+
+**SUITEAPP (without Publisher):** ⭐
+- Development/Testing
+- Single-account SuiteApps
+- Learning/Prototyping
+- Internal tools
+- When you might need to remove it later
+
+### Key Insights
+
+1. **SUITEAPP without Publisher ID** is a valid deployment pattern
+   - You can deploy SUITEAPP projects directly without a publisher ID
+   - They still appear in the Installed SuiteApps list
+   - Useful for development/testing or single-account deployments
+
+2. **Publisher ID is for Distribution**
+   - Publisher ID (`com.netsuite`, `com.yourcompany`) is primarily for:
+     - Creating distributable SuiteApps
+     - Professional branding
+     - Multi-account distribution
+   - Not strictly required for deployment
+
+3. **Project Type Determines Behavior**
+   - `ACCOUNTCUSTOMIZATION` = Always direct deployment, cannot be uninstalled
+   - `SUITEAPP` = Can be either installable bundle OR direct deployment
+   - The presence of `publisherid` influences the deployment mode
+
+---
+
+## 3. Removal and Reversal Procedures
+
+### ⚠️ CRITICAL DIFFERENCE: Account Customization vs SuiteApp
+
+**Account Customization Projects CANNOT be automatically reversed or uninstalled!**
+
+### Account Customization Projects (ACP)
+
+#### ❌ **CANNOT be undone by command**
+
+**Key Facts:**
+- ❌ No `suitecloud project:undeploy` or similar command exists
+- ❌ Cannot remove objects by excluding them from `deploy.xml` and redeploying
+- ❌ No automatic rollback or uninstall capability
+- ✅ **Must be manually deleted** in NetSuite UI
+
+#### How to Remove ACP Deployments:
+
+**Option 1: Manual Deletion in NetSuite UI (Required)**
+
+1. **Delete Custom Objects:**
+   - Go to: `Customization > Forms, Lists, and Records > Lists, Records, & Fields`
+   - Find and delete each custom record, field, script, etc.
+   - Or: `Customization > Scripting > Scripts > Scripts` (for scripts)
+   - Or: `Customization > Scripting > Script Deployments` (for deployments)
+
+2. **Delete File Cabinet Files:**
+   - Go to: `Documents > Files > File Cabinet`
+   - Navigate to the files you deployed
+   - Delete them manually
+
+3. **Remove Account Configuration:**
+   - Go to: `Setup > Company > General Preferences` (or relevant settings)
+   - Manually revert any configuration changes
+
+**Option 2: Import Current State and Remove Objects**
+
+1. **Import current account state:**
+   ```bash
+   suitecloud object:import
+   ```
+
+2. **Manually edit the imported objects:**
+   - Remove the objects you want to delete from your project
+   - **Note:** This doesn't delete them from NetSuite, just removes them from your project
+
+3. **Deploy again:**
+   - Deploying without objects in `deploy.xml` **does NOT remove them from NetSuite**
+   - You still must delete them manually in the UI
+
+#### ⚠️ **Warning:**
+- Once an ACP is deployed, the objects exist independently in NetSuite
+- Removing them from your project does NOT remove them from the account
+- There is NO command-line way to reverse an ACP deployment
+
+### SuiteApp Projects
+
+#### ✅ **CAN be uninstalled**
+
+**Key Facts:**
+- ✅ Can be uninstalled through NetSuite UI
+- ✅ Appears in "Installed SuiteApps" list
+- ✅ Can be removed via SuiteBundler
+- ⚠️ Some objects may still need manual cleanup
+
+#### How to Remove SuiteApp Deployments:
+
+**Option 1: Uninstall via NetSuite UI (Recommended)**
+
+1. **Go to Installed SuiteApps:**
+   - Navigate to: `Customization > SuiteBundler > Search & Install Bundles`
+   - Or: `Customization > SuiteBundler > Installed SuiteApps`
+
+2. **Find your SuiteApp:**
+   - Look for your SuiteApp in the list
+   - Click on it to see details
+
+3. **Uninstall:**
+   - Click "Uninstall" or "Remove" button
+   - Follow the uninstall wizard
+   - This removes most objects automatically
+
+**Option 2: Remove from deploy.xml and Redeploy (Partial)**
+
+1. **Remove objects from `deploy.xml`:**
+   ```xml
+   <deploy>
+       <!-- Remove the objects you want to delete -->
+       <!-- <objects>
+           <path>~/Objects/custrecord_myrecord.xml</path>
+       </objects> -->
+   </deploy>
+   ```
+
+2. **Redeploy:**
+   ```bash
+   suitecloud project:deploy
+   ```
+   
+   **⚠️ Note:** This may not fully remove all objects. Some may need manual deletion.
+
+### Comparison Table: Removal Capabilities
+
+| Feature | Account Customization | SuiteApp |
+|---------|---------------------|----------|
+| **Can be uninstalled via command?** | ❌ No | ❌ No (but can via UI) |
+| **Can be uninstalled via UI?** | ❌ No | ✅ Yes |
+| **Remove by excluding from deploy.xml?** | ❌ No | ⚠️ Partial |
+| **Automatic rollback?** | ❌ No | ❌ No |
+| **Manual deletion required?** | ✅ Yes (always) | ⚠️ Sometimes |
+| **Appears in SuiteApps list?** | ❌ No | ✅ Yes |
+| **Version tracking?** | ❌ No | ✅ Yes |
+
+### Best Practices to Avoid Issues
+
+1. **Always Use `--dryrun` First**
+   ```bash
+   suitecloud project:deploy --dryrun
+   ```
+   - See exactly what will be deployed
+   - Catch issues before deployment
+
+2. **Use `--validate` Before Deploying**
+   ```bash
+   suitecloud project:deploy --validate
+   ```
+   - Validate project structure
+   - Check for errors
+
+3. **For Account Customization:**
+   - ✅ Test in Sandbox first
+   - ✅ Document what you're deploying
+   - ✅ Keep a list of objects created
+   - ✅ Use version control
+   - ⚠️ **Assume you'll need to manually delete everything**
+
+4. **For SuiteApp:**
+   - ✅ Use SuiteApp type for anything you might need to remove
+   - ✅ Test uninstall process in Sandbox
+   - ✅ Document dependencies
+   - ✅ Use proper versioning
+
+5. **Document Your Deployments**
+   Keep a record of:
+   - What objects were created
+   - What files were uploaded
+   - What configurations were changed
+   - When they were deployed
+
+### Deployment Audit Trail
+
+NetSuite provides deployment logs to track what was deployed:
+
+1. **Access Deployment Logs:**
+   - Go to: `Customization > SuiteCloud Development > Deployment Audit Trail`
+   - View all deployment history
+   - See what objects/files were installed
+
+2. **Use Logs for Cleanup:**
+   - Review what was deployed
+   - Use as a checklist for manual deletion
+   - Track deployment dates and versions
+
+### Important Commands Reference
+
+#### Commands That DON'T Exist:
+```bash
+# These commands do NOT exist:
+suitecloud project:undeploy        # ❌ Doesn't exist
+suitecloud project:remove         # ❌ Doesn't exist
+suitecloud project:uninstall       # ❌ Doesn't exist
+suitecloud project:rollback        # ❌ Doesn't exist
+```
+
+#### Commands That DO Exist:
+```bash
+# Preview what will deploy (doesn't actually deploy)
+suitecloud project:deploy --dryrun
+
+# Validate before deploying
+suitecloud project:deploy --validate
+
+# Import objects from account (to see current state)
+suitecloud object:import
+
+# List objects in account
+suitecloud object:list
+
+# List files in account
+suitecloud file:list
+```
+
+### Key Takeaway
+
+**If you might need to remove what you deploy, use SUITEAPP project type, not ACCOUNTCUSTOMIZATION!**
+
+---
+
+## 4. Version Control & Lifecycle Management
+
+### Version Management in `manifest.xml`
+
+SuiteApps use semantic versioning in the `manifest.xml` file:
+
+```xml
+<manifest projecttype="SUITEAPP">
+  <publisherid>com.yourcompany</publisherid>
+  <projectid>my-internal-app</projectid>
+  <projectname>My Internal SuiteApp</projectname>
+  <projectversion>1.2.3</projectversion>  <!-- Semantic versioning -->
+  <frameworkversion>1.0</frameworkversion>
+</manifest>
+```
+
+### Semantic Versioning Best Practices
+
+**Format: `MAJOR.MINOR.PATCH`**
+- **MAJOR**: Breaking changes, incompatible API changes
+- **MINOR**: New features, backward compatible
+- **PATCH**: Bug fixes, backward compatible
+
+**Examples:**
+```
+1.0.0  → Initial release
+1.0.1  → Bug fix
+1.1.0  → New feature added
+2.0.0  → Breaking change
+```
+
+### Git Integration
+
+**Standard Git Workflow:**
+```bash
+# Initialize Git repository
+git init
+
+# Create .gitignore
+echo "node_modules/
+.suitecloud/
+*.log
+build/
+dist/" > .gitignore
+
+# Commit your SuiteApp
+git add .
+git commit -m "Initial SuiteApp v1.0.0"
+
+# Tag releases
+git tag -a v1.0.0 -m "Release version 1.0.0"
+git push origin v1.0.0
+```
+
+### Branching Strategy
+
+**Recommended Branch Structure:**
+```
+main/master          → Production-ready code
+├── develop          → Integration branch
+├── feature/*        → Feature development
+├── release/*        → Release preparation
+└── hotfix/*         → Critical fixes
+```
+
+### Version Updates
+
+**Updating SuiteApp Version:**
+
+1. **Update `manifest.xml`:**
+   ```xml
+   <projectversion>1.1.0</projectversion>  <!-- Increment version -->
+   ```
+
+2. **Deploy new version:**
+   ```bash
+   suitecloud project:deploy
+   ```
+
+3. **NetSuite automatically:**
+   - Detects version change
+   - Updates existing SuiteApp
+   - Tracks version history
+   - Shows in "Installed SuiteApps" with new version
+
+### Environment-Specific Deployments
+
+**Using Authentication IDs for Different Environments:**
+
+```bash
+# Setup different auth IDs for different environments
+suitecloud account:setup --authid sandbox
+suitecloud account:setup --authid staging
+suitecloud account:setup --authid production
+
+# Deploy to specific environment
+suitecloud project:deploy --authid sandbox
+suitecloud project:deploy --authid staging
+suitecloud project:deploy --authid production
+```
+
+**Or use `project.json`:**
+```json
+{
+  "defaultAuthId": "sandbox"  // Change per environment
+}
+```
+
+### Refactoring SuiteApps
+
+#### Updating Objects
+
+1. **Modify object XML files:**
+   ```xml
+   <!-- src/Objects/custrecord_myrecord.xml -->
+   <customrecordtype scriptid="custrecord_myrecord">
+     <name>My Record</name>
+     <!-- Add/remove fields, change configurations -->
+   </customrecordtype>
+   ```
+
+2. **Deploy changes:**
+   ```bash
+   suitecloud project:deploy
+   ```
+
+3. **NetSuite automatically:**
+   - Updates existing objects
+   - Preserves data (if compatible)
+   - Handles field additions/removals
+
+#### Renaming Objects
+
+**⚠️ Careful with Script IDs:**
+
+- **Script IDs cannot be changed** - they're permanent identifiers
+- To "rename" an object:
+  1. Create new object with new script ID
+  2. Migrate data (if needed)
+  3. Update references
+  4. Remove old object (via UI or exclude from deploy.xml)
+
+#### Refactoring Scripts
+
+1. **Modify script file:**
+   ```javascript
+   // src/FileCabinet/SuiteScripts/my_script.js
+   // Make your changes
+   ```
+
+2. **Update script object if needed:**
+   ```xml
+   <!-- src/Objects/customscript_myscript.xml -->
+   <script scriptid="customscript_myscript">
+     <!-- Update configuration -->
+   </script>
+   ```
+
+3. **Deploy:**
+   ```bash
+   suitecloud project:deploy
+   ```
+
+### CI/CD Integration
+
+#### GitHub Actions Example
+
+**`.github/workflows/deploy.yml`:**
+```yaml
+name: Deploy SuiteApp
+
+on:
+  push:
+    branches: [ main, develop ]
+    tags:
+      - 'v*'
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18'
+      
+      - name: Install SuiteCloud CLI
+        run: npm install -g @oracle/suitecloud-cli
+      
+      - name: Validate project
+        run: suitecloud project:validate
+        working-directory: ./src
+      
+      - name: Dry run deployment
+        run: suitecloud project:deploy --dryrun
+        working-directory: ./src
+        env:
+          SUITECLOUD_AUTHID: ${{ secrets.SUITECLOUD_AUTHID }}
+  
+  deploy-sandbox:
+    needs: validate
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/develop'
+    steps:
+      - uses: actions/checkout@v3
+      
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18'
+      
+      - name: Install SuiteCloud CLI
+        run: npm install -g @oracle/suitecloud-cli
+      
+      - name: Setup account
+        run: |
+          suitecloud account:setup:ci --authid ${{ secrets.SUITECLOUD_SANDBOX_AUTHID }}
+        env:
+          SUITECLOUD_ACCOUNT_ID: ${{ secrets.SUITECLOUD_SANDBOX_ACCOUNT_ID }}
+          SUITECLOUD_TOKEN_ID: ${{ secrets.SUITECLOUD_SANDBOX_TOKEN_ID }}
+          SUITECLOUD_TOKEN_SECRET: ${{ secrets.SUITECLOUD_SANDBOX_TOKEN_SECRET }}
+      
+      - name: Deploy to Sandbox
+        run: suitecloud project:deploy
+        working-directory: ./src
+  
+  deploy-production:
+    needs: validate
+    runs-on: ubuntu-latest
+    if: startsWith(github.ref, 'refs/tags/v')
+    steps:
+      - uses: actions/checkout@v3
+      
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18'
+      
+      - name: Install SuiteCloud CLI
+        run: npm install -g @oracle/suitecloud-cli
+      
+      - name: Setup account
+        run: |
+          suitecloud account:setup:ci --authid ${{ secrets.SUITECLOUD_PROD_AUTHID }}
+        env:
+          SUITECLOUD_ACCOUNT_ID: ${{ secrets.SUITECLOUD_PROD_ACCOUNT_ID }}
+          SUITECLOUD_TOKEN_ID: ${{ secrets.SUITECLOUD_PROD_TOKEN_ID }}
+          SUITECLOUD_TOKEN_SECRET: ${{ secrets.SUITECLOUD_PROD_TOKEN_SECRET }}
+      
+      - name: Deploy to Production
+        run: suitecloud project:deploy
+        working-directory: ./src
+```
+
+### Complete Lifecycle Workflow
+
+**Development → Testing → Production:**
+
+```
+1. Development (Feature Branch)
+   ├── Make changes
+   ├── Update code
+   ├── Commit to Git
+   └── Push to feature branch
+
+2. Integration (Develop Branch)
+   ├── Merge feature branch
+   ├── CI: Validate & Test
+   ├── Auto-deploy to Sandbox (optional)
+   └── Manual testing
+
+3. Release (Release Branch)
+   ├── Create release branch
+   ├── Update version in manifest.xml
+   ├── Tag release (v1.1.0)
+   └── Merge to main
+
+4. Production (Main Branch)
+   ├── CI: Validate
+   ├── Manual approval (if configured)
+   ├── Deploy to Production
+   └── Monitor deployment
+```
+
+### Best Practices for Lifecycle Management
+
+**Version Control:**
+- ✅ Use semantic versioning
+- ✅ Tag all releases
+- ✅ Keep changelog
+- ✅ Use meaningful commit messages
+- ✅ Branch per feature
+
+**Deployment:**
+- ✅ Always validate before deploying
+- ✅ Use `--dryrun` to preview
+- ✅ Test in Sandbox first
+- ✅ Deploy during maintenance windows
+- ✅ Monitor deployment logs
+
+**Refactoring:**
+- ✅ Test changes in Sandbox first
+- ✅ Validate dependencies
+- ✅ Document breaking changes
+- ✅ Increment major version for breaking changes
+- ✅ Provide migration scripts if needed
+
+**CI/CD:**
+- ✅ Automate validation
+- ✅ Require approval for production
+- ✅ Use environment-specific auth IDs
+- ✅ Log all deployments
+- ✅ Rollback plan ready
+
+---
+
+## 5. SuiteCloud SDK Components & Design Approaches
+
+### What Comes with SuiteCloud SDK
+
+#### Core NPM Packages
+
+**1. @oracle/suitecloud-cli**
+The main CLI tool for SuiteCloud development:
+```bash
+npm install -g @oracle/suitecloud-cli
+```
+
+**Provides:**
+- Project management commands
+- Deployment tools
+- Validation utilities
+- Account setup and authentication
+
+**2. @oracle/netsuite-uif-types**
+TypeScript type definitions for NetSuite User Interface Framework (UIF):
+```json
+{
+  "devDependencies": {
+    "@oracle/netsuite-uif-types": "^7.0.0"
+  }
+}
+```
+
+**Provides:**
+- TypeScript definitions for UIF components
+- IntelliSense support in IDEs
+- Type safety for SPAs
+- Component API documentation via types
+
+**3. @hitc/netsuite-types**
+Additional TypeScript types for NetSuite SuiteScript APIs:
+```json
+{
+  "devDependencies": {
+    "@hitc/netsuite-types": "^2024.2.2"
+  }
+}
+```
+
+**Provides:**
+- TypeScript definitions for `N/*` modules
+- Type safety for SuiteScript 2.x
+- Better IDE support for NetSuite APIs
+
+**4. @oracle/suitecloud-unit-testing**
+Unit testing framework for SuiteScript:
+```bash
+npm install --save-dev @oracle/suitecloud-unit-testing
+```
+
+**Provides:**
+- Testing stubs for NetSuite modules
+- Unit testing utilities
+- Mock objects for testing
+
+### Built-in UIF Framework Components
+
+#### ⚠️ Important: UIF Components are Built-in
+
+**The UIF framework (`@uif-js/core` and `@uif-js/component`) is NOT an npm package!**
+
+These are **built into NetSuite** and available at runtime. You import them in your code, but they're provided by NetSuite's runtime environment.
+
+#### Available UIF Components
+
+**From `@uif-js/core`:**
+```typescript
+import {
+  JSX,                    // JSX types and utilities
+  Router,                 // Routing functionality
+  Store,                  // State management
+  Theme,                  // Theming support
+  SystemIcon,             // Built-in icons
+  ArrayDataSource,        // Data source for lists
+  Date,                   // Date utilities
+  useMemo,                // React-like hooks
+  useState,               // React-like hooks
+  useDispatch,            // React-like hooks
+  useContext,            // React-like hooks
+  useLayoutEffect,        // React-like hooks
+  Navigator,             // Navigation utilities
+  UserMessageService,     // User messaging
+  ContextType,            // Context types
+  RouterLocation,         // Router location types
+  Decorator,            // Decorator utilities
+  Style,                  // Styling utilities
+  useStyles,              // Style hooks
+  ImmutableUpdate,        // Immutable update utilities
+  Async                   // Async utilities
+} from '@uif-js/core';
+```
+
+**From `@uif-js/component`:**
+```typescript
+import {
+  // Layout Components
+  StackPanel,             // Vertical/horizontal stacking
+  GridPanel,              // Grid layout
+  ContentPanel,           // Content container
+  ScrollPanel,            // Scrollable container
+  
+  // Navigation
+  NavigationDrawer,       // Side navigation menu
+  Link,                   // Navigation links
+  Breadcrumbs,            // Breadcrumb navigation
+  
+  // Form Components
+  Field,                  // Form field wrapper
+  TextBox,                // Text input
+  TextArea,               // Multi-line text input
+  Dropdown,               // Select dropdown
+  CheckBox,               // Checkbox input
+  DatePicker,             // Date picker
+  Button,                 // Button component
+  
+  // Display Components
+  Text,                   // Text display
+  Heading,                // Heading text
+  Badge,                  // Badge/label
+  Kpi,                    // KPI display
+  Skeleton,               // Loading skeleton
+  
+  // Data Display
+  DataGrid,               // Data table/grid
+  Chart,                  // Chart component (Highcharts-based)
+  Portlet,                // Dashboard portlet
+  Reminder,               // Reminder component
+  
+  // Advanced Components
+  Modal,                  // Modal dialog
+  Loader,                 // Loading indicator
+  FieldGroup,             // Field grouping
+  ApplicationHeader,      // Application header
+  ThemeSelector           // Theme selector
+} from '@uif-js/component';
+```
+
+### System Icons
+
+NetSuite provides a comprehensive set of built-in icons via `SystemIcon`:
+
+```typescript
+import { SystemIcon } from '@uif-js/core';
+
+// Common Icons
+SystemIcon.HOME          // Home icon
+SystemIcon.LIST          // List icon
+SystemIcon.PERSON        // Person/user icon
+SystemIcon.DOCUMENTS     // Documents icon
+SystemIcon.ATTRIBUTES    // Attributes icon
+SystemIcon.LOCALIZE      // Localize icon
+SystemIcon.SEARCH        // Search icon
+SystemIcon.SETTINGS      // Settings icon
+SystemIcon.HELP          // Help icon
+SystemIcon.INFO          // Info icon
+SystemIcon.WARNING       // Warning icon
+SystemIcon.ERROR         // Error icon
+SystemIcon.SUCCESS       // Success icon
+SystemIcon.EDIT          // Edit icon
+SystemIcon.DELETE        // Delete icon
+SystemIcon.ADD           // Add icon
+SystemIcon.REMOVE         // Remove icon
+SystemIcon.SAVE          // Save icon
+SystemIcon.CANCEL        // Cancel icon
+SystemIcon.PRINT         // Print icon
+SystemIcon.EMAIL         // Email icon
+SystemIcon.DOWNLOAD      // Download icon
+SystemIcon.UPLOAD        // Upload icon
+// ... and many more
+```
+
+### Charts Component
+
+NetSuite provides a built-in `Chart` component based on Highcharts:
+
+```typescript
+import { Chart, Portlet } from '@uif-js/component';
+
+const chartDefinition = {
+  chart: { type: 'pie' },  // or 'line', 'bar', 'column', etc.
+  title: { text: 'My Chart' },
+  series: [
+    {
+      name: 'Series 1',
+      data: [
+        { name: 'Item 1', y: 10 },
+        { name: 'Item 2', y: 20 },
+        { name: 'Item 3', y: 30 }
+      ]
+    }
+  ],
+  plotOptions: {
+    pie: {
+      allowPointSelect: true,
+      cursor: 'pointer',
+      dataLabels: { enabled: true }
+    }
+  },
+  credits: { enabled: false }
+};
+
+<Portlet title="Sales Chart">
+  <Chart definition={chartDefinition} />
+</Portlet>
+```
+
+**Supported Chart Types:**
+- `pie` - Pie chart
+- `line` - Line chart
+- `bar` - Bar chart
+- `column` - Column chart
+- `area` - Area chart
+- `scatter` - Scatter plot
+- And more Highcharts types
+
+### Design Approaches by Component Type
+
+#### 1. Single Page Applications (SPAs)
+
+**Architecture:**
+```
+SPA Structure:
+├── SpaClient.tsx        // Client-side entry point
+├── SpaServer.ts         // Server-side entry point
+├── app/
+│   ├── Route.ts        // Route definitions
+│   ├── Action.ts       // Actions (Redux-like)
+│   ├── Reducer.ts      // State reducers
+│   └── InitialState.ts // Initial state
+├── components/         // React-like components
+├── services/           // Data services
+└── assets/             // Static assets
+```
+
+**Best Practices:**
+
+**1. Use Functional Components:**
+```typescript
+import { JSX } from '@uif-js/core';
+import { StackPanel, Text } from '@uif-js/component';
+
+export default function MyComponent(): JSX.Element {
+  return (
+    <StackPanel>
+      <Text>Hello World</Text>
+    </StackPanel>
+  );
+}
+```
+
+**2. State Management:**
+```typescript
+import { Store, useDispatch, useState } from '@uif-js/core';
+
+// Use Store for global state
+const store = new Store(initialState);
+
+// Use useState for local state
+const [value, setValue] = useState(0);
+```
+
+**3. Routing:**
+```typescript
+import { Router } from '@uif-js/core';
+import { NavigationDrawer } from '@uif-js/component';
+
+<Router>
+  <Route path="/dashboard" component={DashboardPage} />
+  <Route path="/items" component={ItemsPage} />
+</Router>
+```
+
+**4. Data Fetching:**
+```typescript
+import { Async } from '@uif-js/core';
+
+const data = await Async.fetch({
+  url: '/spa-app/myapp/api/items',
+  method: 'GET'
+});
+```
+
+**5. Theming:**
+```typescript
+import { Theme, useStyles } from '@uif-js/core';
+
+const styles = useStyles({
+  container: {
+    padding: Theme.Spacing.MEDIUM
+  }
+});
+```
+
+**Recommended Packages for SPAs:**
+```json
+{
+  "devDependencies": {
+    "@oracle/netsuite-uif-types": "^7.0.0",
+    "@hitc/netsuite-types": "^2024.2.2",
+    "typescript": "^5.1.0",
+    "gulp": "^4.0.0",
+    "gulp-typescript": "^5.0.0"
+  }
+}
+```
+
+#### 2. Suitelets
+
+**Architecture:**
+Suitelets use **Server Widget API** (`N/ui/serverWidget`), not UIF components.
+
+```javascript
+/**
+ * @NApiVersion 2.1
+ * @NScriptType Suitelet
+ */
+define(['N/ui/serverWidget', 'N/record'], function(serverWidget, record) {
+  
+  function onRequest(context) {
+    if (context.request.method === 'GET') {
+      createForm(context);
+    } else {
+      handleSubmit(context);
+    }
+  }
+  
+  function createForm(context) {
+    var form = serverWidget.createForm({
+      title: 'My Suitelet'
+    });
+    
+    // Add fields
+    var nameField = form.addField({
+      id: 'custpage_name',
+      type: serverWidget.FieldType.TEXT,
+      label: 'Name'
+    });
+    
+    // Add sublist
+    var sublist = form.addSublist({
+      id: 'custpage_items',
+      type: serverWidget.SublistType.INLINEEDITOR,
+      label: 'Items'
+    });
+    
+    sublist.addField({
+      id: 'custpage_item',
+      type: serverWidget.FieldType.SELECT,
+      label: 'Item'
+    });
+    
+    // Add client script
+    form.clientScriptFileId = 'customscript_my_client_script';
+    
+    context.response.writePage(form);
+  }
+  
+  return { onRequest: onRequest };
+});
+```
+
+**Best Practices for Suitelets:**
+
+1. **Use Server Widget API:**
+   - `serverWidget.createForm()` - Create forms
+   - `serverWidget.FieldType.*` - Field types
+   - `serverWidget.FieldDisplayType.*` - Display types
+   - `serverWidget.SublistType.*` - Sublist types
+
+2. **Client Scripts for Interactivity:**
+   ```javascript
+   // Client script for Suitelet
+   define(['N/ui/message'], function(message) {
+     function pageInit(context) {
+       // Add client-side logic
+     }
+     
+     function saveRecord(context) {
+       // Validate before save
+       return true;
+     }
+     
+     return {
+       pageInit: pageInit,
+       saveRecord: saveRecord
+     };
+   });
+   ```
+
+3. **HTML Templates (Advanced):**
+   ```javascript
+   // For custom HTML in Suitelets
+   form.addField({
+     id: 'custpage_html',
+     type: serverWidget.FieldType.INLINEHTML,
+     label: 'Custom HTML'
+   }).defaultValue = '<div>Custom Content</div>';
+   ```
+
+#### 3. Server Widgets (User Event Scripts, etc.)
+
+**Architecture:**
+Server Widgets are used in **User Event Scripts**, **Workflow Action Scripts**, etc.
+
+```javascript
+/**
+ * @NApiVersion 2.1
+ * @NScriptType UserEventScript
+ */
+define(['N/ui/serverWidget'], function(serverWidget) {
+  
+  function beforeLoad(context) {
+    var form = context.form;
+    var record = context.newRecord;
+    
+    // Add field
+    var customField = form.addField({
+      id: 'custpage_custom',
+      type: serverWidget.FieldType.TEXT,
+      label: 'Custom Field'
+    });
+    
+    // Modify existing field
+    var itemField = form.getField({ id: 'item' });
+    itemField.updateDisplayType({
+      displayType: serverWidget.FieldDisplayType.DISABLED
+    });
+    
+    // Add sublist field
+    var itemSublist = form.getSublist({ id: 'item' });
+    var vendorField = itemSublist.addField({
+      id: 'custpage_vendor',
+      type: serverWidget.FieldType.SELECT,
+      label: 'Vendor'
+    });
+  }
+  
+  return { beforeLoad: beforeLoad };
+});
+```
+
+**Best Practices:**
+
+1. **Field Manipulation:**
+   ```javascript
+   // Show/hide fields
+   field.updateDisplayType({
+     displayType: serverWidget.FieldDisplayType.HIDDEN
+   });
+
+   // Enable/disable fields
+   field.updateDisplayType({
+     displayType: serverWidget.FieldDisplayType.DISABLED
+   });
+
+   // Set default values
+   field.defaultValue = 'Default Value';
+
+   // Make mandatory
+   field.isMandatory = true;
+   ```
+
+2. **Sublist Manipulation:**
+   ```javascript
+   // Add sublist field
+   sublist.addField({
+     id: 'custpage_field',
+     type: serverWidget.FieldType.TEXT,
+     label: 'Field Label'
+   });
+
+   // Insert field at specific position
+   sublist.insertField({
+     field: newField,
+     nextfield: 'existingfield'
+   });
+   ```
+
+3. **Field Groups:**
+   ```javascript
+   // Add field group
+   var fieldGroup = form.addFieldGroup({
+     id: 'custpage_group',
+     label: 'Field Group'
+   });
+
+   // Add field to group
+   var field = form.addField({
+     id: 'custpage_field',
+     type: serverWidget.FieldType.TEXT,
+     label: 'Field',
+     container: 'custpage_group'
+   });
+   ```
+
+### Comparison: SPA vs Suitelet vs Server Widget
+
+| Feature | SPA | Suitelet | Server Widget |
+|---------|-----|----------|---------------|
+| **UI Framework** | UIF (React-like) | Server Widget API | Server Widget API |
+| **Components** | UIF Components | Form Fields | Form Fields |
+| **Interactivity** | High (Client-side) | Medium (Client Scripts) | Low (Server-side) |
+| **Charts** | ✅ Chart component | ⚠️ Custom HTML/JS | ❌ Limited |
+| **Icons** | ✅ SystemIcon | ⚠️ Custom | ❌ Limited |
+| **Routing** | ✅ Built-in Router | ❌ Manual | ❌ N/A |
+| **State Management** | ✅ Store/State | ⚠️ Form state | ⚠️ Form state |
+| **Best For** | Complex UIs, Dashboards | Forms, Reports | Field customization |
+
+### Recommended Design Patterns
+
+#### For SPAs:
+1. **Component-Based Architecture**
+   - Break UI into reusable components
+   - Use functional components with hooks
+   - Separate concerns (presentation vs logic)
+
+2. **State Management**
+   - Use `Store` for global state
+   - Use `useState` for local state
+   - Use `useReducer` for complex state
+
+3. **Data Fetching**
+   - Use `Async.fetch` for API calls
+   - Implement loading states with `Skeleton`
+   - Handle errors gracefully
+
+4. **Routing**
+   - Define routes in `Route.ts`
+   - Use `NavigationDrawer` for navigation
+   - Implement breadcrumbs for deep navigation
+
+5. **Styling**
+   - Use `Theme` for consistent spacing/colors
+   - Use `useStyles` for component-specific styles
+   - Follow NetSuite design patterns
+
+#### For Suitelets:
+1. **Form Structure**
+   - Use field groups for organization
+   - Add client scripts for validation
+   - Use sublists for related data
+
+2. **User Experience**
+   - Provide clear labels and help text
+   - Use appropriate field types
+   - Implement proper error handling
+
+3. **Performance**
+   - Minimize server round trips
+   - Use client scripts for client-side logic
+   - Cache data when possible
+
+#### For Server Widgets:
+1. **Field Customization**
+   - Modify fields in `beforeLoad`
+   - Use appropriate display types
+   - Provide helpful defaults
+
+2. **User Experience**
+   - Show/hide fields based on context
+   - Validate data in `beforeSubmit`
+   - Provide user feedback
+
+### Package Installation Guide
+
+#### For SPA Projects:
+```bash
+npm install --save-dev \
+  @oracle/netsuite-uif-types \
+  @hitc/netsuite-types \
+  typescript \
+  gulp \
+  gulp-typescript \
+  rollup \
+  @rollup/plugin-terser
+```
+
+#### For Suitelet/Server Widget Projects:
+```bash
+npm install --save-dev \
+  @hitc/netsuite-types \
+  @oracle/suitecloud-unit-testing
+```
+
+#### Global CLI:
+```bash
+npm install -g @oracle/suitecloud-cli
+```
+
+### Summary
+
+**What's Available:**
+- ✅ **UIF Components**: Built into NetSuite (not npm packages)
+- ✅ **System Icons**: Comprehensive icon set via `SystemIcon`
+- ✅ **Charts**: Highcharts-based `Chart` component
+- ✅ **TypeScript Types**: `@oracle/netsuite-uif-types` and `@hitc/netsuite-types`
+- ✅ **CLI Tools**: `@oracle/suitecloud-cli`
+
+**What's NOT Available:**
+- ❌ Custom npm UI libraries (React, Vue, etc.) - Use UIF instead
+- ❌ External charting libraries - Use built-in `Chart` component
+- ❌ Custom icon libraries - Use `SystemIcon`
+- ❌ CSS frameworks (Bootstrap, Tailwind) - Use UIF theming
+
+**Best Approach:**
+1. **SPAs**: Use UIF components, SystemIcon, Chart component
+2. **Suitelets**: Use Server Widget API + Client Scripts
+3. **Server Widgets**: Use Server Widget API for field customization
+
+**Key Takeaway**: NetSuite provides a comprehensive UI framework built-in. You don't need external npm packages for UI components - use what's provided by the UIF framework!
+
+---
+
+## Quick Reference Checklist
+
+### Before Deploying:
+- [ ] Run `suitecloud project:deploy --dryrun` to see what will deploy
+- [ ] Review the `deploy.xml` file paths
+- [ ] Verify only the files you want are included
+- [ ] Check that objects you need are in the paths
+- [ ] Run `--validate` if you want extra validation
+- [ ] Document what you're deploying
+- [ ] Consider: "Will I need to remove this later?" → Use SUITEAPP if yes
+
+### Deployment Commands:
+```bash
+# Preview (SAFE - doesn't deploy)
+suitecloud project:deploy --dryrun
+
+# Validate and deploy
+suitecloud project:deploy --validate
+
+# Deploy with logging
+suitecloud project:deploy --log ./deployment.log
+
+# Standard deployment
+suitecloud project:deploy
+```
+
+### Project Type Decision:
+- **ACCOUNTCUSTOMIZATION**: Account-only, cannot be uninstalled
+- **SUITEAPP (with Publisher)**: Production, distributable
+- **SUITEAPP (no Publisher)**: Dev/Testing, can be uninstalled
+
+### Key Warnings:
+- ⚠️ **ACCOUNTCUSTOMIZATION cannot be reversed** - must manually delete everything
+- ⚠️ **Always use `--dryrun` first** to preview deployments
+- ⚠️ **Script IDs cannot be changed** - they're permanent identifiers
+- ⚠️ **Removing from deploy.xml doesn't remove from NetSuite** - must delete manually
+
+---
+
+## Additional Resources
+
+- **NetSuite Help**: For official API documentation and module references
+- **SuiteAnswers**: For common issues, solutions, and best practices
+- **Deployment Audit Trail**: `Customization > SuiteCloud Development > Deployment Audit Trail`
+- **Installed SuiteApps**: `Customization > SuiteBundler > Installed SuiteApps`
+
