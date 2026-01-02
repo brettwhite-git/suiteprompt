@@ -1,6 +1,6 @@
 "use client"
 
-import { useState, useMemo, useEffect } from "react"
+import { useState, useMemo, useEffect, Suspense } from "react"
 import { useSearchParams } from "next/navigation"
 import { getPrompts, getAvailableBusinessAreasFromPrompts } from "@/lib/marketplace"
 import { PromptCard } from "@/components/marketplace/PromptCard"
@@ -9,7 +9,7 @@ import { FilterBar } from "@/components/marketplace/FilterBar"
 import { FilterOptions, BusinessArea } from "@/types/marketplace"
 import { cn } from "@/lib/utils"
 
-export default function MCPPromptsPage() {
+function MCPPromptsContent() {
   const searchParams = useSearchParams()
   const businessAreaParam = searchParams.get("businessArea") as BusinessArea | null
 
@@ -103,5 +103,25 @@ export default function MCPPromptsPage() {
         onPromptClick={handlePromptClick}
       />
     </div>
+  )
+}
+
+export default function MCPPromptsPage() {
+  return (
+    <Suspense fallback={
+      <div className="space-y-6">
+        <div>
+          <h1 className="text-3xl font-bold tracking-tight">MCP Prompts</h1>
+          <p className="text-muted-foreground mt-2">
+            MCP prompts for Claude and ChatGPT integration with NetSuite
+          </p>
+        </div>
+        <div className="text-center py-12">
+          <p className="text-muted-foreground">Loading...</p>
+        </div>
+      </div>
+    }>
+      <MCPPromptsContent />
+    </Suspense>
   )
 }
