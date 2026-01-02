@@ -1,30 +1,43 @@
 "use client"
 
 import * as React from "react"
-import { Search, Filter, X } from "lucide-react"
+import { Search, X } from "lucide-react"
 import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Badge } from "@/components/ui/badge"
-import { FilterOptions } from "@/types/marketplace"
+import { FilterOptions, BusinessArea } from "@/types/marketplace"
 import { cn } from "@/lib/utils"
+import taxonomyData from "@/data/taxonomy.json"
 
 interface FilterBarProps {
   filters: FilterOptions
   onFiltersChange: (filters: FilterOptions) => void
+  availableBusinessAreas?: BusinessArea[]
   className?: string
 }
 
-export function FilterBar({ filters, onFiltersChange, className }: FilterBarProps) {
+export function FilterBar({ filters, onFiltersChange, availableBusinessAreas, className }: FilterBarProps) {
   const [searchValue, setSearchValue] = React.useState(filters.search || "")
+
+  // Get business area display names from taxonomy
+  const getBusinessAreaDisplayName = (area: BusinessArea): string => {
+    const areaData = taxonomyData.businessAreas[area]
+    return areaData?.displayName || area.charAt(0).toUpperCase() + area.slice(1)
+  }
+
+  // Determine which business areas to show
+  const businessAreasToShow = React.useMemo(() => {
+    if (availableBusinessAreas && availableBusinessAreas.length > 0) {
+      return availableBusinessAreas
+    }
+    // If no availableBusinessAreas provided, show all from taxonomy
+    return Object.keys(taxonomyData.businessAreas) as BusinessArea[]
+  }, [availableBusinessAreas])
 
   const handleSearchChange = (value: string) => {
     setSearchValue(value)
     onFiltersChange({ ...filters, search: value || undefined })
-  }
-
-  const handleFormatChange = (value: string) => {
-    onFiltersChange({ ...filters, format: value === "all" ? undefined : value as FilterOptions["format"] })
   }
 
   const handleBusinessAreaChange = (value: string) => {
@@ -51,7 +64,7 @@ export function FilterBar({ filters, onFiltersChange, className }: FilterBarProp
   }
 
   const hasActiveFilters = Boolean(
-    filters.format || filters.businessArea || filters.minRating || filters.sortBy || filters.search
+    filters.businessArea || filters.minRating || filters.sortBy || filters.search
   )
 
   return (
@@ -67,30 +80,17 @@ export function FilterBar({ filters, onFiltersChange, className }: FilterBarProp
           />
         </div>
         <div className="flex gap-2">
-          <Select value={filters.format || "all"} onValueChange={handleFormatChange}>
-            <SelectTrigger className="w-[140px]">
-              <Filter className="h-4 w-4 mr-2" />
-              <SelectValue placeholder="Format" />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectItem value="all">All Formats</SelectItem>
-              <SelectItem value="mcp">MCP Prompts</SelectItem>
-              <SelectItem value="skill">Claude Skills</SelectItem>
-              <SelectItem value="general">General Prompts</SelectItem>
-            </SelectContent>
-          </Select>
           <Select value={filters.businessArea || "all"} onValueChange={handleBusinessAreaChange}>
             <SelectTrigger className="w-[160px]">
               <SelectValue placeholder="Business Area" />
             </SelectTrigger>
             <SelectContent>
               <SelectItem value="all">All Areas</SelectItem>
-              <SelectItem value="accounting">Accounting</SelectItem>
-              <SelectItem value="sales">Sales & Orders</SelectItem>
-              <SelectItem value="inventory">Inventory</SelectItem>
-              <SelectItem value="crm">CRM</SelectItem>
-              <SelectItem value="suitecloud">SuiteCloud Dev</SelectItem>
-              <SelectItem value="admin">Administration</SelectItem>
+              {businessAreasToShow.map((area) => (
+                <SelectItem key={area} value={area}>
+                  {getBusinessAreaDisplayName(area)}
+                </SelectItem>
+              ))}
             </SelectContent>
           </Select>
           <Select
@@ -125,18 +125,9 @@ export function FilterBar({ filters, onFiltersChange, className }: FilterBarProp
       </div>
       {hasActiveFilters && (
         <div className="flex flex-wrap gap-2">
-          {filters.format && (
-            <Badge variant="secondary" className="gap-1">
-              Format: {filters.format}
-              <X
-                className="h-3 w-3 cursor-pointer"
-                onClick={() => handleFormatChange("all")}
-              />
-            </Badge>
-          )}
           {filters.businessArea && (
             <Badge variant="secondary" className="gap-1">
-              Area: {filters.businessArea}
+              Area: {getBusinessAreaDisplayName(filters.businessArea)}
               <X
                 className="h-3 w-3 cursor-pointer"
                 onClick={() => handleBusinessAreaChange("all")}

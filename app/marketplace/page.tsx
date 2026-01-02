@@ -5,6 +5,7 @@ import { getPrompts, getSkills } from "@/lib/marketplace"
 import { PromptCard } from "@/components/marketplace/PromptCard"
 import { PromptDetailModal } from "@/components/marketplace/PromptDetailModal"
 import { SkillCard } from "@/components/marketplace/SkillCard"
+import { AnimatedCardGrid } from "@/components/animations/AnimatedCardGrid"
 import { FilterOptions } from "@/types/marketplace"
 import Link from "next/link"
 import { Button } from "@/components/ui/button"
@@ -57,7 +58,7 @@ export default function MarketplacePage({
               <Link href="/marketplace/prompts">View All →</Link>
             </Button>
           </div>
-          <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+          <AnimatedCardGrid animationKey="home-prompts">
             {prompts.slice(0, 6).map((prompt) => (
               <PromptCard 
                 key={prompt.id} 
@@ -65,7 +66,7 @@ export default function MarketplacePage({
                 onClick={() => handlePromptClick(prompt.id)}
               />
             ))}
-          </div>
+          </AnimatedCardGrid>
         </section>
 
         <section>
@@ -75,11 +76,11 @@ export default function MarketplacePage({
               <Link href="/marketplace/skills">View All →</Link>
             </Button>
           </div>
-          <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+          <AnimatedCardGrid animationKey="home-skills">
             {skills.slice(0, 6).map((skill) => (
               <SkillCard key={skill.id} skill={skill} />
             ))}
-          </div>
+          </AnimatedCardGrid>
         </section>
       </div>
 
