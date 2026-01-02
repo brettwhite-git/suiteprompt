@@ -1,5 +1,5 @@
 import marketplaceData from "@/data/marketplace.json"
-import { Prompt, Skill, MarketplaceData, FilterOptions } from "@/types/marketplace"
+import { Prompt, Skill, MarketplaceData, FilterOptions, BusinessArea } from "@/types/marketplace"
 
 export const marketplace: MarketplaceData = marketplaceData as MarketplaceData
 
@@ -172,4 +172,26 @@ export function getRelatedSkills(skillId: string, limit: number = 6): Skill[] {
     .slice(0, limit)
 
   return related
+}
+
+/**
+ * Extract unique business areas from a list of prompts
+ */
+export function getAvailableBusinessAreasFromPrompts(prompts: Prompt[]): BusinessArea[] {
+  const areas = new Set<BusinessArea>()
+  prompts.forEach((prompt) => {
+    areas.add(prompt.businessArea)
+  })
+  return Array.from(areas).sort()
+}
+
+/**
+ * Extract unique business areas from a list of skills
+ */
+export function getAvailableBusinessAreasFromSkills(skills: Skill[]): BusinessArea[] {
+  const areas = new Set<BusinessArea>()
+  skills.forEach((skill) => {
+    areas.add(skill.businessArea)
+  })
+  return Array.from(areas).sort()
 }
