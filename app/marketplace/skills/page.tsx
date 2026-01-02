@@ -1,6 +1,6 @@
 "use client"
 
-import { useState, useMemo, useEffect } from "react"
+import { useState, useMemo, useEffect, Suspense } from "react"
 import { useSearchParams } from "next/navigation"
 import { getSkills } from "@/lib/marketplace"
 import { SkillCard } from "@/components/marketplace/SkillCard"
@@ -45,7 +45,7 @@ function getPageDescription(capability?: string | null, sub?: string | null): st
   return "Discover Claude skills for NetSuite development"
 }
 
-export default function SkillsPage() {
+function SkillsPageContent() {
   const searchParams = useSearchParams()
   const capability = searchParams.get("capability")
   const sub = searchParams.get("sub")
@@ -126,3 +126,10 @@ export default function SkillsPage() {
   )
 }
 
+export default function SkillsPage() {
+  return (
+    <Suspense fallback={<div>Loading...</div>}>
+      <SkillsPageContent />
+    </Suspense>
+  )
+}

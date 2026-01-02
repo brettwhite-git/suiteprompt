@@ -1,6 +1,6 @@
 "use client"
 
-import { useState, useEffect } from "react"
+import { useState, useEffect, Suspense } from "react"
 import { usePathname, useSearchParams } from "next/navigation"
 import Link from "next/link"
 import { ChevronRight, type LucideIcon } from "lucide-react"
@@ -24,7 +24,7 @@ import {
   SidebarMenuSubItem,
 } from "@/components/ui/sidebar"
 
-export function NavMain({
+function NavMainContent({
   items,
   label = "Platform",
 }: {
@@ -234,5 +234,30 @@ export function NavMain({
         })}
       </SidebarMenu>
     </SidebarGroup>
+  )
+}
+
+export function NavMain(props: {
+  items: {
+    title: string
+    url: string
+    icon: LucideIcon
+    isActive?: boolean
+    items?: {
+      title: string
+      url: string
+    }[]
+  }[]
+  label?: string
+}) {
+  return (
+    <Suspense fallback={
+      <SidebarGroup>
+        <SidebarGroupLabel>{props.label || "Platform"}</SidebarGroupLabel>
+        <SidebarMenu />
+      </SidebarGroup>
+    }>
+      <NavMainContent {...props} />
+    </Suspense>
   )
 }

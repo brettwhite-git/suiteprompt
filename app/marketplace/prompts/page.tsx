@@ -1,6 +1,6 @@
 "use client"
 
-import { useState, useMemo, useEffect } from "react"
+import { useState, useMemo, useEffect, Suspense } from "react"
 import { useSearchParams } from "next/navigation"
 import { getPrompts } from "@/lib/marketplace"
 import { PromptCard } from "@/components/marketplace/PromptCard"
@@ -65,7 +65,7 @@ function getPageDescription(category?: string | null, module?: string | null): s
   return "Browse and discover prompts for NetSuite development"
 }
 
-export default function PromptsPage() {
+function PromptsPageContent() {
   const searchParams = useSearchParams()
   const category = searchParams.get("category")
   const module = searchParams.get("module")
@@ -141,3 +141,10 @@ export default function PromptsPage() {
   )
 }
 
+export default function PromptsPage() {
+  return (
+    <Suspense fallback={<div>Loading...</div>}>
+      <PromptsPageContent />
+    </Suspense>
+  )
+}
