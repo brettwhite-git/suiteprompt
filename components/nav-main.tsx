@@ -4,12 +4,13 @@ import { useState, useEffect, Suspense } from "react"
 import { usePathname, useSearchParams } from "next/navigation"
 import Link from "next/link"
 import { ChevronRight, type LucideIcon } from "lucide-react"
+import { motion } from "framer-motion"
 import { useNavigationState } from "@/hooks/use-navigation-state"
 import { cn } from "@/lib/utils"
 
 import {
   Collapsible,
-  CollapsibleContent,
+  AnimatedCollapsibleContent,
   CollapsibleTrigger,
 } from "@/components/ui/collapsible"
 import {
@@ -186,12 +187,12 @@ function NavMainContent({
                 onOpenChange={() => toggleFolder(folderId)}
               >
                 <SidebarMenuItem>
-                  <SidebarMenuButton asChild tooltip={item.title}>
-                    <Link href={item.url}>
+                  <CollapsibleTrigger asChild>
+                    <SidebarMenuButton tooltip={item.title}>
                       <item.icon />
                       <span>{item.title}</span>
-                    </Link>
-                  </SidebarMenuButton>
+                    </SidebarMenuButton>
+                  </CollapsibleTrigger>
                   <CollapsibleTrigger asChild>
                     <SidebarMenuAction className={cn(
                       "data-[state=open]:rotate-90",
@@ -201,21 +202,26 @@ function NavMainContent({
                       <span className="sr-only">Toggle</span>
                     </SidebarMenuAction>
                   </CollapsibleTrigger>
-                  <CollapsibleContent className={cn(
-                    hasInteracted && "data-[state=open]:animate-fade-slide-in"
-                  )}>
+                  <AnimatedCollapsibleContent isOpen={isOpen} animate={hasInteracted}>
                     <SidebarMenuSub>
-                      {item.items?.map((subItem) => (
-                        <SidebarMenuSubItem key={subItem.title}>
-                          <SidebarMenuSubButton asChild>
-                            <Link href={subItem.url}>
-                              <span>{subItem.title}</span>
-                            </Link>
-                          </SidebarMenuSubButton>
-                        </SidebarMenuSubItem>
+                      {item.items?.map((subItem, index) => (
+                        <motion.div
+                          key={subItem.title}
+                          initial={hasInteracted ? { opacity: 0, x: -10 } : { opacity: 1, x: 0 }}
+                          animate={isOpen ? { opacity: 1, x: 0 } : { opacity: 0, x: -10 }}
+                          transition={hasInteracted ? { delay: isOpen ? index * 0.05 : 0, duration: 0.15 } : { duration: 0 }}
+                        >
+                          <SidebarMenuSubItem>
+                            <SidebarMenuSubButton asChild>
+                              <Link href={subItem.url}>
+                                <span>{subItem.title}</span>
+                              </Link>
+                            </SidebarMenuSubButton>
+                          </SidebarMenuSubItem>
+                        </motion.div>
                       ))}
                     </SidebarMenuSub>
-                  </CollapsibleContent>
+                  </AnimatedCollapsibleContent>
                 </SidebarMenuItem>
               </Collapsible>
             )

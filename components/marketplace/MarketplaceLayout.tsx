@@ -52,7 +52,7 @@ export function MarketplaceLayout({ children }: MarketplaceLayoutProps) {
           </div>
           <div className="flex items-center gap-2 px-4">
             <a href="/marketplace/learning" className="inline-block">
-              <Badge variant="outline" className="cursor-pointer inline-flex items-center gap-1">
+              <Badge variant="outline" className="cursor-pointer inline-flex items-center gap-1 py-2">
                 <GraduationCap className="h-3 w-3" />
                 Learning Center
               </Badge>
