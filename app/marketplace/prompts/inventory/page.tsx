@@ -9,7 +9,6 @@ import { FilterOptions } from "@/types/marketplace"
 export default function InventoryPromptsPage() {
   const [filters, setFilters] = useState<FilterOptions>({
     tags: ["inventory"],
-    sortBy: "popularity",
   })
 
   const prompts = useMemo(() => getPrompts(filters), [filters])

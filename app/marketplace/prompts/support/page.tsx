@@ -9,7 +9,6 @@ import { FilterOptions } from "@/types/marketplace"
 export default function SupportPromptsPage() {
   const [filters, setFilters] = useState<FilterOptions>({
     tags: ["support"],
-    sortBy: "popularity",
   })
 
   const prompts = useMemo(() => getPrompts(filters), [filters])

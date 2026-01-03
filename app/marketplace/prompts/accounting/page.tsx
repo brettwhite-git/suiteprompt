@@ -9,7 +9,6 @@ import { FilterOptions } from "@/types/marketplace"
 export default function AccountingPromptsPage() {
   const [filters, setFilters] = useState<FilterOptions>({
     tags: ["accounting"],
-    sortBy: "popularity",
   })
 
   const prompts = useMemo(() => getPrompts(filters), [filters])

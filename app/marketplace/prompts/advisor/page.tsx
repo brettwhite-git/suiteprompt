@@ -9,7 +9,6 @@ import { FilterOptions } from "@/types/marketplace"
 export default function AdvisorPage() {
   const [filters, setFilters] = useState<FilterOptions>({
     targetPlatform: "advisor",
-    sortBy: "popularity",
   })
 
   const prompts = useMemo(() => getPrompts(filters), [filters])

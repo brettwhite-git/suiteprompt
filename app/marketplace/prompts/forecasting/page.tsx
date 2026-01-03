@@ -9,7 +9,6 @@ import { FilterOptions } from "@/types/marketplace"
 export default function ForecastingPromptsPage() {
   const [filters, setFilters] = useState<FilterOptions>({
     tags: ["forecasting"],
-    sortBy: "popularity",
   })
 
   const prompts = useMemo(() => getPrompts(filters), [filters])

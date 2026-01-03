@@ -1,7 +1,7 @@
 "use client"
 
 import * as React from "react"
-import { Package, Code, Calendar, User, GitBranch, Star, FileText, ExternalLink } from "lucide-react"
+import { Package, Calendar, User, GitBranch, Star, FileText, ExternalLink } from "lucide-react"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import { Skill } from "@/types/marketplace"
@@ -35,7 +35,7 @@ export function SkillMetadataTab({ skill }: SkillMetadataTabProps) {
       <div>
         <h3 className="text-lg font-semibold mb-4">Skill Metadata</h3>
         <p className="text-sm text-muted-foreground mb-6">
-          Structured information about this skill, including version, dependencies, and repository details.
+          Structured information about this skill, including dependencies and repository details.
         </p>
       </div>
 
@@ -51,14 +51,6 @@ export function SkillMetadataTab({ skill }: SkillMetadataTabProps) {
               <div className="flex-1">
                 <div className="text-sm font-medium">Name</div>
                 <div className="text-sm text-muted-foreground font-mono">{metadata.name}</div>
-              </div>
-            </div>
-
-            <div className="flex items-start gap-3">
-              <Code className="h-5 w-5 text-muted-foreground mt-0.5" />
-              <div className="flex-1">
-                <div className="text-sm font-medium">Version</div>
-                <div className="text-sm text-muted-foreground">{metadata.version}</div>
               </div>
             </div>
 

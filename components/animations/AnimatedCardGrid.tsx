@@ -61,6 +61,7 @@ export function AnimatedCardGrid({ children, className, animationKey }: Animated
           <motion.div
             key={`${animationKey}-${index}`}
             variants={itemVariants}
+            className="h-full"
           >
             {child}
           </motion.div>

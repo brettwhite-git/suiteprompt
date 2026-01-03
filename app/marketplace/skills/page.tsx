@@ -56,9 +56,7 @@ function SkillsPageContent() {
 
   // Update filters based on URL params
   useEffect(() => {
-    const newFilters: FilterOptions = {
-      sortBy: "popularity",
-    }
+    const newFilters: FilterOptions = {}
 
     if (capability && capabilityMap[capability]) {
       if (sub) {

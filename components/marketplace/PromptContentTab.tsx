@@ -113,16 +113,23 @@ export function PromptContentTab({ prompt }: PromptContentTabProps) {
             />
           </div>
           
-          <div className="relative">
+          <div className="relative overflow-hidden max-w-full">
             <SyntaxHighlighter
               language="text"
               style={vscDarkPlus}
+              wrapLongLines={true}
+              wrapLines={true}
+              lineProps={{ style: { wordBreak: 'break-word', whiteSpace: 'pre-wrap' } }}
               customStyle={{
                 borderRadius: "0.5rem",
                 padding: "1rem",
                 fontSize: "0.875rem",
                 lineHeight: "1.5",
                 margin: 0,
+                whiteSpace: "pre-wrap",
+                overflowWrap: "break-word",
+                overflowX: "hidden",
+                wordBreak: "break-word",
               }}
               PreTag="div"
             >
@@ -252,16 +259,23 @@ export function PromptContentTab({ prompt }: PromptContentTabProps) {
             />
           </div>
           
-          <div className="relative">
+          <div className="relative overflow-hidden max-w-full">
             <SyntaxHighlighter
               language="text"
               style={vscDarkPlus}
+              wrapLongLines={true}
+              wrapLines={true}
+              lineProps={{ style: { wordBreak: 'break-word', whiteSpace: 'pre-wrap' } }}
               customStyle={{
                 borderRadius: "0.5rem",
                 padding: "1rem",
                 fontSize: "0.875rem",
                 lineHeight: "1.5",
                 margin: 0,
+                whiteSpace: "pre-wrap",
+                overflowWrap: "break-word",
+                overflowX: "hidden",
+                wordBreak: "break-word",
               }}
               PreTag="div"
             >
@@ -373,16 +387,23 @@ export function PromptContentTab({ prompt }: PromptContentTabProps) {
                 size="sm"
               />
             </div>
-            <div className="relative">
+            <div className="relative overflow-hidden max-w-full">
               <SyntaxHighlighter
                 language="markdown"
                 style={vscDarkPlus}
+                wrapLongLines={true}
+                wrapLines={true}
+                lineProps={{ style: { wordBreak: 'break-word', whiteSpace: 'pre-wrap' } }}
                 customStyle={{
                   borderRadius: "0.5rem",
                   padding: "1rem",
                   fontSize: "0.875rem",
                   lineHeight: "1.5",
                   margin: 0,
+                  whiteSpace: "pre-wrap",
+                  overflowWrap: "break-word",
+                  overflowX: "hidden",
+                  wordBreak: "break-word",
                 }}
                 PreTag="div"
               >
@@ -582,16 +603,23 @@ export function PromptContentTab({ prompt }: PromptContentTabProps) {
         </div>
         
         <div className="space-y-2">
-          <div className="relative">
+          <div className="relative overflow-hidden max-w-full">
             <SyntaxHighlighter
               language="text"
               style={vscDarkPlus}
+              wrapLongLines={true}
+              wrapLines={true}
+              lineProps={{ style: { wordBreak: 'break-word', whiteSpace: 'pre-wrap' } }}
               customStyle={{
                 borderRadius: "0.5rem",
                 padding: "1rem",
                 fontSize: "0.875rem",
                 lineHeight: "1.5",
                 margin: 0,
+                whiteSpace: "pre-wrap",
+                overflowWrap: "break-word",
+                overflowX: "hidden",
+                wordBreak: "break-word",
               }}
               PreTag="div"
             >
@@ -619,16 +647,23 @@ export function PromptContentTab({ prompt }: PromptContentTabProps) {
             {previewPrompt && (
               <div className="space-y-2">
                 <Label className="text-sm font-semibold">Prompt to Preview</Label>
-                <div className="relative">
+                <div className="relative overflow-hidden max-w-full">
                   <SyntaxHighlighter
                     language="text"
                     style={vscDarkPlus}
+                    wrapLongLines={true}
+                    wrapLines={true}
+                    lineProps={{ style: { wordBreak: 'break-word', whiteSpace: 'pre-wrap' } }}
                     customStyle={{
                       borderRadius: "0.5rem",
                       padding: "1rem",
                       fontSize: "0.875rem",
                       lineHeight: "1.5",
                       margin: 0,
+                      whiteSpace: "pre-wrap",
+                      overflowWrap: "break-word",
+                      overflowX: "hidden",
+                      wordBreak: "break-word",
                     }}
                     PreTag="div"
                   >

@@ -9,7 +9,6 @@ import { FilterOptions } from "@/types/marketplace"
 export default function MCPPage() {
   const [filters, setFilters] = useState<FilterOptions>({
     targetPlatform: "mcp",
-    sortBy: "popularity",
   })
 
   const prompts = useMemo(() => getPrompts(filters), [filters])

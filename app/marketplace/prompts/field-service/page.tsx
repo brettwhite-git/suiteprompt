@@ -9,7 +9,6 @@ import { FilterOptions } from "@/types/marketplace"
 export default function FieldServicePromptsPage() {
   const [filters, setFilters] = useState<FilterOptions>({
     tags: ["field-service"],
-    sortBy: "popularity",
   })
 
   const prompts = useMemo(() => getPrompts(filters), [filters])

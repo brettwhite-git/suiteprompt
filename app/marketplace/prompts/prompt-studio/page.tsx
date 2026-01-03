@@ -9,7 +9,6 @@ import { FilterOptions } from "@/types/marketplace"
 export default function PromptStudioPage() {
   const [filters, setFilters] = useState<FilterOptions>({
     targetPlatform: "prompt-studio",
-    sortBy: "popularity",
   })
 
   const prompts = useMemo(() => getPrompts(filters), [filters])

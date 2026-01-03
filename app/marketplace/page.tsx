@@ -15,9 +15,7 @@ export default function MarketplacePage({
 }: {
   searchParams: { [key: string]: string | string[] | undefined }
 }) {
-  const filters: FilterOptions = {
-    sortBy: "popularity",
-  }
+  const filters: FilterOptions = {}
   const [selectedPromptId, setSelectedPromptId] = useState<string | null>(null)
   const [isModalOpen, setIsModalOpen] = useState(false)
 

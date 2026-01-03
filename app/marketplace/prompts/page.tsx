@@ -76,9 +76,7 @@ function PromptsPageContent() {
 
   // Update filters based on URL params
   useEffect(() => {
-    const newFilters: FilterOptions = {
-      sortBy: "popularity",
-    }
+    const newFilters: FilterOptions = {}
 
     if (category && categoryMap[category]) {
       const categoryInfo = categoryMap[category]

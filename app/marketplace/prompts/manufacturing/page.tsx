@@ -9,7 +9,6 @@ import { FilterOptions } from "@/types/marketplace"
 export default function ManufacturingPromptsPage() {
   const [filters, setFilters] = useState<FilterOptions>({
     tags: ["manufacturing"],
-    sortBy: "popularity",
   })
 
   const prompts = useMemo(() => getPrompts(filters), [filters])

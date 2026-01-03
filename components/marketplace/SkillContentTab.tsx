@@ -50,9 +50,6 @@ export function SkillContentTab({ skill }: SkillContentTabProps) {
         <div className="flex flex-wrap items-center gap-2">
           <Badge variant="outline" className="capitalize">{skill.format}</Badge>
           <Badge variant="secondary" className="capitalize">{skill.businessArea}</Badge>
-          {skill.metadata?.version && (
-            <Badge variant="outline">v{skill.metadata.version}</Badge>
-          )}
           <div className="flex items-center gap-1 text-sm">
             <Star className="h-4 w-4 fill-yellow-400 text-yellow-400" />
             <span className="font-medium">{skill.rating.average.toFixed(1)}</span>
