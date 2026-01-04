@@ -1,6 +1,33 @@
 {
   "prompts": [
     {
+      "id": "submitted-1767493110891-fesnj",
+      "title": "Customer Balance Search",
+      "description": "This search will execute results for top 10 customer balances",
+      "content": "Search my top 10 customer balances and sort them from highest to lowest",
+      "format": "general",
+      "businessArea": "accounting",
+      "mcpTools": [],
+      "inputVariables": [],
+      "compatibility": [],
+      "author": {
+        "id": "submitted-1767493110891",
+        "name": "Brett White",
+        "avatar": ""
+      },
+      "rating": {
+        "average": 0,
+        "count": 0
+      },
+      "downloads": 0,
+      "tags": [
+        "customer",
+        "reporting"
+      ],
+      "createdAt": "2026-01-04T02:18:30.891Z",
+      "updatedAt": "2026-01-04T02:18:30.891Z"
+    },
+    {
       "id": "submitted-1767409560805-0cbpo",
       "title": "Script Log Review",
       "description": "create a simple review of the most recent script executions",
