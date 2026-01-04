@@ -1,13 +1,42 @@
 {
   "prompts": [
     {
+      "id": "submitted-1767409560805-0cbpo",
+      "title": "Script Log Review",
+      "description": "create a simple review of the most recent script executions",
+      "content": "Show me in a table format the most recent script log executions and if there are any errors ",
+      "format": "general",
+      "businessArea": "sales",
+      "targetPlatform": "advisor",
+      "mcpTools": [],
+      "inputVariables": [],
+      "compatibility": [],
+      "author": {
+        "id": "submitted-1767409560805",
+        "name": "John Doe",
+        "avatar": ""
+      },
+      "rating": {
+        "average": 0,
+        "count": 0
+      },
+      "downloads": 0,
+      "tags": [],
+      "createdAt": "2026-01-03T03:06:00.805Z",
+      "updatedAt": "2026-01-03T03:06:00.805Z"
+    },
+    {
       "id": "mcp-accounting-1",
       "title": "Customer Balance Lookup",
       "description": "Find a customer and show their current balance and recent transactions",
       "content": "Find customer \"Acme Corp\" and show me their current balance and recent transactions",
       "format": "mcp",
       "businessArea": "accounting",
-      "mcpTools": ["getCustomerDetails", "getCustomerBalance", "getCustomerTransactions"],
+      "mcpTools": [
+        "getCustomerDetails",
+        "getCustomerBalance",
+        "getCustomerTransactions"
+      ],
       "author": {
         "id": "author-1",
         "name": "NetSuite Marketplace",
@@ -18,7 +47,13 @@
         "count": 0
       },
       "downloads": 0,
-      "tags": ["mcp", "accounting", "customers", "balance", "transactions"],
+      "tags": [
+        "mcp",
+        "accounting",
+        "customers",
+        "balance",
+        "transactions"
+      ],
       "createdAt": "2024-01-15T10:00:00Z",
       "updatedAt": "2024-01-15T10:00:00Z",
       "usageExamples": [
@@ -34,7 +69,9 @@
       "content": "Generate a sales report for Q4 2024 grouped by customer",
       "format": "mcp",
       "businessArea": "sales",
-      "mcpTools": ["generateSalesReport"],
+      "mcpTools": [
+        "generateSalesReport"
+      ],
       "author": {
         "id": "author-1",
         "name": "NetSuite Marketplace",
@@ -45,7 +82,12 @@
         "count": 0
       },
       "downloads": 0,
-      "tags": ["mcp", "sales", "reporting", "revenue"],
+      "tags": [
+        "mcp",
+        "sales",
+        "reporting",
+        "revenue"
+      ],
       "createdAt": "2024-01-15T10:00:00Z",
       "updatedAt": "2024-01-15T10:00:00Z",
       "usageExamples": [
@@ -61,7 +103,10 @@
       "content": "Check inventory levels for all items below reorder point and group by location",
       "format": "mcp",
       "businessArea": "inventory",
-      "mcpTools": ["checkInventoryLevels", "runCustomSuiteQL"],
+      "mcpTools": [
+        "checkInventoryLevels",
+        "runCustomSuiteQL"
+      ],
       "author": {
         "id": "author-1",
         "name": "NetSuite Marketplace",
@@ -72,7 +117,13 @@
         "count": 0
       },
       "downloads": 0,
-      "tags": ["mcp", "inventory", "stock", "reorder", "warehouse"],
+      "tags": [
+        "mcp",
+        "inventory",
+        "stock",
+        "reorder",
+        "warehouse"
+      ],
       "createdAt": "2024-01-15T10:00:00Z",
       "updatedAt": "2024-01-15T10:00:00Z",
       "usageExamples": [
@@ -88,7 +139,10 @@
       "content": "Search for customers matching 'Acme' and show me their details including contact information and recent activity",
       "format": "mcp",
       "businessArea": "crm",
-      "mcpTools": ["searchCustomer", "getCustomerDetails"],
+      "mcpTools": [
+        "searchCustomer",
+        "getCustomerDetails"
+      ],
       "author": {
         "id": "author-1",
         "name": "NetSuite Marketplace",
@@ -99,7 +153,12 @@
         "count": 0
       },
       "downloads": 0,
-      "tags": ["mcp", "crm", "customers", "search"],
+      "tags": [
+        "mcp",
+        "crm",
+        "customers",
+        "search"
+      ],
       "createdAt": "2024-01-15T10:00:00Z",
       "updatedAt": "2024-01-15T10:00:00Z",
       "usageExamples": [
@@ -115,7 +174,9 @@
       "content": "Run a SuiteQL query to get all open sales orders created in the last 30 days with their customer names and total amounts",
       "format": "mcp",
       "businessArea": "suitecloud",
-      "mcpTools": ["runCustomSuiteQL"],
+      "mcpTools": [
+        "runCustomSuiteQL"
+      ],
       "author": {
         "id": "author-1",
         "name": "NetSuite Marketplace",
@@ -126,7 +187,13 @@
         "count": 0
       },
       "downloads": 0,
-      "tags": ["mcp", "suitecloud", "suiteql", "query", "data"],
+      "tags": [
+        "mcp",
+        "suitecloud",
+        "suiteql",
+        "query",
+        "data"
+      ],
       "createdAt": "2024-01-15T10:00:00Z",
       "updatedAt": "2024-01-15T10:00:00Z",
       "usageExamples": [
@@ -142,7 +209,9 @@
       "content": "Generate a financial performance summary for the last quarter",
       "format": "mcp",
       "businessArea": "admin",
-      "mcpTools": ["getFinancialPerformance"],
+      "mcpTools": [
+        "getFinancialPerformance"
+      ],
       "author": {
         "id": "author-1",
         "name": "NetSuite Marketplace",
@@ -153,7 +222,13 @@
         "count": 0
       },
       "downloads": 0,
-      "tags": ["mcp", "admin", "financial", "performance", "reporting"],
+      "tags": [
+        "mcp",
+        "admin",
+        "financial",
+        "performance",
+        "reporting"
+      ],
       "createdAt": "2024-01-15T10:00:00Z",
       "updatedAt": "2024-01-15T10:00:00Z",
       "usageExamples": [
@@ -179,7 +254,12 @@
         "count": 0
       },
       "downloads": 0,
-      "tags": ["accounting", "gl", "chart-of-accounts", "mapping"],
+      "tags": [
+        "accounting",
+        "gl",
+        "chart-of-accounts",
+        "mapping"
+      ],
       "createdAt": "2024-01-15T10:00:00Z",
       "updatedAt": "2024-01-15T10:00:00Z",
       "usageExamples": [
@@ -205,7 +285,12 @@
         "count": 0
       },
       "downloads": 0,
-      "tags": ["sales", "saved-search", "workflow", "orders"],
+      "tags": [
+        "sales",
+        "saved-search",
+        "workflow",
+        "orders"
+      ],
       "createdAt": "2024-01-15T10:00:00Z",
       "updatedAt": "2024-01-15T10:00:00Z",
       "usageExamples": [
@@ -231,7 +316,12 @@
         "count": 0
       },
       "downloads": 0,
-      "tags": ["inventory", "reorder-point", "planning", "optimization"],
+      "tags": [
+        "inventory",
+        "reorder-point",
+        "planning",
+        "optimization"
+      ],
       "createdAt": "2024-01-15T10:00:00Z",
       "updatedAt": "2024-01-15T10:00:00Z",
       "usageExamples": [
@@ -257,7 +347,12 @@
         "count": 0
       },
       "downloads": 0,
-      "tags": ["crm", "segmentation", "customers", "strategy"],
+      "tags": [
+        "crm",
+        "segmentation",
+        "customers",
+        "strategy"
+      ],
       "createdAt": "2024-01-15T10:00:00Z",
       "updatedAt": "2024-01-15T10:00:00Z",
       "usageExamples": [
@@ -283,7 +378,12 @@
         "count": 0
       },
       "downloads": 0,
-      "tags": ["suitescript", "debugging", "development", "troubleshooting"],
+      "tags": [
+        "suitescript",
+        "debugging",
+        "development",
+        "troubleshooting"
+      ],
       "createdAt": "2024-01-15T10:00:00Z",
       "updatedAt": "2024-01-15T10:00:00Z",
       "usageExamples": [
@@ -310,7 +410,13 @@
         "count": 0
       },
       "downloads": 0,
-      "tags": ["admin", "security", "roles", "permissions", "audit"],
+      "tags": [
+        "admin",
+        "security",
+        "roles",
+        "permissions",
+        "audit"
+      ],
       "createdAt": "2024-01-15T10:00:00Z",
       "updatedAt": "2024-01-15T10:00:00Z",
       "usageExamples": [
@@ -338,7 +444,12 @@
         "count": 0
       },
       "downloads": 0,
-      "tags": ["text-enhance", "inventory", "items", "description"],
+      "tags": [
+        "text-enhance",
+        "inventory",
+        "items",
+        "description"
+      ],
       "createdAt": "2024-01-15T10:00:00Z",
       "updatedAt": "2024-01-15T10:00:00Z",
       "longDescription": "Use Text Enhance to quickly summarize long product descriptions into concise, readable summaries that highlight key features."
@@ -351,7 +462,9 @@
       "format": "general",
       "targetPlatform": "text-enhance",
       "businessArea": "crm",
-      "inputVariables": ["[TOPIC]"],
+      "inputVariables": [
+        "[TOPIC]"
+      ],
       "author": {
         "id": "author-1",
         "name": "NetSuite Marketplace",
@@ -362,7 +475,12 @@
         "count": 0
       },
       "downloads": 0,
-      "tags": ["text-enhance", "crm", "customer", "communication"],
+      "tags": [
+        "text-enhance",
+        "crm",
+        "customer",
+        "communication"
+      ],
       "createdAt": "2024-01-15T10:00:00Z",
       "updatedAt": "2024-01-15T10:00:00Z",
       "longDescription": "Create professional customer notes directly in NetSuite fields using Text Enhance. Perfect for customer communication and follow-ups."
@@ -385,7 +503,12 @@
         "count": 0
       },
       "downloads": 0,
-      "tags": ["text-enhance", "accounting", "transactions", "memo"],
+      "tags": [
+        "text-enhance",
+        "accounting",
+        "transactions",
+        "memo"
+      ],
       "createdAt": "2024-01-15T10:00:00Z",
       "updatedAt": "2024-01-15T10:00:00Z",
       "longDescription": "Quickly generate clear transaction memos that improve accounting clarity and audit trail documentation."
@@ -398,7 +521,13 @@
       "format": "general",
       "targetPlatform": "prompt-studio",
       "businessArea": "sales",
-      "inputVariables": ["${ORDER_NUMBER}", "${CUSTOMER_NAME}", "${ORDER_DATE}", "${ITEM_COUNT}", "${ORDER_TOTAL}"],
+      "inputVariables": [
+        "${ORDER_NUMBER}",
+        "${CUSTOMER_NAME}",
+        "${ORDER_DATE}",
+        "${ITEM_COUNT}",
+        "${ORDER_TOTAL}"
+      ],
       "modelSettings": {
         "temperature": 0.2,
         "topP": 0.7,
@@ -415,7 +544,12 @@
         "count": 0
       },
       "downloads": 0,
-      "tags": ["prompt-studio", "sales", "orders", "notes"],
+      "tags": [
+        "prompt-studio",
+        "sales",
+        "orders",
+        "notes"
+      ],
       "createdAt": "2024-01-15T10:00:00Z",
       "updatedAt": "2024-01-15T10:00:00Z",
       "longDescription": "Full Prompt Studio template for generating professional sales order notes. Includes preamble, template with variables, and optimized model settings."
@@ -428,7 +562,13 @@
       "format": "general",
       "targetPlatform": "prompt-studio",
       "businessArea": "accounting",
-      "inputVariables": ["${ITEM_NAME}", "${QUANTITY}", "${UNIT_PRICE}", "${CUSTOMER_NAME}", "${PROJECT_REF}"],
+      "inputVariables": [
+        "${ITEM_NAME}",
+        "${QUANTITY}",
+        "${UNIT_PRICE}",
+        "${CUSTOMER_NAME}",
+        "${PROJECT_REF}"
+      ],
       "modelSettings": {
         "temperature": 0.3,
         "topP": 0.8,
@@ -445,7 +585,12 @@
         "count": 0
       },
       "downloads": 0,
-      "tags": ["prompt-studio", "accounting", "invoices", "descriptions"],
+      "tags": [
+        "prompt-studio",
+        "accounting",
+        "invoices",
+        "descriptions"
+      ],
       "createdAt": "2024-01-15T10:00:00Z",
       "updatedAt": "2024-01-15T10:00:00Z",
       "longDescription": "Prompt Studio template for generating detailed invoice line descriptions with customizable variables and model settings."
@@ -458,7 +603,14 @@
       "format": "general",
       "targetPlatform": "prompt-studio",
       "businessArea": "crm",
-      "inputVariables": ["${CUSTOMER_NAME}", "${EMAIL_SUBJECT}", "${CUSTOMER_TYPE}", "${LAST_INTERACTION}", "${EMAIL_PURPOSE}", "${TONE}"],
+      "inputVariables": [
+        "${CUSTOMER_NAME}",
+        "${EMAIL_SUBJECT}",
+        "${CUSTOMER_TYPE}",
+        "${LAST_INTERACTION}",
+        "${EMAIL_PURPOSE}",
+        "${TONE}"
+      ],
       "modelSettings": {
         "temperature": 0.4,
         "topP": 0.7,
@@ -475,7 +627,12 @@
         "count": 0
       },
       "downloads": 0,
-      "tags": ["prompt-studio", "crm", "email", "customer"],
+      "tags": [
+        "prompt-studio",
+        "crm",
+        "email",
+        "customer"
+      ],
       "createdAt": "2024-01-15T10:00:00Z",
       "updatedAt": "2024-01-15T10:00:00Z",
       "longDescription": "Comprehensive Prompt Studio template for generating personalized customer emails with full variable support and model configuration."
@@ -488,7 +645,9 @@
       "format": "general",
       "targetPlatform": "advisor",
       "businessArea": "accounting",
-      "inputVariables": ["[CUSTOMER_NAME]"],
+      "inputVariables": [
+        "[CUSTOMER_NAME]"
+      ],
       "author": {
         "id": "author-1",
         "name": "NetSuite Marketplace",
@@ -499,7 +658,12 @@
         "count": 0
       },
       "downloads": 0,
-      "tags": ["advisor", "accounting", "invoices", "overdue"],
+      "tags": [
+        "advisor",
+        "accounting",
+        "invoices",
+        "overdue"
+      ],
       "createdAt": "2024-01-15T10:00:00Z",
       "updatedAt": "2024-01-15T10:00:00Z",
       "longDescription": "Use NetSuite Advisor to quickly find overdue invoices for a specific customer. Native chatbot responds with invoice details."
@@ -522,7 +686,12 @@
         "count": 0
       },
       "downloads": 0,
-      "tags": ["advisor", "inventory", "reorder", "stock"],
+      "tags": [
+        "advisor",
+        "inventory",
+        "reorder",
+        "stock"
+      ],
       "createdAt": "2024-01-15T10:00:00Z",
       "updatedAt": "2024-01-15T10:00:00Z",
       "longDescription": "Query NetSuite Advisor to identify items that need reordering. Perfect for inventory management and purchasing decisions."
@@ -535,7 +704,10 @@
       "format": "general",
       "targetPlatform": "advisor",
       "businessArea": "sales",
-      "inputVariables": ["[SALES_REP]", "[PERIOD]"],
+      "inputVariables": [
+        "[SALES_REP]",
+        "[PERIOD]"
+      ],
       "author": {
         "id": "author-1",
         "name": "NetSuite Marketplace",
@@ -546,7 +718,12 @@
         "count": 0
       },
       "downloads": 0,
-      "tags": ["advisor", "sales", "performance", "reporting"],
+      "tags": [
+        "advisor",
+        "sales",
+        "performance",
+        "reporting"
+      ],
       "createdAt": "2024-01-15T10:00:00Z",
       "updatedAt": "2024-01-15T10:00:00Z",
       "longDescription": "Use NetSuite Advisor to quickly get sales performance metrics. Native chatbot provides instant answers without generating artifacts."
@@ -571,7 +748,13 @@
         "count": 0
       },
       "downloads": 0,
-      "tags": ["suiteql", "query", "data", "reporting", "suitecloud"],
+      "tags": [
+        "suiteql",
+        "query",
+        "data",
+        "reporting",
+        "suitecloud"
+      ],
       "createdAt": "2024-01-15T10:00:00Z",
       "updatedAt": "2024-01-15T10:00:00Z",
       "metadata": {
@@ -581,7 +764,12 @@
         "author": "netsuite-marketplace",
         "license": "MIT",
         "marketplace": true,
-        "tags": ["suiteql", "query", "data", "netsuite"]
+        "tags": [
+          "suiteql",
+          "query",
+          "data",
+          "netsuite"
+        ]
       },
       "skillContent": "---\nname: netsuite-suiteql-helper\ndescription: Write and optimize SuiteQL queries for NetSuite. Use when building reports, data exports, or analyzing NetSuite records.\n---\n\n# NetSuite SuiteQL Helper\n\n## Quick Reference\n\nSuiteQL is NetSuite's SQL-like query language for accessing record data. Use SuiteQL when you need:\n- Complex data joins across multiple record types\n- Aggregations and calculations\n- Performance-optimized queries\n- Direct database access\n\n## Common Patterns\n\n### Customer Queries\n```sql\nSELECT customer.id, customer.entityid, customer.companyname, customer.balance\nFROM customer\nWHERE customer.balance > 10000\nORDER BY customer.balance DESC\n```\n\n### Transaction Queries\n```sql\nSELECT transaction.id, transaction.tranid, transaction.trandate, transaction.total\nFROM transaction\nWHERE transaction.type = 'SalesOrd'\n  AND transaction.trandate >= '2024-01-01'\n```\n\n### Item/Inventory Queries\n```sql\nSELECT item.id, item.itemid, item.displayname, itemlocation.quantityonhand\nFROM item\nINNER JOIN itemlocation ON item.id = itemlocation.item\nWHERE itemlocation.location = 1\n  AND itemlocation.quantityonhand < item.reorderpoint\n```\n\n## MCP Integration\n\nWhen using with NetSuite MCP tools, use `NetSuite:runCustomSuiteQL` to execute queries:\n\n```\nRun this SuiteQL query: SELECT * FROM customer WHERE balance > 10000\n```\n\n## Best Practices\n\n- Always use read-only queries (no INSERT/UPDATE/DELETE)\n- Include WHERE clauses to limit results\n- Use proper JOINs instead of subqueries when possible\n- Test queries in SuiteQL Query Tool first\n- Be mindful of governance limits\n- Use field IDs, not internal IDs in WHERE clauses\n\n## Common Fields\n\n- Customer: id, entityid, companyname, balance, email\n- Transaction: id, tranid, trandate, type, total, status\n- Item: id, itemid, displayname, baseprice\n- ItemLocation: item, location, quantityonhand, reorderpoint"
     },
@@ -603,7 +791,12 @@
         "count": 0
       },
       "downloads": 0,
-      "tags": ["suitescript", "debugging", "development", "optimization"],
+      "tags": [
+        "suitescript",
+        "debugging",
+        "development",
+        "optimization"
+      ],
       "createdAt": "2024-01-15T10:00:00Z",
       "updatedAt": "2024-01-15T10:00:00Z",
       "metadata": {
@@ -613,7 +806,11 @@
         "author": "netsuite-marketplace",
         "license": "MIT",
         "marketplace": true,
-        "tags": ["suitescript", "debugging", "netsuite"]
+        "tags": [
+          "suitescript",
+          "debugging",
+          "netsuite"
+        ]
       },
       "skillContent": "---\nname: suitescript-debugger\ndescription: Debug SuiteScript 2.x errors and optimize script performance. Use when encountering script errors or governance issues.\n---\n\n# SuiteScript Debugger\n\n## Error Analysis\n\nWhen debugging SuiteScript errors:\n\n1. **Identify the error type**:\n   - Syntax errors (check script syntax)\n   - Runtime errors (check record access, field existence)\n   - Governance errors (check usage limits)\n   - Type errors (check data types)\n\n2. **Check the error message**:\n   - Look for specific line numbers\n   - Identify missing modules or functions\n   - Check for undefined variables\n\n3. **Review script context**:\n   - Script type (User Event, Scheduled, etc.)\n   - Execution context (before/after submit)\n   - Record type being processed\n\n## Common Issues\n\n### Governance Limits\n\n```javascript\n// Check governance usage\nvar usage = runtime.getCurrentScript().getRemainingUsage();\nlog.debug('Remaining usage', usage);\n\n// Optimize searches\nvar search = search.create({...});\nsearch.run().each(function(result) {\n  // Process each result\n  return true; // Continue\n});\n```\n\n### Record Locking\n\n```javascript\n// Use try-catch for record locking\nvar record = record.load({...});\ntry {\n  record.setValue('field', value);\n  record.save();\n} catch (e) {\n  if (e.name === 'RECORD_LOCKED') {\n    // Handle lock error\n  }\n}\n```\n\n### Search Optimization\n\n```javascript\n// Use search columns efficiently\nvar search = search.create({\n  type: 'customer',\n  filters: [\n    ['balance', 'greaterthan', 1000]\n  ],\n  columns: ['entityid', 'companyname', 'balance'] // Only needed columns\n});\n```\n\n## Debugging Workflow\n\n1. Enable script logging\n2. Add log.debug() statements at key points\n3. Check execution log in NetSuite\n4. Use SuiteScript Debugger for step-through\n5. Test in sandbox first\n\n## Performance Tips\n\n- Minimize search result processing\n- Use batch processing for large datasets\n- Cache frequently accessed data\n- Avoid nested searches when possible\n- Use getValue/setValue efficiently"
     },
@@ -635,7 +832,12 @@
         "count": 0
       },
       "downloads": 0,
-      "tags": ["saved-search", "reporting", "admin", "workflow"],
+      "tags": [
+        "saved-search",
+        "reporting",
+        "admin",
+        "workflow"
+      ],
       "createdAt": "2024-01-15T10:00:00Z",
       "updatedAt": "2024-01-15T10:00:00Z",
       "metadata": {
@@ -645,7 +847,11 @@
         "author": "netsuite-marketplace",
         "license": "MIT",
         "marketplace": true,
-        "tags": ["saved-search", "reporting", "netsuite"]
+        "tags": [
+          "saved-search",
+          "reporting",
+          "netsuite"
+        ]
       },
       "skillContent": "---\nname: netsuite-saved-search-builder\ndescription: Build and optimize Saved Searches for reporting and workflows. Use when creating searches for reports, dashboards, or workflow criteria.\n---\n\n# NetSuite Saved Search Builder\n\n## Search Types\n\n- **Transaction**: Sales Orders, Invoices, Purchase Orders\n- **Item**: Inventory items, assemblies\n- **Customer**: Customer records\n- **Employee**: Employee records\n- **Custom Record**: Custom record types\n\n## Common Criteria Patterns\n\n### Date Ranges\n```\nCriteria: Date Field\nCondition: Within\nPeriod: Last 30 Days\n```\n\n### Status Filters\n```\nCriteria: Status\nCondition: Any Of\nValues: [Open, Pending Approval]\n```\n\n### Amount Ranges\n```\nCriteria: Amount\nCondition: Greater Than\nValue: 1000\n```\n\n## Column Selection\n\n### Standard Columns\n- Document Number (tranid)\n- Date (trandate)\n- Amount (amount)\n- Status (status)\n- Customer/Entity (entity)\n\n### Formula Columns\n```\nFormula: CASE WHEN {amount} > 10000 THEN 'High Value' ELSE 'Standard' END\n```\n\n## Grouping and Summaries\n\n- Group by: Customer, Date, Status\n- Summary Type: Sum, Average, Count\n- Summary Label: Custom labels for clarity\n\n## Best Practices\n\n- Use specific criteria to limit results\n- Only include needed columns\n- Test search performance\n- Use formulas for calculated fields\n- Set appropriate permissions\n- Document search purpose\n\n## Workflow Integration\n\nSaved Searches can be used in:\n- Workflow criteria\n- Scheduled reports\n- Dashboard portlets\n- Email notifications\n- Script criteria"
     },
@@ -667,7 +873,12 @@
         "count": 0
       },
       "downloads": 0,
-      "tags": ["admin", "administration", "configuration", "management"],
+      "tags": [
+        "admin",
+        "administration",
+        "configuration",
+        "management"
+      ],
       "createdAt": "2024-01-15T10:00:00Z",
       "updatedAt": "2024-01-15T10:00:00Z",
       "metadata": {
@@ -677,7 +888,11 @@
         "author": "netsuite-marketplace",
         "license": "MIT",
         "marketplace": true,
-        "tags": ["admin", "administration", "netsuite"]
+        "tags": [
+          "admin",
+          "administration",
+          "netsuite"
+        ]
       },
       "skillContent": "---\nname: netsuite-admin-guide\ndescription: Administrative guidance for NetSuite configuration and management. Use when setting up system preferences, managing users, or configuring workflows.\n---\n\n# NetSuite Administration Guide\n\n## User Management\n\n### Creating Users\n1. Setup > Users/Roles > Manage Users\n2. Click New\n3. Enter user details\n4. Assign role(s)\n5. Set access restrictions if needed\n\n### Role Configuration\n- Assign appropriate permissions\n- Use principle of least privilege\n- Review role access regularly\n- Create custom roles for specific needs\n\n## System Preferences\n\n### Company Information\n- Setup > Company > Company Information\n- Update address, phone, tax info\n- Set fiscal year preferences\n\n### General Preferences\n- Setup > Company > General Preferences\n- Configure date formats\n- Set time zone\n- Enable/disable features\n\n## Custom Fields\n\n### Creating Custom Fields\n1. Customization > Forms > Transaction Form Types (or Record Types)\n2. Select form to customize\n3. Click Customize\n4. Add field\n5. Configure field properties\n\n### Field Types\n- Text, Number, Date, Checkbox\n- List/Record (dropdown)\n- Rich Text Editor\n- File Upload\n\n## Workflow Configuration\n\n### Creating Workflows\n1. Customization > Workflow > Workflows\n2. Click New\n3. Set trigger (Before Save, After Submit, etc.)\n4. Add states and actions\n5. Test in sandbox first\n\n### Common Actions\n- Set Field Value\n- Send Email\n- Create Record\n- Change Status\n- Show Message\n\n## Best Practices\n\n- Always test in sandbox\n- Document all customizations\n- Use change management process\n- Review system logs regularly\n- Keep documentation updated\n- Train users on new features\n- Monitor system performance"
     }
