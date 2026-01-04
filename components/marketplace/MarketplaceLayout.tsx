@@ -18,7 +18,7 @@ import {
 } from "@/components/ui/sidebar"
 import { ThemeToggle } from "@/components/theme/ThemeToggle"
 import { Badge } from "@/components/ui/badge"
-import { GraduationCap } from "lucide-react"
+import { GraduationCap, PlusCircle } from "lucide-react"
 
 interface MarketplaceLayoutProps {
   children: React.ReactNode
@@ -51,6 +51,12 @@ export function MarketplaceLayout({ children }: MarketplaceLayoutProps) {
             </Breadcrumb>
           </div>
           <div className="flex items-center gap-2 px-4">
+            <a href="/marketplace/submit" className="inline-block">
+              <Badge variant="default" className="cursor-pointer inline-flex items-center gap-1 py-2">
+                <PlusCircle className="h-3 w-3" />
+                Submit Prompt
+              </Badge>
+            </a>
             <a href="/marketplace/learning" className="inline-block">
               <Badge variant="outline" className="cursor-pointer inline-flex items-center gap-1 py-2">
                 <GraduationCap className="h-3 w-3" />

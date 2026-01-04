@@ -1,5 +1,9 @@
-export type PromptFormat = "mcp" | "skill" | "general"
-export type BusinessArea = "accounting" | "sales" | "inventory" | "crm" | "suitecloud" | "admin"
+export type PromptFormat = "general" | "prompt-studio" | "mcp" | "skill"
+// BusinessArea can be:
+// - Legacy values: "accounting" | "sales" | "inventory" | "crm" | "suitecloud" | "admin"
+// - Module IDs from taxonomy.json (e.g., "accounts-payable", "financial-planning")
+// - Skill capability IDs from taxonomy.json (e.g., "development", "administration")
+export type BusinessArea = string
 export type TargetPlatform = "text-enhance" | "prompt-studio" | "advisor" | "mcp" | "claude" | "chatgpt"
 
 export interface Author {

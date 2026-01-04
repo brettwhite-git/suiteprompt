@@ -65,10 +65,6 @@ const data = {
           title: "Forecasting",
           url: "/marketplace/prompts?category=finance&module=forecasting",
         },
-        {
-          title: "Fixed Assets",
-          url: "/marketplace/prompts?category=finance&module=fixed-assets",
-        },
       ],
     },
     {

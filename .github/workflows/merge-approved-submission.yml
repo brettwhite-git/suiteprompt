@@ -1,0 +1,91 @@
+name: Merge Approved Prompt Submission
+
+on:
+  pull_request:
+    types: [closed]
+    branches:
+      - main
+
+jobs:
+  process-submission:
+    # Only run if PR was merged (not just closed)
+    if: github.event.pull_request.merged == true
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check if this is a submission PR
+        id: check_submission
+        env:
+          PR_LABELS: ${{ join(github.event.pull_request.labels.*.name, ',') }}
+        run: |
+          if [[ "$PR_LABELS" == *"prompt-submission"* ]]; then
+            echo "is_submission=true" >> $GITHUB_OUTPUT
+          else
+            echo "is_submission=false" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Checkout repository
+        if: steps.check_submission.outputs.is_submission == 'true'
+        uses: actions/checkout@v4
+        with:
+          ref: main
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Setup Node.js
+        if: steps.check_submission.outputs.is_submission == 'true'
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Find and merge submission file
+        if: steps.check_submission.outputs.is_submission == 'true'
+        id: merge_submission
+        run: |
+          # Find the submitted JSON file
+          SUBMISSION_FILE=$(find data/submissions -name "submitted-*.json" -type f | head -n 1)
+
+          if [ -z "$SUBMISSION_FILE" ]; then
+            echo "No submission file found"
+            exit 0
+          fi
+
+          echo "Found submission: $SUBMISSION_FILE"
+          echo "submission_file=$SUBMISSION_FILE" >> $GITHUB_OUTPUT
+
+          # Run the merge script
+          node scripts/merge-submission.js "$SUBMISSION_FILE"
+
+      - name: Commit updated marketplace.json
+        if: steps.check_submission.outputs.is_submission == 'true'
+        env:
+          PR_NUMBER: ${{ github.event.pull_request.number }}
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+
+          git add data/marketplace.json
+          git commit -m "Add approved prompt from PR #${PR_NUMBER}"
+          git push
+
+      - name: Delete submission file
+        if: steps.check_submission.outputs.is_submission == 'true'
+        env:
+          SUBMISSION_FILE: ${{ steps.merge_submission.outputs.submission_file }}
+        run: |
+          if [ -n "$SUBMISSION_FILE" ] && [ -f "$SUBMISSION_FILE" ]; then
+            git rm "$SUBMISSION_FILE"
+            git commit -m "Clean up processed submission file"
+            git push
+          fi
+
+      - name: Comment on PR
+        if: steps.check_submission.outputs.is_submission == 'true'
+        uses: actions/github-script@v7
+        with:
+          script: |
+            github.rest.issues.createComment({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: context.payload.pull_request.number,
+              body: '✅ **Prompt successfully added to marketplace!**\n\nThe prompt has been merged into `marketplace.json` and will be live on the site shortly.\n\nThank you for your contribution! 🎉'
+            })

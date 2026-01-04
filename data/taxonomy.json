@@ -636,5 +636,161 @@
       "relatedBusinessAreas": ["suitecloud", "admin"],
       "icon": "Zap"
     }
+  },
+  "submissionCategories": {
+    "prompts": {
+      "accounting": {
+        "id": "accounting",
+        "displayName": "Accounting",
+        "parentCategory": "finance"
+      },
+      "forecasting": {
+        "id": "forecasting",
+        "displayName": "Forecasting",
+        "parentCategory": "finance"
+      },
+      "inventory": {
+        "id": "inventory",
+        "displayName": "Inventory",
+        "parentCategory": "operations"
+      },
+      "manufacturing": {
+        "id": "manufacturing",
+        "displayName": "Manufacturing",
+        "parentCategory": "operations"
+      },
+      "procurement": {
+        "id": "procurement",
+        "displayName": "Procurement",
+        "parentCategory": "operations"
+      },
+      "field-service": {
+        "id": "field-service",
+        "displayName": "Field Service",
+        "parentCategory": "operations"
+      },
+      "sales": {
+        "id": "sales",
+        "displayName": "Sales",
+        "parentCategory": "sales"
+      },
+      "crm": {
+        "id": "crm",
+        "displayName": "CRM",
+        "parentCategory": "sales"
+      },
+      "support": {
+        "id": "support",
+        "displayName": "Support",
+        "parentCategory": "sales"
+      },
+      "ecommerce": {
+        "id": "ecommerce",
+        "displayName": "eCommerce",
+        "parentCategory": "sales"
+      },
+      "suitecloud": {
+        "id": "suitecloud",
+        "displayName": "SuiteCloud",
+        "parentCategory": "platform"
+      },
+      "administration": {
+        "id": "administration",
+        "displayName": "Administration",
+        "parentCategory": "platform"
+      },
+      "project-management": {
+        "id": "project-management",
+        "displayName": "Project Management",
+        "parentCategory": "workforce-global"
+      },
+      "human-resources": {
+        "id": "human-resources",
+        "displayName": "Human Resources",
+        "parentCategory": "workforce-global"
+      },
+      "international": {
+        "id": "international",
+        "displayName": "International",
+        "parentCategory": "workforce-global"
+      }
+    },
+    "skills": {
+      "suitescript": {
+        "id": "suitescript",
+        "displayName": "SuiteScript",
+        "parentCapability": "development"
+      },
+      "suiteql": {
+        "id": "suiteql",
+        "displayName": "SuiteQL",
+        "parentCapability": "development"
+      },
+      "customization": {
+        "id": "customization",
+        "displayName": "Customization",
+        "parentCapability": "development"
+      },
+      "system-audit": {
+        "id": "system-audit",
+        "displayName": "System Audit",
+        "parentCapability": "administration"
+      },
+      "user-management": {
+        "id": "user-management",
+        "displayName": "User Management",
+        "parentCapability": "administration"
+      },
+      "roles-permissions": {
+        "id": "roles-permissions",
+        "displayName": "Roles & Permissions",
+        "parentCapability": "administration"
+      },
+      "mcp-tools": {
+        "id": "mcp-tools",
+        "displayName": "MCP Tools",
+        "parentCapability": "integration"
+      },
+      "connectors": {
+        "id": "connectors",
+        "displayName": "Connectors",
+        "parentCapability": "integration"
+      },
+      "apis": {
+        "id": "apis",
+        "displayName": "APIs",
+        "parentCapability": "integration"
+      },
+      "reporting": {
+        "id": "reporting",
+        "displayName": "Reporting",
+        "parentCapability": "analytics"
+      },
+      "dashboards": {
+        "id": "dashboards",
+        "displayName": "Dashboards",
+        "parentCapability": "analytics"
+      },
+      "data-analysis": {
+        "id": "data-analysis",
+        "displayName": "Data Analysis",
+        "parentCapability": "analytics"
+      },
+      "workflows": {
+        "id": "workflows",
+        "displayName": "Workflows",
+        "parentCapability": "automation"
+      },
+      "scheduled-scripts": {
+        "id": "scheduled-scripts",
+        "displayName": "Scheduled Scripts",
+        "parentCapability": "automation"
+      },
+      "process-automation": {
+        "id": "process-automation",
+        "displayName": "Process Automation",
+        "parentCapability": "automation"
+      }
+    }
   }
 }

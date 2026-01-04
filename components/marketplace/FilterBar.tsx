@@ -22,7 +22,7 @@ export function FilterBar({ filters, onFiltersChange, availableBusinessAreas, cl
 
   // Get business area display names from taxonomy
   const getBusinessAreaDisplayName = (area: BusinessArea): string => {
-    const areaData = taxonomyData.businessAreas[area]
+    const areaData = taxonomyData.businessAreas[area as keyof typeof taxonomyData.businessAreas]
     return areaData?.displayName || area.charAt(0).toUpperCase() + area.slice(1)
   }
 
