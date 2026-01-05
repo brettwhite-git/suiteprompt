@@ -1,0 +1,424 @@
+import ConceptExplainer from '@/components/learning/ConceptExplainer';
+import CodePlayground from '@/components/interactive/CodePlayground';
+
+export const meta = {
+  title: 'Testing Strategies',
+  description: 'Unit testing and test-driven development',
+  duration: '1.5 hours',
+};
+
+# Advanced Testing Strategies
+
+## Introduction
+
+Professional NetSuite development requires comprehensive testing. Learn how to write effective tests and practice test-driven development (TDD).
+
+<ConceptExplainer
+  concept={{
+    id: 'tdd-netsuite',
+    title: 'Test-Driven Development',
+    category: 'testing',
+    simpleExplanation:
+      'Test-Driven Development (TDD) is like creating an answer key before writing the test. You write tests that describe what your code should do, then write code to make those tests pass. This ensures your code does exactly what it\'s supposed to do.',
+    technicalDetails:
+      'TDD workflow:\n1. Write failing test\n2. Write minimal code to pass test\n3. Refactor code\n4. Repeat\n\nTesting approaches:\n- Unit tests: Test individual functions\n- Integration tests: Test components together\n- E2E tests: Test entire workflows\n- Mocking: Simulate NetSuite APIs',
+    visualType: 'diagram',
+    commonMistakes: [
+      'Testing implementation instead of behavior',
+      'Not mocking external dependencies',
+      'Writing tests that depend on each other',
+      'Not testing edge cases',
+    ],
+    realWorldExample:
+      'Before writing a function to calculate discounts, write tests: "discount should be 10% for orders over $1000", "discount should be 0% for orders under $100". Then write the function to make these tests pass.',
+  }}
+/>
+
+## Unit Testing Setup
+
+### Install Testing Framework
+
+```bash
+npm install --save-dev jest @types/jest
+npm install --save-dev @oracle/suitecloud-unit-testing
+```
+
+### Configure Jest
+
+<CodePlayground
+  initialCode={`// jest.config.js
+module.exports = {
+  testEnvironment: 'node',
+  roots: ['<rootDir>/src', '<rootDir>/__tests__'],
+  testMatch: ['**/__tests__/**/*.test.js'],
+  collectCoverageFrom: [
+    'src/**/*.js',
+    '!src/**/*.spec.js'
+  ],
+  coverageThreshold: {
+    global: {
+      branches: 80,
+      functions: 80,
+      lines: 80,
+      statements: 80
+    }
+  }
+};`}
+  language="javascript"
+  title="Jest Configuration"
+/>
+
+## Writing Unit Tests
+
+### Test Structure
+
+<CodePlayground
+  initialCode={`// __tests__/lib/calculations.test.js
+const { calculateDiscount } = require('../../src/lib/calculations');
+
+describe('calculateDiscount', () => {
+  // Test basic functionality
+  test('applies 10% discount for orders over $1000', () => {
+    const result = calculateDiscount(1500);
+    expect(result).toBe(150);
+  });
+
+  // Test edge cases
+  test('returns 0 discount for orders under $100', () => {
+    const result = calculateDiscount(50);
+    expect(result).toBe(0);
+  });
+
+  // Test boundary conditions
+  test('applies correct discount at exactly $1000', () => {
+    const result = calculateDiscount(1000);
+    expect(result).toBe(100);
+  });
+
+  // Test error handling
+  test('throws error for negative amounts', () => {
+    expect(() => calculateDiscount(-100)).toThrow();
+  });
+
+  // Test null/undefined
+  test('handles null input gracefully', () => {
+    expect(() => calculateDiscount(null)).toThrow();
+  });
+});`}
+  language="javascript"
+  title="Unit Test Example"
+/>
+
+## Mocking NetSuite APIs
+
+### Mock N/record
+
+<CodePlayground
+  initialCode={`// __mocks__/N/record.js
+const record = {
+  Type: {
+    CUSTOMER: 'customer',
+    SALES_ORDER: 'salesorder'
+  },
+
+  load: jest.fn((options) => ({
+    id: options.id,
+    type: options.type,
+    getValue: jest.fn((field) => {
+      // Return mock data based on field
+      const mockData = {
+        email: 'test@example.com',
+        phone: '555-1234',
+        companyname: 'Test Company'
+      };
+      return mockData[field.fieldId] || null;
+    }),
+    setValue: jest.fn(),
+    save: jest.fn(() => options.id)
+  })),
+
+  create: jest.fn((options) => ({
+    type: options.type,
+    getValue: jest.fn(),
+    setValue: jest.fn(),
+    save: jest.fn(() => 123)
+  }))
+};
+
+module.exports = record;`}
+  language="javascript"
+  title="Mocking N/record Module"
+/>
+
+### Using Mocks in Tests
+
+<CodePlayground
+  initialCode={`// __tests__/services/customer.test.js
+jest.mock('N/record');
+const record = require('N/record');
+const CustomerService = require('../../src/services/customer');
+
+describe('CustomerService', () => {
+  beforeEach(() => {
+    jest.clearAllMocks();
+  });
+
+  test('createCustomer creates record with correct values', () => {
+    const customerData = {
+      name: 'Test Customer',
+      email: 'test@example.com'
+    };
+
+    CustomerService.create(customerData);
+
+    expect(record.create).toHaveBeenCalledWith({
+      type: record.Type.CUSTOMER
+    });
+
+    const mockRecord = record.create.mock.results[0].value;
+    expect(mockRecord.setValue).toHaveBeenCalledWith({
+      fieldId: 'companyname',
+      value: 'Test Customer'
+    });
+  });
+
+  test('loadCustomer returns customer data', () => {
+    const customer = CustomerService.load(123);
+
+    expect(record.load).toHaveBeenCalledWith({
+      type: record.Type.CUSTOMER,
+      id: 123
+    });
+
+    expect(customer.getValue({ fieldId: 'email' }))
+      .toBe('test@example.com');
+  });
+});`}
+  language="javascript"
+  title="Testing with Mocks"
+/>
+
+## Integration Testing
+
+Test how components work together:
+
+<CodePlayground
+  initialCode={`// __tests__/integration/order-workflow.test.js
+const OrderWorkflow = require('../../src/workflows/order');
+const { setupTestEnvironment, teardown } = require('../helpers');
+
+describe('Order Workflow Integration', () => {
+  beforeAll(async () => {
+    await setupTestEnvironment();
+  });
+
+  afterAll(async () => {
+    await teardown();
+  });
+
+  test('complete order flow from creation to fulfillment', async () => {
+    // Create customer
+    const customerId = await OrderWorkflow.createCustomer({
+      name: 'Integration Test Customer',
+      email: 'integration@test.com'
+    });
+
+    // Create sales order
+    const orderId = await OrderWorkflow.createSalesOrder({
+      customer: customerId,
+      items: [
+        { item: 'ITEM-001', quantity: 5 }
+      ]
+    });
+
+    // Fulfill order
+    const fulfillmentId = await OrderWorkflow.fulfillOrder(orderId);
+
+    // Verify fulfillment
+    const status = await OrderWorkflow.getOrderStatus(orderId);
+    expect(status).toBe('Fulfilled');
+
+    // Cleanup
+    await OrderWorkflow.deleteOrder(orderId);
+    await OrderWorkflow.deleteCustomer(customerId);
+  });
+});`}
+  language="javascript"
+  title="Integration Test"
+/>
+
+## Test-Driven Development Workflow
+
+### Red-Green-Refactor
+
+1. **Red**: Write failing test
+
+<CodePlayground
+  initialCode={`// __tests__/lib/validator.test.js
+const { validateEmail } = require('../../src/lib/validator');
+
+test('validates correct email format', () => {
+  expect(validateEmail('user@example.com')).toBe(true);
+});
+
+test('rejects invalid email format', () => {
+  expect(validateEmail('invalid-email')).toBe(false);
+});`}
+  language="javascript"
+  title="Step 1: Write Tests (Red)"
+/>
+
+2. **Green**: Write minimal code to pass
+
+<CodePlayground
+  initialCode={`// src/lib/validator.js
+function validateEmail(email) {
+  const regex = /^[^\\s@]+@[^\\s@]+\\.[^\\s@]+$/;
+  return regex.test(email);
+}
+
+module.exports = { validateEmail };`}
+  language="javascript"
+  title="Step 2: Make Tests Pass (Green)"
+/>
+
+3. **Refactor**: Improve code while keeping tests green
+
+```javascript
+// Refactored version
+function validateEmail(email) {
+  if (!email || typeof email !== 'string') {
+    return false;
+  }
+
+  const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  return regex.test(email.trim());
+}
+```
+
+## Test Coverage
+
+### Measure Coverage
+
+```bash
+npm test -- --coverage
+```
+
+### Coverage Report Example
+
+```
+----------------------------|---------|----------|---------|---------|
+File                        | % Stmts | % Branch | % Funcs | % Lines |
+----------------------------|---------|----------|---------|---------|
+All files                   |   85.23 |    78.45 |   92.11 |   84.67 |
+ lib/                       |   92.45 |    85.23 |   95.00 |   91.89 |
+  calculator.js             |   94.23 |    87.50 |   96.15 |   93.75 |
+  validator.js              |   90.12 |    82.35 |   93.75 |   89.47 |
+ services/                  |   78.34 |    71.23 |   88.89 |   77.92 |
+  customer.js               |   81.25 |    73.91 |   90.00 |   80.43 |
+  order.js                  |   75.43 |    68.55 |   87.50 |   75.00 |
+----------------------------|---------|----------|---------|---------|
+```
+
+## Snapshot Testing
+
+Test UI components:
+
+```javascript
+// __tests__/views/customer.view.test.js
+const CustomerView = require('../../src/views/customer');
+
+test('renders customer view correctly', () => {
+  const view = new CustomerView({
+    model: mockCustomer
+  });
+
+  const html = view.render().el.innerHTML;
+  expect(html).toMatchSnapshot();
+});
+```
+
+## Continuous Testing
+
+### Watch Mode
+
+```bash
+npm test -- --watch
+```
+
+### Pre-Commit Hook
+
+```javascript
+// .husky/pre-commit
+#!/bin/sh
+npm test
+npm run lint
+```
+
+## Best Practices
+
+1. **Test behavior, not implementation**
+2. **One assertion per test** (when possible)
+3. **Descriptive test names**
+4. **AAA pattern**: Arrange, Act, Assert
+5. **Test edge cases**
+6. **Keep tests independent**
+7. **Mock external dependencies**
+8. **Maintain test code quality**
+
+## Common Testing Patterns
+
+### Setup and Teardown
+
+```javascript
+describe('Database operations', () => {
+  let connection;
+
+  beforeAll(() => {
+    connection = createConnection();
+  });
+
+  afterAll(() => {
+    connection.close();
+  });
+
+  beforeEach(() => {
+    connection.beginTransaction();
+  });
+
+  afterEach(() => {
+    connection.rollback();
+  });
+
+  test('inserts record', () => {
+    // Test here
+  });
+});
+```
+
+### Parameterized Tests
+
+```javascript
+test.each([
+  [100, 0],
+  [500, 25],
+  [1000, 100],
+  [2000, 200]
+])('calculateDiscount(%i) returns %i', (amount, expected) => {
+  expect(calculateDiscount(amount)).toBe(expected);
+});
+```
+
+## Practice Exercises
+
+🎯 **Exercise 1**: Write unit tests for a validation module
+
+🎯 **Exercise 2**: Create mocks for NetSuite N/search module
+
+🎯 **Exercise 3**: Build an integration test suite for a workflow
+
+🎯 **Exercise 4**: Practice TDD by building a new feature test-first
+
+## Next Steps
+
+Master custom integrations with external systems!

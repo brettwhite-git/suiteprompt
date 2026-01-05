@@ -1,0 +1,362 @@
+import ConceptExplainer from '@/components/learning/ConceptExplainer';
+import CodePlayground from '@/components/interactive/CodePlayground';
+
+export const meta = {
+  title: 'SDF Project Structure',
+  description: 'Understanding SDF project organization',
+  duration: '30 min',
+};
+
+# SDF Project Structure
+
+## Introduction
+
+The SuiteCloud Development Framework (SDF) is NetSuite's command-line tool for professional development. It enables version control, collaboration, and deployment automation.
+
+<ConceptExplainer
+  concept={{
+    id: 'sdf-intro',
+    title: 'SuiteCloud Development Framework',
+    category: 'tools',
+    simpleExplanation:
+      'SDF is like having a professional toolbox for NetSuite development. Instead of clicking through the UI, you write code in files, track changes with Git, and deploy with commands. It\'s how professional developers work on NetSuite projects.',
+    technicalDetails:
+      'SDF provides:\n- CLI tools for project management\n- File-based development (XML manifests)\n- Integration with version control (Git)\n- Dependency management\n- Deployment automation\n- CI/CD pipeline support\n- Team collaboration features',
+    visualType: 'diagram',
+    commonMistakes: [
+      'Not using version control',
+      'Deploying without testing',
+      'Ignoring validation warnings',
+      'Manual file editing instead of suitecloud commands',
+    ],
+    realWorldExample:
+      'Think of SDF like using GitHub for code. Multiple developers can work on different features, merge their code, track who changed what, and deploy to production with confidence.',
+  }}
+/>
+
+## Project Structure
+
+```
+my-suitecl
+
+oud-project/
+├── src/                    # Source files
+│   ├── FileCabinet/       # Files, templates, images
+│   │   └── SuiteScripts/  # Your scripts
+│   │       ├── my_script.js
+│   │       └── lib/
+│   ├── Objects/           # Custom objects (XML)
+│   │   ├── customrecord_my_record.xml
+│   │   ├── customfield_my_field.xml
+│   │   └── workflow.xml
+│   └── AccountConfiguration/  # Account settings
+├── .gitignore             # Git ignore rules
+├── deploy.xml             # Deployment config
+├── manifest.xml           # Project manifest
+└── package.json           # NPM dependencies (optional)
+```
+
+## Key Concepts
+
+### 1. Manifest File
+
+Defines what's included in the project:
+
+```xml
+<manifest projecttype="ACCOUNTCUSTOMIZATION">
+  <projectname>My SuiteCloud Project</projectname>
+  <frameworkversion>1.0</frameworkversion>
+</manifest>
+```
+
+### 2. Deploy.xml
+
+Controls deployment behavior:
+
+```xml
+<deploy>
+  <configuration>
+    <path>~/Objects/*</path>
+    <path>~/FileCabinet/SuiteScripts/**/*</path>
+  </configuration>
+</deploy>
+```
+
+### 3. Object XML Files
+
+Customizations stored as XML:
+
+```xml
+<customrecordtype scriptid="customrecord_project">
+  <fieldname>Custom Project</fieldname>
+  <includename>T</includename>
+  <showid>T</showid>
+</customrecordtype>
+```
+
+## SDF CLI Commands
+
+### Project Setup
+
+```bash
+# Create new project
+suitecloud project:create -i
+
+# Setup authentication
+suitecloud account:setup
+
+# Import existing customizations
+suitecloud object:import
+```
+
+### Development Workflow
+
+```bash
+# Add objects to project
+suitecloud object:import --type customrecord --scriptid customrecord_*
+
+# Validate project
+suitecloud project:validate
+
+# Deploy to account
+suitecloud project:deploy
+
+# List objects
+suitecloud object:list
+```
+
+### Advanced Commands
+
+```bash
+# Update objects
+suitecloud object:update
+
+# Compare with account
+suitecloud project:compare
+
+# Deploy specific folder
+suitecloud project:deploy --path src/Objects
+```
+
+## File Organization Best Practices
+
+### Script Organization
+
+```
+SuiteScripts/
+├── src/
+│   ├── client/          # Client scripts
+│   ├── userevent/       # User event scripts
+│   ├── scheduled/       # Scheduled scripts
+│   ├── restlet/         # Restlets
+│   └── lib/             # Shared libraries
+├── test/                # Test files
+└── config/              # Configuration
+```
+
+### Naming Conventions
+
+- **Scripts**: `ue_salesorder_validation.js`
+- **Objects**: `customrecord_project.xml`
+- **Fields**: `customfield_priority_level.xml`
+
+Use prefixes:
+- `ue_` = User Event
+- `cs_` = Client Script
+- `sl_` = Suitelet
+- `mr_` = Map/Reduce
+- `sch_` = Scheduled
+
+## Git Integration
+
+### .gitignore Example
+
+```gitignore
+# Account-specific
+.sdf
+.deploy
+node_modules/
+
+# IDE
+.vscode/
+.idea/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Temp files
+*.log
+*.tmp
+```
+
+### Workflow
+
+```bash
+# Create feature branch
+git checkout -b feature/new-validation
+
+# Make changes
+suitecloud object:import --type workflow --scriptid workflow_approval
+
+# Commit
+git add .
+git commit -m "feat: add approval workflow"
+
+# Deploy to sandbox
+suitecloud project:deploy
+
+# Test and merge
+git checkout main
+git merge feature/new-validation
+```
+
+## Environment Management
+
+### Multiple Environments
+
+```javascript
+// config/environments.js
+module.exports = {
+  sandbox: {
+    accountId: 'TSTDRV123456',
+    url: 'https://tstdrv123456.app.netsuite.com'
+  },
+  production: {
+    accountId: 'PROD123456',
+    url: 'https://prod123456.app.netsuite.com'
+  }
+};
+```
+
+### Deploy to Specific Environment
+
+```bash
+# Deploy to sandbox
+suitecloud project:deploy --account sandbox
+
+# Deploy to production
+suitecloud project:deploy --account production
+```
+
+## Dependencies
+
+### Internal Dependencies
+
+Objects can reference other objects:
+
+```xml
+<customfield>
+  <sourcefrom>customrecord_customer</sourcefrom>
+</customfield>
+```
+
+SDF automatically tracks these dependencies.
+
+### External Dependencies
+
+Track NPM packages:
+
+```json
+{
+  "dependencies": {
+    "lodash": "^4.17.21",
+    "moment": "^2.29.4"
+  }
+}
+```
+
+## Validation
+
+### Pre-Deploy Validation
+
+```bash
+# Validate entire project
+suitecloud project:validate
+
+# Validate specific object
+suitecloud object:validate --scriptid customrecord_project
+```
+
+### Common Validation Errors
+
+- **Missing dependencies**: Add referenced objects
+- **Invalid XML**: Check syntax
+- **Permission issues**: Update deployment roles
+
+## Team Collaboration
+
+### Workflow
+
+1. **Pull latest changes**
+   ```bash
+   git pull origin main
+   ```
+
+2. **Create feature branch**
+   ```bash
+   git checkout -b feature/new-feature
+   ```
+
+3. **Import and develop**
+   ```bash
+   suitecloud object:import
+   # Make changes
+   ```
+
+4. **Commit and push**
+   ```bash
+   git add .
+   git commit -m "feat: description"
+   git push origin feature/new-feature
+   ```
+
+5. **Create pull request**
+   Review on GitHub/GitLab
+
+6. **Deploy after merge**
+   ```bash
+   git checkout main
+   git pull
+   suitecloud project:deploy
+   ```
+
+## Troubleshooting
+
+### Issue: "Account not configured"
+
+**Solution**:
+```bash
+suitecloud account:setup
+```
+
+### Issue: "Object already exists"
+
+**Solution**: Use `--overwrite` flag or remove from account first
+
+### Issue: "Validation failed"
+
+**Solution**: Check error details and fix XML/dependencies
+
+## Best Practices
+
+1. **Use version control**: Commit frequently with clear messages
+2. **Branch strategy**: Use feature branches
+3. **Test before deploy**: Always deploy to sandbox first
+4. **Peer review**: Use pull requests
+5. **Documentation**: Keep README updated
+6. **Backup**: Keep backups of production deployments
+
+## Practice Exercise
+
+🎯 **Task**: Set up an SDF project for your sandbox account
+
+1. Install SDF CLI tools
+2. Create new project
+3. Import a custom record type
+4. Commit to Git
+5. Deploy to sandbox
+
+## Next Steps
+
+With SDF mastered, you're ready to build Single Page Applications (SPAs) - the modern way to create custom NetSuite interfaces!

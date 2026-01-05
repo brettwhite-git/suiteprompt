@@ -1,0 +1,481 @@
+import ConceptExplainer from '@/components/learning/ConceptExplainer';
+import CodePlayground from '@/components/interactive/CodePlayground';
+
+export const meta = {
+  title: 'Suitelet Development',
+  description: 'Creating custom forms and pages with Suitelets',
+  duration: '1.5 hours',
+};
+
+# Suitelet Development
+
+## Introduction
+
+Suitelets let you create custom web pages and forms in NetSuite. They're perfect for wizards, dashboards, custom entry forms, and any custom UI that needs server-side rendering.
+
+<ConceptExplainer
+  concept={{
+    id: 'suitelets',
+    title: 'What are Suitelets?',
+    category: 'suitescript',
+    simpleExplanation:
+      'A Suitelet is like creating your own custom web page inside NetSuite. You can design it however you want - add forms, tables, charts, buttons - anything you can do with HTML. Users access it via a URL, just like visiting a website.',
+    technicalDetails:
+      'Suitelets:\n- Server-side rendered pages\n- Full HTTP request/response control\n- Support GET and POST methods\n- Can return HTML, JSON, XML, or files\n- Access to N/ui/serverWidget for form building\n- Can integrate with external services\n- Support file uploads',
+    visualType: 'example',
+    commonMistakes: [
+      'Not handling both GET and POST',
+      'Forgetting to add script to form',
+      'Not validating user input',
+      'Hardcoding URLs instead of using resolveURL',
+    ],
+    realWorldExample:
+      'An employee expense report wizard: Step 1 shows a form to select expense type, Step 2 collects receipt details, Step 3 uploads receipt image, Step 4 shows summary and submits. Each step is handled by the same Suitelet responding to different form actions.',
+  }}
+/>
+
+## Basic Suitelet Structure
+
+<CodePlayground
+  initialCode={`/**
+ * @NApiVersion 2.1
+ * @NScriptType Suitelet
+ */
+define(['N/ui/serverWidget', 'N/record'], (serverWidget, record) => {
+
+    /**
+     * Handles GET requests
+     */
+    function onRequest(context) {
+        if (context.request.method === 'GET') {
+            showForm(context);
+        } else {
+            processForm(context);
+        }
+    }
+
+    function showForm(context) {
+        // Create form
+        var form = serverWidget.createForm({
+            title: 'Customer Information Form'
+        });
+
+        // Add fields
+        form.addField({
+            id: 'custpage_name',
+            type: serverWidget.FieldType.TEXT,
+            label: 'Customer Name'
+        });
+
+        form.addField({
+            id: 'custpage_email',
+            type: serverWidget.FieldType.EMAIL,
+            label: 'Email'
+        });
+
+        // Add submit button
+        form.addSubmitButton({
+            label: 'Submit'
+        });
+
+        // Write form to response
+        context.response.writePage(form);
+    }
+
+    function processForm(context) {
+        var request = context.request;
+
+        // Get form values
+        var name = request.parameters.custpage_name;
+        var email = request.parameters.custpage_email;
+
+        // Create customer record
+        var customer = record.create({
+            type: record.Type.CUSTOMER
+        });
+
+        customer.setValue({ fieldId: 'companyname', value: name });
+        customer.setValue({ fieldId: 'email', value: email });
+
+        var customerId = customer.save();
+
+        // Show success message
+        var form = serverWidget.createForm({
+            title: 'Success'
+        });
+
+        form.addField({
+            id: 'custpage_message',
+            type: serverWidget.FieldType.INLINEHTML,
+            label: ' '
+        }).defaultValue = '<h2>Customer created successfully!</h2><p>Customer ID: ' + customerId + '</p>';
+
+        context.response.writePage(form);
+    }
+
+    return {
+        onRequest: onRequest
+    };
+});`}
+  language="typescript"
+  title="Basic Suitelet Example"
+/>
+
+## Common Use Cases
+
+### 1. Data Entry Wizard
+Multi-step form for complex data entry
+
+### 2. Dashboard
+Custom analytics and reporting page
+
+### 3. File Upload
+Handle document uploads with custom logic
+
+### 4. External Integration
+Display data from external APIs
+
+### 5. Custom Search Interface
+Advanced search with custom UI
+
+## Advanced Examples
+
+### Multi-Step Wizard
+
+```javascript
+function showStep(context, step) {
+    var form = serverWidget.createForm({
+        title: 'Order Wizard - Step ' + step
+    });
+
+    form.addField({
+        id: 'custpage_step',
+        type: serverWidget.FieldType.INTEGER,
+        label: 'Step'
+    }).defaultValue = step;
+
+    switch (step) {
+        case 1:
+            // Customer selection
+            form.addField({
+                id: 'custpage_customer',
+                type: serverWidget.FieldType.SELECT,
+                label: 'Customer',
+                source: 'customer'
+            });
+            break;
+
+        case 2:
+            // Product selection
+            var sublist = form.addSublist({
+                id: 'custpage_items',
+                type: serverWidget.SublistType.INLINEEDITOR,
+                label: 'Items'
+            });
+            sublist.addField({
+                id: 'custpage_item',
+                type: serverWidget.FieldType.SELECT,
+                label: 'Item',
+                source: 'item'
+            });
+            break;
+
+        case 3:
+            // Review and submit
+            form.addField({
+                id: 'custpage_summary',
+                type: serverWidget.FieldType.INLINEHTML,
+                label: ' '
+            }).defaultValue = generateSummary(context);
+            break;
+    }
+
+    form.addSubmitButton({ label: 'Next' });
+    context.response.writePage(form);
+}
+```
+
+### Custom Dashboard
+
+```javascript
+function createDashboard(context) {
+    var form = serverWidget.createForm({
+        title: 'Sales Dashboard'
+    });
+
+    // Add custom HTML/CSS/JS
+    form.addField({
+        id: 'custpage_dashboard',
+        type: serverWidget.FieldType.INLINEHTML,
+        label: ' '
+    }).defaultValue = `
+        <div class="dashboard">
+            <div class="card">
+                <h3>Today's Sales</h3>
+                <div class="metric">$45,231</div>
+            </div>
+            <div class="card">
+                <h3>Orders</h3>
+                <div class="metric">127</div>
+            </div>
+            <div class="card">
+                <h3>Avg Order Value</h3>
+                <div class="metric">$356</div>
+            </div>
+        </div>
+        <style>
+            .dashboard { display: flex; gap: 20px; }
+            .card { flex: 1; padding: 20px; background: #f5f5f5; }
+            .metric { font-size: 32px; font-weight: bold; }
+        </style>
+    `;
+
+    context.response.writePage(form);
+}
+```
+
+### File Upload Handler
+
+```javascript
+function handleFileUpload(context) {
+    if (context.request.method === 'POST') {
+        var fileObj = context.request.files.custpage_file;
+
+        if (fileObj) {
+            fileObj.folder = 123; // Folder ID
+            var fileId = fileObj.save();
+
+            log.audit('File Uploaded', 'File ID: ' + fileId);
+        }
+    }
+
+    var form = serverWidget.createForm({
+        title: 'File Upload'
+    });
+
+    form.addField({
+        id: 'custpage_file',
+        type: serverWidget.FieldType.FILE,
+        label: 'Select File'
+    });
+
+    form.addSubmitButton({ label: 'Upload' });
+    context.response.writePage(form);
+}
+```
+
+## Form Components
+
+### Field Types
+
+```javascript
+// Text fields
+form.addField({
+    id: 'custpage_text',
+    type: serverWidget.FieldType.TEXT,
+    label: 'Text Field'
+});
+
+// Dropdowns
+form.addField({
+    id: 'custpage_select',
+    type: serverWidget.FieldType.SELECT,
+    label: 'Dropdown',
+    source: 'customer' // NetSuite record type
+});
+
+// Custom dropdown
+var selectField = form.addField({
+    id: 'custpage_custom',
+    type: serverWidget.FieldType.SELECT,
+    label: 'Custom Dropdown'
+});
+selectField.addSelectOption({ value: '1', text: 'Option 1' });
+selectField.addSelectOption({ value: '2', text: 'Option 2' });
+
+// Date
+form.addField({
+    id: 'custpage_date',
+    type: serverWidget.FieldType.DATE,
+    label: 'Date'
+});
+
+// Checkbox
+form.addField({
+    id: 'custpage_checkbox',
+    type: serverWidget.FieldType.CHECKBOX,
+    label: 'Agree to Terms'
+});
+
+// Long text
+form.addField({
+    id: 'custpage_textarea',
+    type: serverWidget.FieldType.TEXTAREA,
+    label: 'Comments'
+});
+```
+
+### Sublists
+
+```javascript
+var sublist = form.addSublist({
+    id: 'custpage_items',
+    type: serverWidget.SublistType.LIST,
+    label: 'Line Items'
+});
+
+// Add columns
+sublist.addField({
+    id: 'custpage_item',
+    type: serverWidget.FieldType.TEXT,
+    label: 'Item'
+});
+
+sublist.addField({
+    id: 'custpage_quantity',
+    type: serverWidget.FieldType.INTEGER,
+    label: 'Quantity'
+});
+
+sublist.addField({
+    id: 'custpage_amount',
+    type: serverWidget.FieldType.CURRENCY,
+    label: 'Amount'
+});
+
+// Set values
+sublist.setSublistValue({
+    id: 'custpage_item',
+    line: 0,
+    value: 'Widget'
+});
+```
+
+### Buttons
+
+```javascript
+// Submit button
+form.addSubmitButton({ label: 'Save' });
+
+// Regular button
+form.addButton({
+    id: 'custpage_cancel',
+    label: 'Cancel',
+    functionName: 'cancelForm'
+});
+
+// Reset button
+form.addResetButton({ label: 'Clear Form' });
+```
+
+## Client Scripts in Suitelets
+
+```javascript
+// Add client script file
+form.clientScriptModulePath = './SuiteletClientScript.js';
+
+// Or inline script
+form.addField({
+    id: 'custpage_script',
+    type: serverWidget.FieldType.INLINEHTML,
+    label: ' '
+}).defaultValue = `
+    <script>
+        function validateForm() {
+            var name = document.getElementById('custpage_name').value;
+            if (!name) {
+                alert('Name is required');
+                return false;
+            }
+            return true;
+        }
+    </script>
+`;
+```
+
+## Returning Different Content Types
+
+### JSON Response
+
+```javascript
+context.response.write({
+    output: JSON.stringify({
+        success: true,
+        data: results
+    })
+});
+context.response.setHeader({
+    name: 'Content-Type',
+    value: 'application/json'
+});
+```
+
+### File Download
+
+```javascript
+var fileObj = file.load({ id: fileId });
+
+context.response.writeFile({
+    file: fileObj,
+    isInline: false
+});
+```
+
+### Redirect
+
+```javascript
+redirect.toSuitelet({
+    scriptId: 'customscript_my_suitelet',
+    deploymentId: 'customdeploy_my_suitelet'
+});
+```
+
+## Best Practices
+
+1. **Always handle both GET and POST**
+2. **Validate all input**
+3. **Use client scripts for UX**
+4. **Store state in hidden fields**
+5. **Provide clear error messages**
+6. **Use URL parameters for deep linking**
+7. **Add breadcrumbs for navigation**
+
+## Security
+
+```javascript
+// Validate user permissions
+var context = runtime.getCurrentScript();
+var user = runtime.getCurrentUser();
+
+if (user.role !== 'admin') {
+    throw error.create({
+        name: 'INSUFFICIENT_PERMISSION',
+        message: 'Admin access required'
+    });
+}
+
+// Sanitize input
+var userInput = context.request.parameters.custpage_input;
+userInput = encode.htmlEncode(userInput);
+```
+
+## Deployment
+
+1. Create Suitelet script record
+2. Set entry point function
+3. Create deployment
+4. Set audience (roles/departments)
+5. Get Suitelet URL
+6. Add to navigation or share link
+
+## Practice Projects
+
+🎯 **Project 1**: Build a customer lookup tool with search and results
+
+🎯 **Project 2**: Create a multi-step order entry wizard
+
+🎯 **Project 3**: Build a file upload manager with preview
+
+## Next Steps
+
+You now know how to build custom pages with Suitelets! Next, learn about deployment automation and CI/CD pipelines.

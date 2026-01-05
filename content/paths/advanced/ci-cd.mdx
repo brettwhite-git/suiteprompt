@@ -1,0 +1,75 @@
+import ConceptExplainer from '@/components/learning/ConceptExplainer';
+import DeploymentFlow from '@/components/animations/DeploymentFlow';
+import CodePlayground from '@/components/interactive/CodePlayground';
+
+export const meta = {
+  title: 'CI/CD Integration',
+  description: 'Setting up continuous integration and deployment',
+  duration: '2 hours',
+};
+
+# Advanced CI/CD Integration
+
+## Introduction
+
+Take your deployment automation to the next level with advanced CI/CD techniques including parallel testing, deployment strategies, and enterprise-grade pipelines.
+
+## Advanced GitHub Actions
+
+### Matrix Testing
+
+Test across multiple NetSuite versions and configurations:
+
+<CodePlayground
+  initialCode={`# .github/workflows/advanced-test.yml
+name: Advanced Testing
+
+on: [push, pull_request]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: [16, 18, 20]
+        ns-version: ['2023.1', '2023.2', '2024.1']
+    steps:
+      - uses: actions/checkout@v3
+      - name: Use Node.js \${{ matrix.node-version }}
+        uses: actions/setup-node@v3
+        with:
+          node-version: \${{ matrix.node-version }}
+      - run: npm ci
+      - run: npm test
+        env:
+          NS_VERSION: \${{ matrix.ns-version }}`}
+  language="yaml"
+  title="Matrix Testing Strategy"
+  showOutput={false}
+/>
+
+## Blue-Green Deployments
+
+Deploy new version alongside old, then switch traffic:
+
+1. Deploy to "green" environment
+2. Run smoke tests
+3. Switch router to green
+4. Keep blue as fallback
+
+## Canary Deployments
+
+Gradually roll out to subset of users:
+
+1. Deploy to 5% of users
+2. Monitor metrics
+3. Increase to 25%, 50%, 100%
+4. Rollback if issues detected
+
+## Practice
+
+🎯 Build a complete CI/CD pipeline with testing, staging, and production deployments
+
+## Next Steps
+
+Explore performance optimization techniques!

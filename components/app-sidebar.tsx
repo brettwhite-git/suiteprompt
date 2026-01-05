@@ -44,7 +44,7 @@ const data = {
           url: "/marketplace/prompt-studio",
         },
         {
-          title: "NetSuite Adviser",
+          title: "NetSuite Advisor",
           url: "/marketplace/advisor",
         },
       ],

@@ -1,0 +1,551 @@
+import ConceptExplainer from '@/components/learning/ConceptExplainer';
+import SPAArchitecture from '@/components/interactive/SPAArchitecture';
+import CodePlayground from '@/components/interactive/CodePlayground';
+
+export const meta = {
+  title: 'SPA Development',
+  description: 'Building Single Page Applications with UIF',
+  duration: '2 hours',
+};
+
+# Single Page Application Development
+
+## Introduction
+
+NetSuite's User Interface Framework (UIF) lets you build modern, reactive single-page applications that feel like native web apps - no page refreshes, smooth interactions, and professional UI.
+
+<ConceptExplainer
+  concept={{
+    id: 'spa-development',
+    title: 'SPAs in NetSuite',
+    category: 'architecture',
+    simpleExplanation:
+      'A Single Page Application is like a mobile app but in your browser. Instead of clicking a link and waiting for a new page to load, everything updates instantly without refreshing. Think Gmail or Google Maps - that\'s an SPA!',
+    technicalDetails:
+      'NetSuite SPA Framework:\n- Built on Backbone.js and Underscore.js\n- AMD module loading\n- RESTful architecture\n- Template-based rendering\n- Event-driven updates\n- Client-side routing\n- Component-based architecture',
+    visualType: 'diagram',
+    commonMistakes: [
+      'Not understanding AMD module pattern',
+      'Mixing jQuery and Backbone incorrectly',
+      'Poor state management',
+      'Not optimizing bundle size',
+    ],
+    realWorldExample:
+      'An employee portal SPA where users can view their profile, submit time off requests, check pay stubs, and update benefits - all without page reloads. Click a nav item, content updates instantly.',
+  }}
+/>
+
+## SPA Architecture
+
+<SPAArchitecture />
+
+## Project Structure
+
+```
+MyApp.SPA/
+├── JavaScript/
+│   ├── Application.js       # Main application file
+│   ├── Router.js            # URL routing
+│   ├── Views/
+│   │   ├── Home.View.js
+│   │   ├── Profile.View.js
+│   │   └── Dashboard.View.js
+│   ├── Models/
+│   │   └── User.Model.js
+│   └── Collections/
+│       └── Orders.Collection.js
+├── Templates/
+│   ├── home.tpl
+│   ├── profile.tpl
+│   └── dashboard.tpl
+├── Sass/
+│   └── _home.scss
+└── Configuration/
+    └── Application.json
+```
+
+## Core Concepts
+
+### 1. Application Entry Point
+
+<CodePlayground
+  initialCode={`// Application.js
+define('MyApp.Application', [
+    'SC.Models.Init',
+    'Application',
+    'MyApp.Router'
+], function (
+    ModelsInit,
+    Application,
+    Router
+) {
+    'use strict';
+
+    return {
+        mountToApp: function (application) {
+            // Initialize router
+            return new Router(application);
+        }
+    };
+});`}
+  language="typescript"
+  title="Application Entry Point"
+/>
+
+### 2. Router
+
+Routes map URLs to views:
+
+<CodePlayground
+  initialCode={`// Router.js
+define('MyApp.Router', [
+    'Backbone',
+    'MyApp.Home.View',
+    'MyApp.Profile.View'
+], function (
+    Backbone,
+    HomeView,
+    ProfileView
+) {
+    'use strict';
+
+    return Backbone.Router.extend({
+        routes: {
+            '': 'home',
+            'profile': 'showProfile',
+            'orders/:id': 'showOrder'
+        },
+
+        home: function () {
+            var view = new HomeView();
+            view.showContent();
+        },
+
+        showProfile: function () {
+            var view = new ProfileView();
+            view.showContent();
+        },
+
+        showOrder: function (id) {
+            // Load order by ID
+            console.log('Loading order:', id);
+        }
+    });
+});`}
+  language="typescript"
+  title="Router Configuration"
+/>
+
+### 3. Views
+
+Views control what users see:
+
+<CodePlayground
+  initialCode={`// Home.View.js
+define('MyApp.Home.View', [
+    'Backbone',
+    'myapp_home.tpl',
+    'Profile.Model'
+], function (
+    Backbone,
+    homeTpl,
+    ProfileModel
+) {
+    'use strict';
+
+    return Backbone.View.extend({
+        template: homeTpl,
+
+        initialize: function () {
+            this.model = new ProfileModel();
+            this.model.fetch();
+        },
+
+        getContext: function () {
+            return {
+                userName: this.model.get('name'),
+                email: this.model.get('email'),
+                lastLogin: this.model.get('lastlogin')
+            };
+        },
+
+        events: {
+            'click [data-action="refresh"]': 'refreshData',
+            'click [data-action="edit"]': 'editProfile'
+        },
+
+        refreshData: function () {
+            this.model.fetch();
+            this.render();
+        },
+
+        editProfile: function () {
+            Backbone.history.navigate('profile/edit', {
+                trigger: true
+            });
+        }
+    });
+});`}
+  language="typescript"
+  title="View Component"
+/>
+
+### 4. Templates
+
+Templates define HTML structure:
+
+```handlebars
+{{!-- home.tpl --}}
+<div class="home-page">
+    <h1>Welcome, {{userName}}!</h1>
+
+    <div class="user-info">
+        <p>Email: {{email}}</p>
+        <p>Last Login: {{lastLogin}}</p>
+    </div>
+
+    <div class="actions">
+        <button data-action="refresh">
+            Refresh
+        </button>
+        <button data-action="edit">
+            Edit Profile
+        </button>
+    </div>
+</div>
+```
+
+### 5. Models
+
+Models manage data:
+
+<CodePlayground
+  initialCode={`// Profile.Model.js
+define('Profile.Model', [
+    'Backbone',
+    'Utils'
+], function (
+    Backbone,
+    Utils
+) {
+    'use strict';
+
+    return Backbone.Model.extend({
+        urlRoot: Utils.getAbsoluteUrl('services/Profile.Service.ss'),
+
+        defaults: {
+            name: '',
+            email: '',
+            phone: '',
+            internalid: null
+        },
+
+        validation: {
+            name: {
+                required: true,
+                msg: 'Name is required'
+            },
+            email: {
+                required: true,
+                pattern: 'email',
+                msg: 'Valid email required'
+            }
+        }
+    });
+});`}
+  language="typescript"
+  title="Model Definition"
+/>
+
+### 6. Collections
+
+Collections manage lists of models:
+
+```javascript
+// Orders.Collection.js
+define('Orders.Collection', [
+    'Backbone',
+    'Order.Model'
+], function (
+    Backbone,
+    OrderModel
+) {
+    'use strict';
+
+    return Backbone.Collection.extend({
+        model: OrderModel,
+        url: 'services/Order.Service.ss',
+
+        // Custom methods
+        getByStatus: function (status) {
+            return this.filter(function (order) {
+                return order.get('status') === status;
+            });
+        },
+
+        getTotalAmount: function () {
+            return this.reduce(function (total, order) {
+                return total + order.get('amount');
+            }, 0);
+        }
+    });
+});
+```
+
+## Services (Backend)
+
+SPAs communicate with the server via Service SuiteScripts:
+
+```javascript
+// Profile.Service.ss
+define('Profile.Service', [
+    'ServiceController',
+    'Profile.ServiceController'
+], function (
+    ServiceController,
+    ProfileServiceController
+) {
+    'use strict';
+
+    return ServiceController.extend({
+        name: 'Profile.ServiceController',
+
+        get: function () {
+            return ProfileServiceController.get();
+        },
+
+        post: function () {
+            return ProfileServiceController.update(this.data);
+        }
+    });
+});
+```
+
+## Advanced Patterns
+
+### 1. Loading States
+
+```javascript
+events: {
+    'click [data-action="save"]': 'save'
+},
+
+save: function () {
+    var self = this;
+
+    // Show loading
+    this.$('[data-action="save"]')
+        .prop('disabled', true)
+        .text('Saving...');
+
+    this.model.save()
+        .done(function () {
+            self.showSuccess('Saved!');
+        })
+        .fail(function (error) {
+            self.showError(error.responseText);
+        })
+        .always(function () {
+            self.$('[data-action="save"]')
+                .prop('disabled', false)
+                .text('Save');
+        });
+}
+```
+
+### 2. Nested Views
+
+```javascript
+childViews: {
+    'ProfileHeader': function () {
+        return new ProfileHeaderView({
+            model: this.model
+        });
+    },
+    'ProfileActions': function () {
+        return new ProfileActionsView({
+            model: this.model
+        });
+    }
+}
+```
+
+### 3. Error Handling
+
+```javascript
+initialize: function () {
+    this.model.on('error', this.handleError, this);
+},
+
+handleError: function (model, response) {
+    var message = 'An error occurred';
+
+    if (response.responseJSON) {
+        message = response.responseJSON.errorMessage;
+    }
+
+    this.showErrorMessage(message);
+}
+```
+
+## Styling with SCSS
+
+```scss
+// _home.scss
+.home-page {
+    padding: 20px;
+
+    h1 {
+        color: #333;
+        margin-bottom: 20px;
+    }
+
+    .user-info {
+        background: #f5f5f5;
+        padding: 15px;
+        border-radius: 4px;
+
+        p {
+            margin: 5px 0;
+        }
+    }
+
+    .actions {
+        margin-top: 20px;
+
+        button {
+            margin-right: 10px;
+            padding: 10px 20px;
+            background: #0070d2;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+
+            &:hover {
+                background: #005fb2;
+            }
+        }
+    }
+}
+```
+
+## Building and Deploying
+
+### 1. Development
+
+```bash
+# Start local development server
+gulp local
+
+# Watch for changes
+gulp watch
+```
+
+### 2. Build for Production
+
+```bash
+# Build optimized bundle
+gulp deploy
+
+# Deploy to NetSuite
+suitecloud project:deploy
+```
+
+## Performance Optimization
+
+### 1. Lazy Loading
+
+```javascript
+routes: {
+    'dashboard': function () {
+        require(['MyApp.Dashboard.View'], function (DashboardView) {
+            var view = new DashboardView();
+            view.showContent();
+        });
+    }
+}
+```
+
+### 2. Caching
+
+```javascript
+fetch: function (options) {
+    if (this.cacheValid()) {
+        return this.getCached();
+    }
+    return Backbone.Model.prototype.fetch.call(this, options);
+}
+```
+
+### 3. Debouncing
+
+```javascript
+events: {
+    'keyup [data-field="search"]': _.debounce(function () {
+        this.search();
+    }, 300)
+}
+```
+
+## Testing
+
+### Unit Tests
+
+```javascript
+describe('Profile.Model', function () {
+    it('validates email format', function () {
+        var model = new ProfileModel();
+        model.set('email', 'invalid');
+        expect(model.isValid()).toBe(false);
+    });
+
+    it('requires name field', function () {
+        var model = new ProfileModel();
+        model.set('name', '');
+        expect(model.isValid()).toBe(false);
+    });
+});
+```
+
+## Best Practices
+
+1. **Component Structure**: Keep views small and focused
+2. **State Management**: Use models for all data
+3. **Error Handling**: Always handle errors gracefully
+4. **Performance**: Lazy load heavy components
+5. **Testing**: Write unit tests for business logic
+6. **Styling**: Use BEM naming convention
+7. **Documentation**: Comment complex logic
+
+## Common Pitfalls
+
+- **Memory Leaks**: Always unbind event listeners
+- **Zombie Views**: Remove views properly
+- **State Confusion**: Single source of truth
+- **Over-fetching**: Cache aggressively
+
+## Practice Projects
+
+🎯 **Project 1**: Build a Task Manager
+- List tasks
+- Create/edit/delete tasks
+- Filter by status
+- Mark complete
+
+🎯 **Project 2**: Customer Portal
+- View orders
+- Update profile
+- Submit support tickets
+- Track shipments
+
+## Resources
+
+- NetSuite SuiteCloud Platform
+- Backbone.js Documentation
+- Handlebars Templates
+- SCSS Guide
+
+## Next Steps
+
+Now that you can build SPAs, let's explore Suitelets for creating custom server-rendered pages and forms!

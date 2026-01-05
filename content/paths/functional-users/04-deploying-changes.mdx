@@ -1,0 +1,182 @@
+import ConceptExplainer from '@/components/learning/ConceptExplainer';
+import DeploymentFlow from '@/components/animations/DeploymentFlow';
+
+export const meta = {
+  title: 'Deploying Changes',
+  description: 'Learn how to deploy your customizations',
+  duration: '25 min',
+};
+
+# Deploying Changes
+
+## Introduction
+
+You've created customizations - but how do you move them between environments (Sandbox → Production) or share them with others? This is where deployment comes in.
+
+<ConceptExplainer
+  concept={{
+    id: 'deployment-basics',
+    title: 'Deployment in NetSuite',
+    category: 'deployment',
+    simpleExplanation:
+      'Deployment is like moving your furniture from one house to another. You want to make sure everything arrives safely and ends up in the right place. In NetSuite, you\'re moving customizations from a testing environment (sandbox) to your live environment (production).',
+    technicalDetails:
+      'NetSuite deployment methods:\n- SuiteCloud Development Framework (SDF): Command-line tool for version control and deployment\n- SuiteBundler: Package customizations into bundles for distribution\n- Manual Migration: Copy customizations through the UI\n- SuiteApp Deployment: Install packaged applications',
+    visualType: 'diagram',
+    commonMistakes: [
+      'Deploying directly to production without testing',
+      'Not tracking dependencies between customizations',
+      'Forgetting to deploy related records (like custom lists)',
+    ],
+    realWorldExample:
+      'Think of deploying like publishing a book. You write drafts (sandbox), get feedback from editors (testers), make revisions, and only then publish the final version (production). You wouldn\'t publish your first draft!',
+  }}
+/>
+
+## Deployment Visual Overview
+
+<DeploymentFlow />
+
+## Deployment Methods
+
+### Method 1: SuiteBundler (Recommended for Simple Customizations)
+
+**When to use**: Moving custom fields, workflows, saved searches
+
+**Steps**:
+1. Navigate to **Customization > SuiteBundler > Search & Install Bundles > Create Bundle**
+2. Add your customizations to the bundle
+3. Install the bundle in target account
+
+**Pros**:
+- User-friendly interface
+- Handles dependencies automatically
+- Version control built-in
+
+**Cons**:
+- Limited to certain customization types
+- Can't bundle custom code (SuiteScript)
+
+### Method 2: SDF (For Developers)
+
+**When to use**: Complex projects, SuiteScript, version control
+
+**Steps**:
+1. Install SDF CLI tools
+2. Create an SDF project
+3. Add customizations to project
+4. Deploy via command line
+
+**Pros**:
+- Full control over all customizations
+- Integrates with Git
+- Supports CI/CD pipelines
+
+**Cons**:
+- Requires technical knowledge
+- Command-line interface
+- Steeper learning curve
+
+### Method 3: Manual Migration
+
+**When to use**: One-off changes, quick fixes
+
+**Steps**:
+1. Recreate customization in target account
+2. Test thoroughly
+3. Document changes
+
+**Pros**:
+- No tools required
+- Simple for small changes
+
+**Cons**:
+- Error-prone
+- Not scalable
+- No version history
+
+## Best Practices
+
+### 1. Environment Strategy
+
+Maintain separate environments:
+- **Sandbox**: For development and testing
+- **Production**: Live environment for users
+- Optional: **QA Environment** for additional testing
+
+### 2. Testing Checklist
+
+Before deploying to production:
+- ✅ Test all functionality in sandbox
+- ✅ Verify dependencies are included
+- ✅ Check role permissions
+- ✅ Review impact on existing workflows
+- ✅ Have a rollback plan
+
+### 3. Documentation
+
+Keep track of:
+- What was deployed
+- When it was deployed
+- Why it was deployed
+- Who deployed it
+- Any issues encountered
+
+### 4. Communication
+
+Notify stakeholders:
+- Before deployment (what's changing)
+- During deployment (system may be slow)
+- After deployment (what's new, where to find help)
+
+## Common Deployment Scenarios
+
+### Scenario 1: Custom Field Migration
+
+Dependencies to include:
+- Custom field definition
+- Custom list (if field uses a list)
+- Forms where field appears
+- Saved searches using the field
+
+### Scenario 2: Workflow Deployment
+
+Dependencies to include:
+- Workflow definition
+- Custom fields referenced
+- Email templates used
+- Scripts triggered by workflow
+
+### Scenario 3: Report Package
+
+Dependencies to include:
+- Saved searches
+- Custom fields in search criteria/results
+- Custom record types (if used)
+- Permissions/roles
+
+## Troubleshooting Common Issues
+
+### Issue: "Missing Dependencies"
+
+**Solution**: Use the dependency viewer in SuiteBundler to identify what's missing
+
+### Issue: "Permission Denied"
+
+**Solution**: Check that roles have access to the deployed customizations
+
+### Issue: "Customization Already Exists"
+
+**Solution**: Update the existing customization rather than creating new
+
+## Practice Exercise
+
+🎯 **Try This**:
+1. Create a custom saved search in your sandbox
+2. Package it into a bundle
+3. Install the bundle in your account (can be same account for practice)
+4. Verify the saved search appears and works correctly
+
+## Next Steps
+
+Congratulations! You now understand the deployment process. Next, we'll explore common customization patterns used in real-world scenarios.

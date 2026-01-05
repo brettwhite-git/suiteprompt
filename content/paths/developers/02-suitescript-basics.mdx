@@ -1,0 +1,364 @@
+import ConceptExplainer from '@/components/learning/ConceptExplainer';
+import CodePlayground from '@/components/interactive/CodePlayground';
+import DataFlow3D from '@/components/animations/DataFlow3D';
+
+export const meta = {
+  title: 'SuiteScript Basics',
+  description: 'Introduction to SuiteScript 2.x',
+  duration: '45 min',
+};
+
+# SuiteScript 2.x Basics
+
+## Introduction
+
+Welcome to SuiteScript 2.x! This is where NetSuite development gets exciting. You'll learn to write JavaScript code that automates business processes, validates data, and extends NetSuite's capabilities.
+
+<ConceptExplainer
+  concept={{
+    id: 'suitescript-intro',
+    title: 'What is SuiteScript?',
+    category: 'suitescript',
+    simpleExplanation:
+      'SuiteScript is JavaScript code that runs inside NetSuite. It\'s like having a robot assistant that can automatically do tasks for you - validate data, send emails, create records, call external APIs, and more. All using JavaScript!',
+    technicalDetails:
+      'SuiteScript 2.x features:\n- Based on JavaScript (ECMAScript 5.1)\n- Module-based architecture (AMD pattern)\n- Built-in NetSuite modules (N/record, N/search, N/https, etc.)\n- Event-driven execution model\n- Governance limits to prevent runaway scripts\n- Sandbox environment with restricted APIs',
+    visualType: 'diagram',
+    commonMistakes: [
+      'Mixing SuiteScript 1.0 and 2.x APIs',
+      'Not handling governance limits',
+      'Forgetting to return required properties',
+      'Using synchronous calls in client scripts',
+    ],
+    realWorldExample:
+      'When a customer places an order over $10,000, SuiteScript can automatically send an email to the sales manager, create a task for credit approval, and update the customer\'s VIP status - all without any manual intervention.',
+  }}
+/>
+
+## Script Types
+
+SuiteScript has different script types for different purposes:
+
+### Client Scripts
+Run in the user's browser
+- **When**: User interaction (field changes, button clicks)
+- **Use For**: Validation, dynamic UI, user guidance
+- **Limitations**: Can't perform long-running operations
+
+### User Event Scripts
+Run on the server when records are created/edited/deleted
+- **When**: Before Load, Before Submit, After Submit
+- **Use For**: Setting default values, validation, related record updates
+- **Power**: Full server-side capabilities
+
+### Scheduled Scripts
+Run at specified times
+- **When**: Daily, weekly, custom schedule
+- **Use For**: Batch processing, integrations, cleanup tasks
+- **Power**: Can process thousands of records
+
+### Restlet Scripts
+Custom REST APIs
+- **When**: External system calls NetSuite
+- **Use For**: Integrations, mobile apps, external portals
+- **Power**: Full CRUD operations
+
+### Map/Reduce Scripts
+Parallel processing for huge datasets
+- **When**: Processing millions of records
+- **Use For**: Mass updates, complex calculations, data migration
+- **Power**: Automatically parallelized
+
+### Suitelet Scripts
+Custom pages and forms
+- **When**: User navigates to custom URL
+- **Use For**: Dashboards, wizards, custom entry forms
+- **Power**: Full control over UI
+
+## Data Flow in SuiteScript
+
+<DataFlow3D />
+
+## Your First SuiteScript
+
+Let's write a simple User Event Script that adds a note when a Sales Order is created:
+
+<CodePlayground
+  initialCode={`/**
+ * @NApiVersion 2.1
+ * @NScriptType UserEventScript
+ */
+define(['N/record', 'N/log'], (record, log) => {
+
+    /**
+     * After Submit - runs after record is saved
+     */
+    function afterSubmit(context) {
+        // Only run on CREATE operations
+        if (context.type !== context.UserEventType.CREATE) {
+            return;
+        }
+
+        try {
+            // Get the new record
+            var salesOrder = context.newRecord;
+            var orderId = salesOrder.id;
+            var customerName = salesOrder.getText({
+                fieldId: 'entity'
+            });
+
+            // Log success message
+            log.audit({
+                title: 'Sales Order Created',
+                details: \`Order #\${orderId} created for \${customerName}\`
+            });
+
+            // Could also:
+            // - Send email notification
+            // - Create follow-up task
+            // - Update related records
+
+        } catch (e) {
+            log.error({
+                title: 'Error in afterSubmit',
+                details: e.message
+            });
+        }
+    }
+
+    return {
+        afterSubmit: afterSubmit
+    };
+});`}
+  language="typescript"
+  title="User Event Script Example"
+  templates={[
+    {
+      name: 'Client Script Template',
+      code: `/**
+ * @NApiVersion 2.1
+ * @NScriptType ClientScript
+ */
+define(['N/currentRecord'], (currentRecord) => {
+
+    function fieldChanged(context) {
+        var record = context.currentRecord;
+        var fieldId = context.fieldId;
+
+        // Your logic here
+    }
+
+    return {
+        fieldChanged: fieldChanged
+    };
+});`
+    },
+    {
+      name: 'Scheduled Script Template',
+      code: `/**
+ * @NApiVersion 2.1
+ * @NScriptType ScheduledScript
+ */
+define(['N/search', 'N/record'], (search, record) => {
+
+    function execute(context) {
+        // Your batch processing logic
+    }
+
+    return {
+        execute: execute
+    };
+});`
+    }
+  ]}
+/>
+
+## Core Modules
+
+### N/record - Working with Records
+
+```javascript
+import record from 'N/record';
+
+// Load a record
+const customer = record.load({
+    type: record.Type.CUSTOMER,
+    id: 123
+});
+
+// Get field value
+const email = customer.getValue({ fieldId: 'email' });
+
+// Set field value
+customer.setValue({
+    fieldId: 'phone',
+    value: '555-1234'
+});
+
+// Save changes
+const recordId = customer.save();
+```
+
+### N/search - Searching Records
+
+```javascript
+import search from 'N/search';
+
+// Create a search
+const customerSearch = search.create({
+    type: search.Type.CUSTOMER,
+    filters: [
+        ['email', 'contains', '@example.com']
+    ],
+    columns: [
+        'companyname',
+        'email',
+        'phone'
+    ]
+});
+
+// Get results
+const results = customerSearch.run().getRange({
+    start: 0,
+    end: 1000
+});
+```
+
+### N/log - Logging
+
+```javascript
+import log from 'N/log';
+
+log.debug('Debug Message', 'Detailed information');
+log.audit('Audit Message', 'Important event');
+log.error('Error Message', 'Something went wrong');
+log.emergency('Emergency', 'Critical system error');
+```
+
+### N/https - HTTP Requests
+
+```javascript
+import https from 'N/https';
+
+const response = https.get({
+    url: 'https://api.example.com/data'
+});
+
+const data = JSON.parse(response.body);
+```
+
+## Script Annotations
+
+Every SuiteScript must have these annotations:
+
+```javascript
+/**
+ * @NApiVersion 2.1           // Version (2.0 or 2.1)
+ * @NScriptType UserEventScript  // Script type
+ * @NModuleScope SameAccount   // Optional: scope
+ */
+```
+
+## Entry Points
+
+Each script type has specific entry points:
+
+| Script Type | Entry Points |
+|------------|-------------|
+| Client | `pageInit`, `fieldChanged`, `saveRecord`, `validateField` |
+| User Event | `beforeLoad`, `beforeSubmit`, `afterSubmit` |
+| Scheduled | `execute` |
+| Restlet | `get`, `post`, `put`, `delete` |
+| Map/Reduce | `getInputData`, `map`, `reduce`, `summarize` |
+| Suitelet | `onRequest` |
+
+## Governance Limits
+
+NetSuite limits script execution to prevent performance issues:
+
+- **Usage Units**: Each operation costs units
+- **Limit**: 10,000 units per script execution
+- **Monitor**: Check remaining units with `runtime.getCurrentScript().getRemainingUsage()`
+
+High-cost operations:
+- `record.submit()`: 4-10 units
+- `search.create()`: 10 units
+- HTTP requests: 10 units
+
+## Best Practices
+
+### 1. Error Handling
+
+Always use try-catch blocks:
+
+```javascript
+try {
+    // Your code
+} catch (e) {
+    log.error({
+        title: 'Error',
+        details: e.message
+    });
+}
+```
+
+### 2. Null Checks
+
+```javascript
+const value = record.getValue({ fieldId: 'email' });
+if (value) {
+    // Safe to use value
+}
+```
+
+### 3. Use Constants
+
+```javascript
+const STATUS = {
+    PENDING: '1',
+    APPROVED: '2',
+    REJECTED: '3'
+};
+```
+
+### 4. Modular Code
+
+```javascript
+// Helper function
+function calculateTotal(lineItems) {
+    return lineItems.reduce((sum, item) => sum + item.amount, 0);
+}
+```
+
+## Practice Exercises
+
+🎯 **Exercise 1**: Write a Client Script that shows an alert when the Total field on a Sales Order exceeds $10,000.
+
+🎯 **Exercise 2**: Create a User Event Script that automatically sets a Customer's status to "VIP" when their total sales exceed $100,000.
+
+🎯 **Exercise 3**: Build a Scheduled Script that searches for overdue invoices and sends reminder emails.
+
+## Debugging Tips
+
+1. **Use log statements liberally**: `log.debug('Variable value', myVariable);`
+2. **Check Script Execution Log**: Governance > Scripting > Script Execution Log
+3. **Use Script Debugger**: Available in NetSuite's SuiteCloud IDE
+4. **Test in sandbox first**: Never test directly in production
+
+## Common Errors and Solutions
+
+### Error: "SSS_MISSING_REQD_ARGUMENT"
+**Cause**: Required parameter missing
+**Solution**: Check all required parameters are provided
+
+### Error: "UNEXPECTED_ERROR"
+**Cause**: Various causes
+**Solution**: Check logs for stack trace, add more logging
+
+### Error: "INSUFFICIENT_PERMISSION"
+**Cause**: Script role lacks permissions
+**Solution**: Update script deployment role permissions
+
+## Next Steps
+
+Now that you understand SuiteScript basics, you're ready to learn about SDF project structure and how to organize your code professionally!

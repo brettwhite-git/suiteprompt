@@ -1,0 +1,116 @@
+import ConceptExplainer from '@/components/learning/ConceptExplainer';
+import CodePlayground from '@/components/interactive/CodePlayground';
+
+export const meta = {
+  title: 'Your First Customization',
+  description: 'Guided walkthrough of creating your first customization',
+  duration: '30 min',
+};
+
+# Your First Customization
+
+## Introduction
+
+Ready to make NetSuite work YOUR way? Let's start with something simple but powerful - adding a custom field.
+
+<ConceptExplainer
+  concept={{
+    id: 'custom-fields',
+    title: 'Custom Fields',
+    category: 'customization',
+    simpleExplanation:
+      'Custom fields are like adding a new column to a spreadsheet. NetSuite comes with many built-in fields, but you can add your own to track information specific to your business. For example, if you sell clothing, you might add a "Season" field to track which season each item is for.',
+    technicalDetails:
+      'Custom fields in NetSuite:\n- Field Types: Text, Number, Date, Checkbox, List/Record, etc.\n- Can be added to almost any record type\n- Support validation rules\n- Can trigger workflows and scripts\n- Searchable and reportable',
+    visualType: 'example',
+    commonMistakes: [
+      'Creating too many custom fields without a plan',
+      'Not setting proper field labels',
+      'Forgetting to set field permissions',
+    ],
+    realWorldExample:
+      'A real estate company might add a "Property Type" field to their Item records to categorize properties as Residential, Commercial, or Industrial. This makes searching and reporting much easier.',
+  }}
+/>
+
+## Step-by-Step: Creating a Custom Field
+
+### Step 1: Navigate to Custom Fields
+
+1. Go to **Customization > Lists, Records, & Fields > Entity Fields**
+2. Click **New**
+
+### Step 2: Configure Your Field
+
+Let's create a "Customer Priority" field:
+
+- **Label**: Customer Priority
+- **Type**: List/Record
+- **List/Record**: Create a new list with values:
+  - High Priority
+  - Medium Priority
+  - Standard
+- **Help Text**: Indicates the service level for this customer
+- **Default Value**: Standard
+
+### Step 3: Set Display Settings
+
+- **Display Type**: Normal
+- **Applies To**: Customer
+- **Subtab**: Classification (or create a custom subtab)
+
+### Step 4: Set Access Permissions
+
+- **Store Value**: Checked
+- **Available Externally**: Checked if needed for APIs
+- **Role Restrictions**: Set which roles can see/edit this field
+
+### Step 5: Save and Test
+
+1. Click **Save**
+2. Navigate to any Customer record
+3. Look for your new field!
+
+## Best Practices
+
+### 📋 Field Naming Conventions
+
+- Use clear, descriptive labels
+- Avoid abbreviations unless industry-standard
+- Consider how it will appear in reports
+
+### 🔒 Security Considerations
+
+- Only give edit access to roles that need it
+- Use field-level security for sensitive data
+- Consider workflow approvals for critical fields
+
+### 📊 Impact on Reporting
+
+Custom fields can be:
+- Added to saved searches
+- Used in reports and dashboards
+- Referenced in formulas
+
+## Advanced: Custom Record Types
+
+Once you're comfortable with custom fields, you can create entirely new **Custom Record Types**. These are like creating brand new tables in your database.
+
+Example use cases:
+- Project Management: Custom "Project" records
+- Real Estate: Custom "Property" records
+- Education: Custom "Course" records
+
+## Practice Challenge
+
+🎯 **Your Turn**: Create a custom field called "Preferred Contact Method" on the Customer record with these values:
+- Email
+- Phone
+- Text Message
+- In Person
+
+Make it a required field and add it to the Communication subtab.
+
+## Next Steps
+
+Great work! Now you know how to extend NetSuite's data model. Next, we'll learn how to deploy and manage your customizations.

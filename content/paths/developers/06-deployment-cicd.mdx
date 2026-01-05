@@ -1,0 +1,200 @@
+import ConceptExplainer from '@/components/learning/ConceptExplainer';
+import DeploymentFlow from '@/components/animations/DeploymentFlow';
+import CodePlayground from '@/components/interactive/CodePlayground';
+
+export const meta = {
+  title: 'Deployment & CI/CD',
+  description: 'Deploying and automating deployments',
+  duration: '1 hour',
+};
+
+# Deployment & CI/CD
+
+## Introduction
+
+Automating your deployment process ensures consistency, reduces errors, and speeds up delivery. Learn how to set up professional CI/CD pipelines for NetSuite.
+
+<ConceptExplainer
+  concept={{
+    id: 'cicd-netsuite',
+    title: 'CI/CD for NetSuite',
+    category: 'deployment',
+    simpleExplanation:
+      'CI/CD (Continuous Integration/Continuous Deployment) is like having a robot assistant that automatically tests your code and deploys it when you push changes. Instead of manually deploying every time, you push to Git and the robot does the rest - runs tests, checks quality, and deploys to NetSuite.',
+    technicalDetails:
+      'NetSuite CI/CD components:\n- Version Control: Git (GitHub, GitLab, Bitbucket)\n- CI/CD Platform: GitHub Actions, GitLab CI, Jenkins\n- SDF CLI: Command-line deployment tool\n- Testing: Unit tests, integration tests\n- Environments: Sandbox, QA, Production\n- Approval Gates: Manual approvals before production',
+    visualType: 'diagram',
+    commonMistakes: [
+      'Deploying directly to production',
+      'Not running tests before deployment',
+      'Hardcoding account IDs',
+      'Not using environment variables',
+    ],
+    realWorldExample:
+      'When you finish a feature, you commit to Git. GitHub Actions automatically runs your tests in the sandbox. If tests pass, it deploys to QA for testing. After QA approval, it deploys to production - all automatically, no manual steps!',
+  }}
+/>
+
+## Deployment Flow
+
+<DeploymentFlow />
+
+## Environment Strategy
+
+### Three-Tier Setup
+
+```
+Development (Sandbox 1)
+    ↓ Auto-deploy on commit
+QA/Staging (Sandbox 2)
+    ↓ Manual approval
+Production
+```
+
+### Configuration
+
+Store credentials securely in environment variables, never in code.
+
+## GitHub Actions Workflow
+
+<CodePlayground
+  initialCode={`# .github/workflows/deploy.yml
+name: Deploy to NetSuite
+
+on:
+  push:
+    branches: [ main, develop ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: '18'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Run linter
+        run: npm run lint
+
+      - name: Run tests
+        run: npm test
+
+      - name: Run SDF validation
+        run: |
+          npm install -g @oracle/suitecloud-cli
+          suitecloud project:validate
+
+  deploy-dev:
+    needs: test
+    if: github.ref == 'refs/heads/develop'
+    runs-on: ubuntu-latest
+    environment: development
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Install SDF CLI
+        run: npm install -g @oracle/suitecloud-cli
+
+      - name: Deploy to Development
+        env:
+          NS_ACCOUNT: \${{ secrets.NS_DEV_ACCOUNT }}
+          NS_AUTH_ID: \${{ secrets.NS_DEV_AUTH_ID }}
+          NS_TOKEN_ID: \${{ secrets.NS_DEV_TOKEN_ID }}
+          NS_TOKEN_SECRET: \${{ secrets.NS_DEV_TOKEN_SECRET }}
+        run: |
+          suitecloud account:setup
+          suitecloud project:deploy`}
+  language="yaml"
+  title="GitHub Actions Workflow"
+  showOutput={false}
+/>
+
+## Best Practices
+
+### 1. Branch Strategy
+
+```
+main (production)
+  ↑
+develop (development)
+  ↑
+feature/my-feature (local)
+```
+
+### 2. Automated Testing
+
+Always include:
+- Linting
+- Unit tests
+- Integration tests
+- SDF validation
+
+### 3. Environment Variables
+
+Use GitHub Secrets or environment variables for:
+- Account IDs
+- Authentication tokens
+- API keys
+- Configuration values
+
+### 4. Manual Approval Gates
+
+Require manual approval for production deployments to prevent accidents.
+
+### 5. Deployment Notifications
+
+Send notifications to Slack, email, or other channels when deployments complete.
+
+## Security Best Practices
+
+1. **Never commit secrets** - Use environment variables
+2. **Rotate tokens regularly** - Update authentication tokens periodically
+3. **Use least privilege** - Give CI/CD only necessary permissions
+4. **Audit deployments** - Keep logs of who deployed what and when
+5. **Implement approval workflows** - Require reviews before production
+
+## Monitoring
+
+Track:
+- Deployment success/failure rates
+- Time to deploy
+- Test pass rates
+- Code coverage
+- Performance metrics
+
+## Rollback Strategy
+
+Always have a plan to rollback:
+1. Keep previous versions tagged in Git
+2. Test rollback procedure
+3. Document rollback steps
+4. Practice in sandbox first
+
+## Practice Exercises
+
+🎯 **Exercise 1**: Set up a basic GitHub Actions workflow
+
+🎯 **Exercise 2**: Add automated testing to your pipeline
+
+🎯 **Exercise 3**: Configure multiple environments (dev, qa, prod)
+
+🎯 **Exercise 4**: Implement Slack notifications for deployments
+
+## Congratulations!
+
+You've completed the Developers learning path! You now know:
+- NetSuite architecture
+- SuiteScript development
+- SDF project structure
+- SPA and Suitelet development
+- CI/CD automation
+
+Ready for more advanced topics?

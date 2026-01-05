@@ -1,0 +1,254 @@
+import ConceptExplainer from '@/components/learning/ConceptExplainer';
+import CodePlayground from '@/components/interactive/CodePlayground';
+
+export const meta = {
+  title: 'Common Patterns',
+  description: 'Interactive examples of common customization patterns',
+  duration: '30 min',
+};
+
+# Common Customization Patterns
+
+## Introduction
+
+Now that you've learned the basics, let's explore real-world patterns that solve common business problems. These are battle-tested solutions used across thousands of NetSuite implementations.
+
+## Pattern 1: Auto-Populating Fields
+
+### Business Problem
+You want certain fields to automatically fill based on other field values.
+
+<ConceptExplainer
+  concept={{
+    id: 'auto-populate',
+    title: 'Auto-Populating Fields',
+    category: 'patterns',
+    simpleExplanation:
+      'Like auto-fill on a web form - when you select your country, the form might automatically suggest your state/province. In NetSuite, we can make fields fill automatically based on what the user selects elsewhere.',
+    technicalDetails:
+      'Implementation methods:\n- Workflow Field Updates: No-code solution using workflows\n- Sourcing: Pull field values from related records\n- Formula Fields: Calculate values using formulas\n- Client Scripts: JavaScript that runs in the browser',
+    visualType: 'example',
+    commonMistakes: [
+      'Creating circular dependencies (Field A depends on B, B depends on A)',
+      'Not handling cases where source field is empty',
+      'Forgetting to refresh dependent fields',
+    ],
+    realWorldExample:
+      'When a sales rep selects a Customer, you want the Customer\'s assigned Territory, Payment Terms, and Pricing Level to automatically populate on the Sales Order. This saves time and reduces errors.',
+  }}
+/>
+
+### Solution Options
+
+**Option A: Workflow (No Code)**
+1. Create workflow triggered on "Before Record Load"
+2. Add "Set Field Value" action
+3. Set source and target fields
+
+**Option B: Sourcing (Built-in)**
+1. Edit custom field
+2. Set "Source From" to related record
+3. Select field to pull value from
+
+**Option C: Formula Field**
+1. Create formula field
+2. Write formula: `{customer.territory}`
+
+## Pattern 2: Validation Rules
+
+### Business Problem
+Prevent users from saving records with invalid data.
+
+### Example Rules
+
+- Sales Orders over $10,000 require manager approval
+- Customer email must be in valid format
+- Inventory items must have a cost before being marked active
+
+### Implementation
+
+**Workflow Validation**:
+- Trigger: Before Record Submit
+- Condition: Check the rule
+- Action: Error if invalid
+
+**Script Validation**:
+```javascript
+// Example: Prevent negative quantities
+if (quantity < 0) {
+  throw error.create({
+    name: 'INVALID_QUANTITY',
+    message: 'Quantity cannot be negative'
+  });
+}
+```
+
+## Pattern 3: Automated Email Notifications
+
+### Business Problem
+Notify people when certain events occur.
+
+### Common Scenarios
+
+- Sales Order created → Notify warehouse
+- Invoice unpaid for 30 days → Notify customer and collections
+- Low inventory → Notify purchasing
+- New customer → Notify sales manager
+
+### Implementation Steps
+
+1. Create email template
+2. Create workflow
+3. Add trigger condition
+4. Add "Send Email" action
+5. Configure recipients and template
+
+## Pattern 4: Approval Workflows
+
+### Business Problem
+Require approval before certain actions complete.
+
+<ConceptExplainer
+  concept={{
+    id: 'approval-workflows',
+    title: 'Approval Workflows',
+    category: 'patterns',
+    simpleExplanation:
+      'Like getting your expense report signed by your manager. The record is created but sits in a "pending" state until someone with authority reviews and approves it.',
+    technicalDetails:
+      'Approval workflow components:\n- Pending Approval status\n- Approval buttons on record\n- Email notifications to approvers\n- Escalation if not approved in time\n- Audit trail of who approved/rejected',
+    visualType: 'diagram',
+    commonMistakes: [
+      'Not defining clear approval criteria',
+      'Forgetting escalation paths',
+      'Not notifying requester of decision',
+    ],
+    realWorldExample:
+      'Purchase Orders over $5,000 need manager approval. Under $5,000, they\'re auto-approved. If a manager doesn\'t respond in 48 hours, it escalates to their director.',
+  }}
+/>
+
+### Configuration
+
+1. Add custom field: "Approval Status" (Pending, Approved, Rejected)
+2. Create workflow: Set status to Pending on Create
+3. Add approval actions with conditions
+4. Send notifications at each stage
+
+## Pattern 5: Cascading Dropdowns
+
+### Business Problem
+Second dropdown options depend on first dropdown selection.
+
+### Example
+- Select Country → State/Province list updates
+- Select Department → Location list updates
+- Select Product Category → Product list updates
+
+### Implementation
+
+**Client Script** (advanced):
+```javascript
+// When Category changes, filter Item list
+function fieldChanged(context) {
+  if (context.fieldId === 'category') {
+    var category = context.currentRecord.getValue('category');
+    // Filter item field based on category
+  }
+}
+```
+
+## Pattern 6: Mass Updates
+
+### Business Problem
+Update many records at once.
+
+### Methods
+
+1. **CSV Import**: Best for large datasets
+2. **Mass Update Tool**: Built-in NetSuite feature
+3. **Saved Search + Workflow**: Automated solution
+4. **Map/Reduce Script**: For complex logic
+
+### When to Use Each
+
+- CSV Import: One-time data corrections
+- Mass Update: Periodic updates to multiple records
+- Workflow: Ongoing automated updates
+- Script: Complex calculations or logic
+
+## Pattern 7: Calculated Fields
+
+### Business Problem
+Display calculated values that update automatically.
+
+### Examples
+
+- Total Cost = Unit Cost × Quantity
+- Days Overdue = Due Date - Today
+- Profit Margin = (Sales Price - Cost) / Sales Price
+- Customer Lifetime Value = Sum of all related transactions
+
+### Formula Examples
+
+```javascript
+// Days overdue (Formula: Numeric)
+CASE
+  WHEN {duedate} < {today}
+  THEN {today} - {duedate}
+  ELSE 0
+END
+
+// Customer tier based on sales (Formula: Text)
+CASE
+  WHEN {customer.salesordertotal} > 100000 THEN 'Platinum'
+  WHEN {customer.salesordertotal} > 50000 THEN 'Gold'
+  WHEN {customer.salesordertotal} > 10000 THEN 'Silver'
+  ELSE 'Bronze'
+END
+```
+
+## Pattern 8: Record Duplication Prevention
+
+### Business Problem
+Prevent duplicate customers, items, or other records.
+
+### Solutions
+
+1. **Duplicate Detection**: Built-in NetSuite feature
+2. **Before Submit Script**: Check for duplicates programmatically
+3. **Unique Field Validation**: Make certain fields unique
+
+## Best Practices Summary
+
+### ✅ Do's
+- Start simple, add complexity as needed
+- Document your customizations
+- Test in sandbox before production
+- Use workflows before scripts when possible
+- Consider future maintenance
+
+### ❌ Don'ts
+- Over-customize (keep it simple)
+- Ignore performance implications
+- Deploy without testing
+- Create dependencies that are hard to untangle
+- Forget to train users on changes
+
+## Practice Challenges
+
+🎯 **Challenge 1**: Create a validation rule that prevents Sales Orders from being saved if the Order Total is $0.
+
+🎯 **Challenge 2**: Set up an email notification that alerts the sales manager when a new high-priority customer is created.
+
+🎯 **Challenge 3**: Create a formula field that calculates "Days Since Last Order" on the Customer record.
+
+## Next Steps
+
+Congratulations on completing the Functional Users learning path! You now have the foundation to:
+- Understand NetSuite's architecture
+- Create and deploy customizations
+- Implement common business patterns
+- Think like a NetSuite developer
+
+**Ready for more?** Consider the Developers learning path to learn SuiteScript and build more advanced customizations.

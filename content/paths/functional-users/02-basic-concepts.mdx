@@ -1,0 +1,73 @@
+import ConceptExplainer from '@/components/learning/ConceptExplainer';
+import NetSuiteArchitecture3D from '@/components/animations/NetSuiteArchitecture3D';
+
+export const meta = {
+  title: 'Understanding NetSuite\'s Structure',
+  description: 'Visual guide to NetSuite architecture',
+  duration: '20 min',
+};
+
+# Understanding NetSuite's Structure
+
+## Introduction
+
+Before diving into customization, it's crucial to understand how NetSuite is organized. Think of it as understanding the blueprint of a building before you start renovating.
+
+<ConceptExplainer
+  concept={{
+    id: 'netsuite-structure',
+    title: 'NetSuite Core Structure',
+    category: 'fundamentals',
+    simpleExplanation:
+      'NetSuite is like a digital filing cabinet for your entire business. It has different drawers (modules) for different types of information - one for customers, one for inventory, one for financials, etc. Everything is connected so information flows automatically between these drawers.',
+    technicalDetails:
+      'NetSuite uses a record-based architecture:\n- Records: The fundamental data unit (customers, transactions, items)\n- Fields: Properties of records (name, email, amount)\n- Sublists: Lists within records (line items on an invoice)\n- Forms: The user interface for viewing/editing records\n- Scripts: Custom code that automates business logic',
+    visualType: 'diagram',
+    commonMistakes: [
+      'Not understanding record relationships',
+      'Confusing record types (e.g., Sales Order vs Invoice)',
+      'Trying to access data without proper permissions',
+    ],
+    realWorldExample:
+      'When you create a Sales Order in NetSuite, it automatically creates connections to the Customer record, Item records (for products), and can generate related records like Invoices and Fulfillments. It\'s all interconnected.',
+  }}
+/>
+
+## Visual Architecture
+
+<NetSuiteArchitecture3D />
+
+## Key Concepts
+
+### 1. Records and Fields
+
+Every piece of data in NetSuite lives in a **record**. Each record has:
+- **Internal ID**: A unique number that never changes
+- **Fields**: Specific pieces of information (like "Company Name" or "Amount")
+- **Relationships**: Connections to other records
+
+### 2. Record Types
+
+Common record types you'll work with:
+- **Customers**: People or companies that buy from you
+- **Items**: Products or services you sell
+- **Transactions**: Sales Orders, Invoices, Purchase Orders
+- **Employees**: People who work for your company
+
+### 3. Forms and Layouts
+
+Forms are what you see when viewing or editing a record. They're like templates that determine:
+- Which fields are shown
+- How fields are arranged
+- What information is required vs optional
+
+## Practice Exercise
+
+💡 **Try This**: Navigate to a Customer record in your NetSuite account. Can you identify:
+1. The Internal ID?
+2. At least 5 different fields?
+3. Any sublists (like addresses or contacts)?
+
+## Next Steps
+
+Now that you understand the structure, you're ready to create your first customization!

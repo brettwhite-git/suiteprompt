@@ -1,0 +1,532 @@
+import ConceptExplainer from '@/components/learning/ConceptExplainer';
+import CodePlayground from '@/components/interactive/CodePlayground';
+import DataFlow3D from '@/components/animations/DataFlow3D';
+
+export const meta = {
+  title: 'Custom Integrations',
+  description: 'Building custom integrations with external systems',
+  duration: '2 hours',
+};
+
+# Custom Integrations
+
+## Introduction
+
+Connect NetSuite with external systems using RESTlets, OAuth, webhooks, and modern integration patterns.
+
+<ConceptExplainer
+  concept={{
+    id: 'netsuite-integrations',
+    title: 'NetSuite Integration Patterns',
+    category: 'integrations',
+    simpleExplanation:
+      'Integrations are like building bridges between islands. NetSuite is one island, and external systems (Shopify, Salesforce, custom apps) are other islands. You build bridges (APIs) so data can flow between them automatically.',
+    technicalDetails:
+      'Integration methods:\n- RESTlets: Custom REST APIs in NetSuite\n- SuiteTalk (SOAP): Traditional web services\n- REST Web Services: Modern REST APIs\n- OAuth 2.0: Secure authentication\n- Webhooks: Event-driven updates\n- Middleware: iPaaS solutions (Celigo, Boomi)',
+    visualType: 'diagram',
+    commonMistakes: [
+      'Not handling rate limits',
+      'Ignoring error handling and retries',
+      'Hardcoding credentials',
+      'Not validating data from external systems',
+    ],
+    realWorldExample:
+      'When a customer places an order on your Shopify store, an integration automatically creates the sales order in NetSuite, updates inventory, and sends fulfillment details back to Shopify - all in real-time.',
+  }}
+/>
+
+## Data Flow Visualization
+
+<DataFlow3D />
+
+## RESTlet Development
+
+### Creating a RESTlet
+
+<CodePlayground
+  initialCode={`/**
+ * @NApiVersion 2.1
+ * @NScriptType Restlet
+ */
+define(['N/record', 'N/search', 'N/error'], (record, search, error) => {
+
+    /**
+     * GET - Retrieve customer data
+     */
+    function doGet(requestParams) {
+        try {
+            const customerId = requestParams.id;
+
+            if (!customerId) {
+                throw error.create({
+                    name: 'MISSING_PARAMETER',
+                    message: 'Customer ID is required'
+                });
+            }
+
+            const customer = record.load({
+                type: record.Type.CUSTOMER,
+                id: customerId
+            });
+
+            return {
+                success: true,
+                data: {
+                    id: customerId,
+                    name: customer.getValue('companyname'),
+                    email: customer.getValue('email'),
+                    phone: customer.getValue('phone'),
+                    status: customer.getText('entitystatus')
+                }
+            };
+        } catch (e) {
+            return {
+                success: false,
+                error: e.message
+            };
+        }
+    }
+
+    /**
+     * POST - Create customer
+     */
+    function doPost(requestBody) {
+        try {
+            const customer = record.create({
+                type: record.Type.CUSTOMER
+            });
+
+            customer.setValue({
+                fieldId: 'companyname',
+                value: requestBody.name
+            });
+
+            customer.setValue({
+                fieldId: 'email',
+                value: requestBody.email
+            });
+
+            const customerId = customer.save();
+
+            return {
+                success: true,
+                id: customerId
+            };
+        } catch (e) {
+            return {
+                success: false,
+                error: e.message
+            };
+        }
+    }
+
+    /**
+     * PUT - Update customer
+     */
+    function doPut(requestBody) {
+        try {
+            record.submitFields({
+                type: record.Type.CUSTOMER,
+                id: requestBody.id,
+                values: {
+                    email: requestBody.email,
+                    phone: requestBody.phone
+                }
+            });
+
+            return {
+                success: true,
+                message: 'Customer updated successfully'
+            };
+        } catch (e) {
+            return {
+                success: false,
+                error: e.message
+            };
+        }
+    }
+
+    /**
+     * DELETE - Delete customer
+     */
+    function doDelete(requestParams) {
+        try {
+            record.delete({
+                type: record.Type.CUSTOMER,
+                id: requestParams.id
+            });
+
+            return {
+                success: true,
+                message: 'Customer deleted successfully'
+            };
+        } catch (e) {
+            return {
+                success: false,
+                error: e.message
+            };
+        }
+    }
+
+    return {
+        get: doGet,
+        post: doPost,
+        put: doPut,
+        delete: doDelete
+    };
+});`}
+  language="typescript"
+  title="Complete RESTlet Example"
+/>
+
+## OAuth 2.0 Authentication
+
+### Setup OAuth in NetSuite
+
+1. Setup > Company > Enable Features > SuiteCloud > Manage Authentication
+2. Create Integration Record
+3. Generate Consumer Key and Secret
+4. Implement OAuth flow
+
+### OAuth Token Exchange
+
+<CodePlayground
+  initialCode={`// External system requesting access
+const axios = require('axios');
+const qs = require('querystring');
+
+async function getNetSuiteToken() {
+  const tokenEndpoint = 'https://account.app.netsuite.com/app/login/oauth2/token.nl';
+
+  const response = await axios.post(
+    tokenEndpoint,
+    qs.stringify({
+      grant_type: 'client_credentials',
+      client_id: process.env.NS_CLIENT_ID,
+      client_secret: process.env.NS_CLIENT_SECRET
+    }),
+    {
+      headers: {
+        'Content-Type': 'application/x-www-form-urlencoded'
+      }
+    }
+  );
+
+  return response.data.access_token;
+}
+
+async function callNetSuiteAPI() {
+  const token = await getNetSuiteToken();
+
+  const response = await axios.get(
+    'https://account.restlets.api.netsuite.com/app/site/hosting/restlet.nl?script=123&deploy=1',
+    {
+      headers: {
+        'Authorization': \`Bearer \${token}\`,
+        'Content-Type': 'application/json'
+      }
+    }
+  );
+
+  return response.data;
+}`}
+  language="javascript"
+  title="OAuth Token Exchange"
+/>
+
+## Calling External APIs from NetSuite
+
+### HTTP Requests
+
+<CodePlayground
+  initialCode={`/**
+ * Call external API from SuiteScript
+ */
+define(['N/https', 'N/log'], (https, log) => {
+
+    function callExternalAPI(endpoint, data) {
+        try {
+            const response = https.post({
+                url: endpoint,
+                body: JSON.stringify(data),
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': \`Bearer \${getAPIToken()}\`
+                }
+            });
+
+            if (response.code === 200) {
+                return JSON.parse(response.body);
+            } else {
+                throw new Error(\`API returned status \${response.code}\`);
+            }
+        } catch (e) {
+            log.error({
+                title: 'API Call Failed',
+                details: e.message
+            });
+            throw e;
+        }
+    }
+
+    function getAPIToken() {
+        // Retrieve from configuration
+        return runtime.getCurrentScript().getParameter({
+            name: 'custscript_api_token'
+        });
+    }
+
+    return {
+        callExternalAPI
+    };
+});`}
+  language="typescript"
+  title="Calling External APIs"
+/>
+
+## Webhook Integration
+
+### Receiving Webhooks in NetSuite
+
+<CodePlayground
+  initialCode={`/**
+ * @NApiVersion 2.1
+ * @NScriptType Restlet
+ */
+define(['N/record', 'N/log'], (record, log) => {
+
+    /**
+     * Webhook receiver for Shopify orders
+     */
+    function handleWebhook(requestBody) {
+        try {
+            // Validate webhook signature
+            if (!validateSignature(requestBody)) {
+                return {
+                    success: false,
+                    error: 'Invalid signature'
+                };
+            }
+
+            // Process Shopify order
+            const shopifyOrder = requestBody;
+
+            log.audit({
+                title: 'Webhook Received',
+                details: \`Order #\${shopifyOrder.order_number}\`
+            });
+
+            // Create Sales Order in NetSuite
+            const salesOrder = record.create({
+                type: record.Type.SALES_ORDER
+            });
+
+            // Map Shopify customer to NetSuite customer
+            const customerId = findOrCreateCustomer(shopifyOrder.customer);
+            salesOrder.setValue({ fieldId: 'entity', value: customerId });
+
+            // Add line items
+            shopifyOrder.line_items.forEach((item, index) => {
+                salesOrder.setSublistValue({
+                    sublistId: 'item',
+                    fieldId: 'item',
+                    line: index,
+                    value: findNetSuiteItem(item.sku)
+                });
+
+                salesOrder.setSublistValue({
+                    sublistId: 'item',
+                    fieldId: 'quantity',
+                    line: index,
+                    value: item.quantity
+                });
+            });
+
+            const orderId = salesOrder.save();
+
+            return {
+                success: true,
+                netsuiteOrderId: orderId
+            };
+        } catch (e) {
+            log.error({
+                title: 'Webhook Processing Failed',
+                details: e.message
+            });
+
+            return {
+                success: false,
+                error: e.message
+            };
+        }
+    }
+
+    function validateSignature(requestBody) {
+        // Implement signature validation
+        // Compare HMAC hash of request body with header signature
+        return true;
+    }
+
+    function findOrCreateCustomer(shopifyCustomer) {
+        // Search for existing customer or create new
+        return 123;
+    }
+
+    function findNetSuiteItem(sku) {
+        // Find NetSuite item by SKU
+        return 456;
+    }
+
+    return {
+        post: handleWebhook
+    };
+});`}
+  language="typescript"
+  title="Webhook Handler"
+/>
+
+## Rate Limiting and Throttling
+
+### Implementing Rate Limits
+
+<CodePlayground
+  initialCode={`// Rate limiter for API calls
+class RateLimiter {
+    constructor(maxRequests, windowMs) {
+        this.maxRequests = maxRequests;
+        this.windowMs = windowMs;
+        this.requests = [];
+    }
+
+    async execute(fn) {
+        const now = Date.now();
+
+        // Remove old requests outside window
+        this.requests = this.requests.filter(
+            time => now - time < this.windowMs
+        );
+
+        if (this.requests.length >= this.maxRequests) {
+            const oldestRequest = this.requests[0];
+            const waitTime = this.windowMs - (now - oldestRequest);
+
+            await this.sleep(waitTime);
+            return this.execute(fn);
+        }
+
+        this.requests.push(now);
+        return fn();
+    }
+
+    sleep(ms) {
+        return new Promise(resolve => setTimeout(resolve, ms));
+    }
+}
+
+// Usage
+const limiter = new RateLimiter(10, 60000); // 10 requests per minute
+
+limiter.execute(() => callNetSuiteAPI());`}
+  language="javascript"
+  title="Rate Limiter Implementation"
+/>
+
+## Error Handling and Retries
+
+### Exponential Backoff
+
+<CodePlayground
+  initialCode={`async function callWithRetry(fn, maxRetries = 3) {
+    for (let attempt = 0; attempt < maxRetries; attempt++) {
+        try {
+            return await fn();
+        } catch (error) {
+            if (attempt === maxRetries - 1) {
+                throw error;
+            }
+
+            // Exponential backoff: 1s, 2s, 4s, 8s...
+            const delay = Math.pow(2, attempt) * 1000;
+
+            console.log(\`Retry attempt \${attempt + 1} after \${delay}ms\`);
+            await sleep(delay);
+        }
+    }
+}
+
+// Usage
+const result = await callWithRetry(() => callNetSuiteAPI());`}
+  language="javascript"
+  title="Retry with Exponential Backoff"
+/>
+
+## Data Synchronization Patterns
+
+### Bi-Directional Sync
+
+1. **Conflict Resolution**: Last-write-wins or manual resolution
+2. **Change Tracking**: Track modified timestamps
+3. **Delta Sync**: Only sync changes, not full dataset
+4. **Queue-Based**: Use message queues for reliability
+
+### Example Sync Service
+
+```javascript
+class SyncService {
+    async syncCustomers() {
+        // Get customers modified since last sync
+        const lastSync = await this.getLastSyncTime();
+        const modifiedCustomers = await this.getModifiedCustomers(lastSync);
+
+        for (const customer of modifiedCustomers) {
+            try {
+                await this.syncCustomer(customer);
+            } catch (error) {
+                await this.logSyncError(customer.id, error);
+            }
+        }
+
+        await this.updateLastSyncTime();
+    }
+}
+```
+
+## Best Practices
+
+1. **Authentication**: Always use OAuth 2.0 or token-based auth
+2. **Idempotency**: Make operations idempotent (safe to retry)
+3. **Validation**: Validate all incoming data
+4. **Logging**: Log all integration activity
+5. **Error Handling**: Graceful degradation and retries
+6. **Rate Limiting**: Respect API rate limits
+7. **Testing**: Test integration points thoroughly
+8. **Documentation**: Document API contracts
+
+## Security Considerations
+
+- Store credentials securely (never in code)
+- Use HTTPS for all communications
+- Validate webhook signatures
+- Implement IP whitelisting
+- Log all access attempts
+- Regular security audits
+
+## Practice Projects
+
+🎯 **Project 1**: Build a RESTlet API for customer management
+
+🎯 **Project 2**: Integrate NetSuite with Shopify using webhooks
+
+🎯 **Project 3**: Create a bi-directional sync between NetSuite and Salesforce
+
+🎯 **Project 4**: Implement OAuth 2.0 authentication for your RESTlet
+
+## Congratulations!
+
+You've completed the Advanced Topics learning path! You now have expert-level knowledge of:
+- CI/CD pipelines
+- Performance optimization
+- Testing strategies
+- Custom integrations
+
+You're ready to tackle any NetSuite development challenge!
